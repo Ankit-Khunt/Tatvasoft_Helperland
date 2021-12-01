@@ -1,0 +1,66 @@
+nav a{
+    color: #ffffff!important;
+}
+
+.nav-padding{
+    padding-top:0.25em;
+    padding-bottom: 0.30em;
+}
+
+h1, h2, h3, h4,h5{
+    font-family: 'Roboto', sans-serif;
+    color: #4f4f4f;
+}
+
+.c-header{
+    font-family: 'Roboto';
+    font-weight: bold;  
+    font-stretch: normal;
+    font-style: normal;
+    letter-spacing: normal;
+    text-align: left;
+    color: #646464;
+}
+a{
+    text-decoration: none;
+}
+
+.nav-link {
+    color:#f1f1f1;
+}
+
+/* hr{
+    height: 1px;
+    background-color:white;
+    border:none;
+} */
+
+.faq_img{
+    background-image: url(img/faq-banner.png);
+    background-size: cover!important;
+    
+}
+.hr-style{
+    width: 3%;
+    height: 1px;
+    background-color:blue;
+    border:none;
+}
+
+/* -----price------- */
+
+.price-con-p p{
+
+    color: #4F4F4F; 
+    font-size: 16px;
+}
+
+/* -----navbar----------- */
+
+#navb-book-now{
+    background-color: #29626d;
+    padding-left:1.5rem;
+    padding-right: 1.5rem;
+    padding-top: 0.4rem;
+    padding-bottom: .5rem;
+}
