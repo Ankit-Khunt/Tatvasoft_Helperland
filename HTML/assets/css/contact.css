@@ -1,0 +1,264 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+
+*{
+    font-family:'roboto';
+}
+
+.hh-header{
+    background-color:#525252;
+}
+.navMenu ul li a{
+    font-size: 17px;
+    color: #FFFFFF;
+    margin: 0px 10px 0px 0px !important;
+
+}
+.navMenu ul li a:hover{
+    color: white;
+}
+
+nav a{
+    font-weight: normal;
+    font-style: normal;
+    color: #f1f1f1!important;
+}
+
+header nav{
+    background: rgba(82,82,82,0.8); 
+    width: 100%;
+}
+header .white-logo-transparent-background{
+    width: 73px;
+    height: 54px;
+}
+.header-link-border{
+    border: 1px solid white;
+    border-radius: 50px;
+    padding-left:20px  !important;
+    padding-right: 20px !important;
+    align-items: center;
+    background-color: #29626D;
+    margin-right: 10px;
+    
+}
+
+.header-link-border-non-price{
+    border: 1px solid white;
+    border-radius: 50px;
+    padding-left:20px  !important;
+    padding-right: 20px !important;
+    align-items: center;
+    margin-right: 10px;
+}
+
+
+.contact-banner{
+    background-image: url('../img/contactUsImage.png');
+     width: 100%;
+    height: 370px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    
+
+}
+
+.contact-us-header{
+    font-size: 35.95px;
+    color: #4F4F4F;
+    margin-top: 31px;
+
+}
+
+.contact-us-border-1{
+    width: 5%;
+    margin-right: 10px;
+    margin-left: 10px;
+    margin-top: 12px;
+    border-color: #CCCCCC;
+}
+
+.contact-us-icon{
+    width: 237.27px;
+    justify-content: center;
+    margin-top: 50px;
+    /* margin-left: 70px;
+    margin-right: 70px; */
+    
+}
+
+.contact-us-icon h2{
+    font-size: 16px;
+    color: #4F4F4F;
+}
+
+.contact-us-icons-img{
+    padding-bottom: 20px;
+}
+
+.contact-us-endline{
+    height: 1px;
+    width: 70%;
+    margin-top: 60px;
+    
+}
+
+
+/* get-in-touch-header */
+
+.get-in-touch-header{
+    margin-top: 74px;
+    color: #4F4F4F;
+}
+
+.get-in-touch-form-input{
+    /* width: 299px;
+    height: 46px; */
+    margin-left: 14px;
+    align-items: center;
+    padding-left: 15px;
+}
+
+.contactUsForm {
+	max-width: 641px;
+    margin-top: 23px;
+}
+
+.form-item {
+	margin-bottom: 15px;
+}
+
+.form-select {
+	background-image: url("../images/downArrow.svg");
+}
+.form-control,
+.form-select {
+	padding: 14px 15px;
+	font-size: 16px;
+	color: #a0a0a0;
+}
+
+.submit {
+	font-size: 20px;
+	color: #fff;
+	padding: 10px 50px;
+	background: #1d7a8c;
+	width: 163px;
+	margin-bottom: 80px;
+}
+
+.form-control::placeholder {
+	color: #a0a0a0;
+}
+
+.newsletterHeader {
+	font-size: 17px;
+	color: #353548;
+	margin-bottom: 16px;
+	margin-top: 45px;
+	font-weight: 500;
+}
+
+.newsletterForm input {
+	outline: none;
+	border: 1px solid #565656;
+	padding: 11px 22px 13px;
+	margin-right: 11px;
+	background: transparent;
+	font-size: 14px;
+	width: 233px;
+}
+#email{
+    background-color: #F4F5F8;
+}
+.newsletterForm button {
+	outline: none;
+	border: none;
+	background: #ff7b6d;
+	color: #fff;
+	padding: 11px 21px 13px 23px;
+	font-size: 14px;
+}
+
+.contact-us-footer{
+    background-color: #111111;
+}
+.socialMedia a {
+	margin-right: 20px;
+}
+
+.contact-us-footer-hr{
+    position:relative; color: #9BA0A3; background-color:#111111 ;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.footer-items a{
+ color: #F1F1F1;
+ font-size: 14px;
+ font-family: 'Roboto';
+ 
+}
+.footer-privacy a{
+    color: #9BA0A3;
+    text-decoration: none;
+
+}
+.footer-items li{
+    list-style-type: none;
+    
+    
+}
+
+.footer-items ul{
+    display: flex;
+}
+
+
+
+.footer-items ul li a{
+    text-decoration: none;
+    margin: 0px 10px;
+}
+
+
+
+
+/* media query */
+
+@media screen and (max-width: 1025px) {
+
+    .footer-items ul {
+       flex-direction: column;
+       
+    }
+    
+    .footer-items ul li {
+        padding-top: 10px;
+    }
+
+    .header-link-border-non{
+        padding-left: 20px !important;
+    }
+
+    nav ul li a{
+    text-align: center;
+    }
+
+    nav ul li{
+        margin-top: 10px !important;
+    }
+
+    
+
+   
+}
+
+@media screen and(max-width: 500px){
+
+     
+    .footer-div div{
+    flex-direction: column;
+    text-align: center !important;
+    }
+}
+    
