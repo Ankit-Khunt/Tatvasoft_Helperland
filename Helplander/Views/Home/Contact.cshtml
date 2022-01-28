@@ -1,0 +1,107 @@
+﻿@section Link{ 
+    <link rel="stylesheet" href="~/css/Contact.css" />
+}
+
+<main>
+    <section class="contact-main-header">
+        <div class=" contact-banner">
+
+        </div>
+
+    </section>
+    <section class="contact-us">
+
+        <h1 class="contact-us-header text-center">Contact us</h1>
+        <div class="contact-us-border d-flex justify-content-center">
+            <hr class="contact-us-border-1">
+            <img src="~/images/blue_star.png" height="25px" width="24px">
+            <hr class="contact-us-border-1">
+
+        </div>
+
+        <div class="contact-us-icons d-flex justify-content-center flex-wrap">
+            <div class="contact-us-icons d-flex justify-content-center col-lg-3">
+                <div class="contact-us-icon  text-center">
+                    <img class="contact-us-icons-img" src="~/images/location.png">
+                    <h2>1111 Lorem ipsum text 100, Lorem ipsum AB</h2>
+                </div>
+            </div>
+            <div class="contact-us-icons d-flex justify-content-center col-lg-3">
+                <div class="contact-us-icon  text-center">
+                    <img class="contact-us-icons-img" src="~/images/phone-call.png">
+                    <h2>+49 (40) 123 56 7890 </h2>
+                    <h2>+49 (40) 987 56 0000</h2>
+                </div>
+            </div>
+            <div class="contact-us-icons d-flex justify-content-center col-lg-3">
+                <div class="contact-us-icon  text-center">
+                    <img class="contact-us-icons-img" src="~/images/Email.png">
+                    <h2 class="pt-2">info@helperland.com</h2>
+                </div>
+            </div>
+        </div>
+        <div class=" d-flex justify-content-center">
+            <hr class="contact-us-endline ">
+        </div>
+
+
+    </section>
+    <section class="get-in-touch">
+        <h2 class="get-in-touch-header text-center">Get in touch with us</h2>
+
+
+        <div class="contactUsForm container">
+
+            <form>
+                <div class="row align-items-center justify-content-center ">
+                    <div class="form-item col-12 col-sm-6">
+                        <input type="text" class="form-control" name="fname" id="fname"
+                               placeholder="First Name" />
+                    </div>
+                    <div class="form-item col-12 col-sm-6">
+                        <input type="text" class="form-control" name="fname" id="fname"
+                               placeholder="Last Name" />
+                    </div>
+                    <div class="form-item col-12 col-sm-6">
+                        <div class="input-group mx-0 row">
+                            <input type="text" class="input-group-text col-2 px-0" id="countryCode"
+                                   placeholder="+49" />
+                            <input type="text" class="form-control col-10" placeholder="Mobile Number"
+                                   aria-label="Mobile Number" aria-describedby="basic-addon1" />
+                        </div>
+                    </div>
+                    <div class="form-item col-12 col-sm-6">
+                        <input type="email" class="form-control" name="email" id="email"
+                               placeholder="Email Address" />
+                    </div>
+                    <div class="form-item col-12">
+                        <select class="form-select" aria-label="Subect">
+                            <option selected>Subject</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                        </select>
+                    </div>
+                    <div class="form-item col-12">
+                        <textarea name="message" class="form-control" id="message" cols="30" rows="10"
+                                  placeholder="Message"></textarea>
+                    </div>
+                    <button class="submit rounded-pill border-0 outline-0">Submit</button>
+                </div>
+            </form>
+        </div>
+    </section>
+    <section class="location-img">
+        <div class="">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d56948.571019572555!2d72.85351647941398!3d19.066743775313288!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c887efb78b9f%3A0x9f9dc99c3119470a!2sPhoenix%20Marketcity%2C%20Mumbai!5e0!3m2!1sen!2sin!4v1640197044897!5m2!1sen!2sin"
+                    width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+    </section>
+    
+
+
+</main>
+
+@section Script{
+    <script src="~/js/Contact.js"></script>
+}
