@@ -1,0 +1,155 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HomePage</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/Layout_Home_Become.css" />
+    @if (IsSectionDefined("Link"))
+    {
+        @RenderSection("Link", required: true)
+    }
+
+</head>
+<body>
+    <header id="header">
+        <nav class="navbar navbar-expand-xl navbar-dark">
+            <div class="container-fluid d-flex">
+                <a href="#" class="navbar-brand"><img src="~/images/logo-large.png" class="white-logo-transparent-background"></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                    <ul class="navbar-nav ms-auto me-2">
+                        <li class="nav-item text-center mb-1">
+                            <a class="nav-link border border-1 rounded-pill ms-1 me-1 bl" href="#" id="book">Book a cleaner</a>
+                        </li>
+                        <li class="nav-item text-center mb-1 ms-1">
+                            <a class="nav-link" href="price.html">Prices</a>
+                        </li>
+                        <li class="nav-item text-center mb-1 ms-1">
+                            <a class="nav-link" href="#">Our Guarantee</a>
+                        </li>
+                        <li class="nav-item text-center mb-1 ms-1">
+                            <a class="nav-link" href="#">Blog</a>
+                        </li>
+                        <li class="nav-item text-center mb-1 ms-1">
+                            <a class="nav-link" href="contact.html">Contact Us</a>
+                        </li>
+                        <li class="nav-item text-center mb-1 ms-1">
+                            <a class="nav-link border border-1 rounded-pill ms-1 me-1 bl" href="#" id="lgn">Login</a>
+                        </li>
+                        <li class="nav-item text-center mb-1 ms-1">
+                            <a class="nav-link border border-1 rounded-pill ms-1 me-1 bl" href="#" id="b-helper">Become a Helper</a>
+                        </li>
+                        <li class="nav-item text-center">
+                            <div class="nav-link ">
+                                <select id="dropdown">
+                                    <option value="India"></option>
+                                    <option value="Australia"></option>
+                                    <option value="US"></option>
+                                </select>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+
+    <div>
+        @RenderBody()
+    </div>
+    <div class="get-our-newsleter text-center pt-5 ">
+        <h3 style="font-size: 18px; font-family: 'Roboto'; color: #353548;font-weight:f;font-weight: bold;"> GET OUR NEWSLETER</h3>
+        <div class="d-flex justify-content-center d-wrap mt-3">
+            <input type="text" value="YOUR EMAIL" placeholder="YOUR EMAIL " class="rounded-pill align-items-left ps-3"
+                   style="width: 14.56rem;font-size: 14px;background-color: #F4F5F8; border-color: #565656;border-width: 1px;">
+            <button type="submit" value="Submit" class="btn rounded-pill text-center mx-2"
+                    style="background-color: #FF7B6D;font-size: 14px;color: #FFFFFF;width: 88px ;">
+                Submit
+            </button>
+        </div>
+    </div>
+    <footer>
+        <div class="footerMain d-flex align-items-center justify-content-between">
+            <div class="footerLogo">
+                <a asp-action="index" asp-controller="home">
+                    <img src="~/images/logo.png" width="100px">
+                </a>
+
+            </div>
+            <div class="footerMenu d-flex flex-wrap align-items-center justify-content-center">
+                <ul class=" flex-wrap align-items-center d-flex justify-content-center">
+                    <li class="footerMenuItem">
+                        <a asp-action="index" asp-controller="home">HOME</a>
+                    </li>
+                    <li class="footerMenuItem">
+                        <a href="#">ABOUT</a>
+                    </li>
+                    <li class="footerMenuItem">
+                        <a href="#">TESIMONIALS</a>
+                    </li>
+                    <li class="footerMenuItem">
+                        <a asp-action="faq" asp-controller="home">FAQS</a>
+                    </li>
+                    <li class="footerMenuItem">
+                        <a href="#">INSURANCE POLICY</a>
+                    </li>
+                    <li class="footerMenuItem">
+                        <a href="#">IMPRESSUM</a>
+                    </li>
+
+                </ul>
+                <!-- <div class="footerMenuItem"><a href="#">IMPRESSUM</a></div> -->
+            </div>
+            <div class="socialMedia d-flex flex-nowrap align-items-center justify-content-center">
+                <a class="d-flex align-items-center justify-content-center rounded-circle"
+                   href="https://facebook.com/helperDE"
+                   target="_blank"
+                   data-bs-toggle="tooltip"
+                   data-bs-placement="top"
+                   title="Like Us on Facebook">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="9" height="18">
+                        <path fill-rule="evenodd"
+                              fill="#CCC"
+                              d="M1.947 3.48v2.481H0v3.033h1.947V18.1h4.001V8.995h2.685S8.885 7.541 9.7 5.95H5.963V3.876c0-.31.437-.728.868-.728H9.11V.9H6.46C1.848.9 1.947 3.27 1.947 3.48z" />
+                    </svg>
+                </a>
+                <a class="d-flex align-items-center justify-content-center rounded-circle"
+                   href="https://instagram.com"
+                   target="_blank"
+                   data-bs-toggle="tooltip"
+                   data-bs-placement="top"
+                   title="Follow Us on Instagram">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20">
+                        <path fill-rule="evenodd"
+                              fill="#CCC"
+                              d="M14.48 20H5.519A5.524 5.524 0 0 1 0 14.482V5.52C0 2.477 2.475.2 5.519.2h8.961c3.043 0 5.519 2.277 5.519 5.32v8.962A5.525 5.525 0 0 1 14.48 20zm3.744-5.518V5.52a3.748 3.748 0 0 0-3.744-3.744H5.519A3.749 3.749 0 0 0 1.774 5.52v8.962a3.749 3.749 0 0 0 3.745 3.744h8.961a3.748 3.748 0 0 0 3.744-3.744zm-2.855-8.536c-.099 0-.678-.14-.92-.381-.242-.243.221-.578.221-.921 0-.342-.463-.678-.221-.92.242-.242.821-.381.92-.381.343 0 1.111.139.92.381.242.242.381.578.381.92 0 .342-.139.678-.381.921.171.241-.577.381-.92.381zm-5.37 9.208c-2.841 0-5.153-2.312-5.153-5.054 0-2.941 2.312-5.252 5.153-5.252 2.842 0 5.153 2.311 5.153 5.252 0 2.742-2.311 5.054-5.153 5.054zm0-8.532c-1.863 0-3.379 1.516-3.379 3.478 0 1.764 1.516 3.28 3.379 3.28s3.379-1.516 3.379-3.28c0-1.962-1.516-3.478-3.379-3.478z" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+        <hr />
+        <div class="terms text-center">
+            ©2018 Helperland. All rights reserved. <a href="#">Terms and Conditions</a> | <a href="#">Privacy Policy</a>
+        </div>
+    </footer>
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/lib/jquery/jquery.js"></script>
+@if (IsSectionDefined("Script"))
+{
+    @RenderSection("Script", required: true)
+}
+
+</html>
