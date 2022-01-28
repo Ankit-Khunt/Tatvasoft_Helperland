@@ -1,0 +1,98 @@
+﻿@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+
+* {
+    font-family: 'roboto';
+}
+.contact-banner {
+    background-image: url('../images/contactUsImage.png');
+    width: 100%;
+    height: 370px;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.contact-us-header {
+    font-size: 35.95px;
+    color: #4F4F4F;
+    margin-top: 31px;
+}
+
+.contact-us-border-1 {
+    width: 5%;
+    margin-right: 10px;
+    margin-left: 10px;
+    margin-top: 12px;
+    border-color: #CCCCCC;
+}
+
+.contact-us-icon {
+    width: 237.27px;
+    justify-content: center;
+    margin-top: 50px;
+    /* margin-left: 70px;
+    margin-right: 70px; */
+}
+
+    .contact-us-icon h2 {
+        font-size: 16px;
+        color: #4F4F4F;
+    }
+
+.contact-us-icons-img {
+    padding-bottom: 20px;
+}
+
+.contact-us-endline {
+    height: 1px;
+    width: 70%;
+    margin-top: 60px;
+}
+
+
+/* get-in-touch-header */
+
+.get-in-touch-header {
+    margin-top: 74px;
+    color: #4F4F4F;
+}
+
+.get-in-touch-form-input {
+    /* width: 299px;
+    height: 46px; */
+    margin-left: 14px;
+    align-items: center;
+    padding-left: 15px;
+}
+
+.contactUsForm {
+    max-width: 641px;
+    margin-top: 23px;
+}
+
+.form-item {
+    margin-bottom: 15px;
+}
+
+.form-select {
+    background-image: url("../images/downArrow.svg");
+}
+
+.form-control,
+.form-select {
+    padding: 14px 15px;
+    font-size: 16px;
+    color: #a0a0a0;
+}
+
+.submit {
+    font-size: 20px;
+    color: #fff;
+    padding: 10px 50px;
+    background: #1d7a8c;
+    width: 163px;
+    margin-bottom: 80px;
+}
+
+.form-control::placeholder {
+    color: #a0a0a0;
+}
