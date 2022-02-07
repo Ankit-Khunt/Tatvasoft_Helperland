@@ -1,0 +1,97 @@
+﻿@model Helperland.ViewModels.Register_User_ViewModel
+@section Link{
+    <link rel="stylesheet" href="~/css/User_Register.css" asp-append-version="true" />
+}
+<section class="User_reg_form">
+    <div class="Create-an-account justify-content-center d-flex">
+        <h1> Create an account</h1><br />
+        <h2>@ViewBag.Message</h2>
+    </div>
+    <div>
+
+        <div class="d-flex justify-content-center">
+            <hr style="width: 5%; color: #4f4f4f; margin-top: 30px; margin-right: 10px; height: 1px;">
+            <img src="~/images/blue_star.png" style="margin-top: 14px; object-fit: contain;">
+            <hr style="width: 5%;color: #4f4f4f; margin-top: 30px; margin-left: 10px; height: 1px;">
+        </div>
+    </div>
+    <div class="contactUsForm justify-content-center container ">
+        <form asp-action="User_Register" asp-controller="Account" method="post">
+            <div class="row align-items-center justify-content-center ">
+                <div class="form-item col-12 col-sm-6">
+                    <input type="text" class="form-control" asp-for="FirstName"
+                           placeholder="First Name" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+                <div class="form-item col-12 col-sm-6">
+                    <input type="text" class="form-control" asp-for="LastName"
+                           placeholder="Last Name" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+                <div class="form-item col-12 col-sm-6">
+                    <input type="email" class="form-control" asp-for="Email"
+                           placeholder="E-mail Address" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-item col-12 col-sm-6">
+                    <div class="input-group mx-0 row">
+                        <input type="text" class="input-group-text col-2 px-0" id="countryCode"
+                               placeholder="+49" />
+                        <input type="text" class="form-control col-10" asp-for="Mobile" placeholder="Mobile Number"
+                               aria-label="Mobile Number" aria-describedby="basic-addon1" />
+                        <span asp-validation-for="Mobile" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-item col-12 col-sm-6">
+                    <input type="password" class="form-control" asp-for="Password"
+                           placeholder="Password" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="form-item col-12 col-sm-6">
+                    <input type="password" class="form-control" name="password"
+                           placeholder="Comfirm password" />
+                </div>
+
+                <div class="p-2 ">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="check1" name="option1" value="something">
+                        <label class="form-check-label" for="check1">
+                            Yes, I would like to subscribe to the newsletter of Helperland GmbH with vouchers,
+                            trends, promotions and individualized offers.
+                            I can unsubscribe from the newsletter at any time in the newsletter and in the customer account itself.
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="check1" name="option1" value="something">
+                        <label class="form-check-label" for="check1">
+                            I agree with the <span class="span-tg">terms and conditions</span> of Helperland GmbH.
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="check1" name="option1" value="something">
+                        <label class="form-check-label" for="check1">
+                            I have read the <span class="span-tg">privacy policy</span>  .
+                        </label>
+                    </div>
+                </div>
+
+                <button class="submit rounded-pill border-0 outline-0">Register</button>
+            </div>
+        </form>
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <div class="justify-content-center  d-flex mt-3">
+            <p class="already-reg">Already registered? <span class="login-tg">Login now</span></p>
+        </div>
+
+
+    </div>
+
+
+
+</section>
+@section script{
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+}
