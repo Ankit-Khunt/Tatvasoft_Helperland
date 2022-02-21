@@ -1,0 +1,13 @@
+﻿@model Helperland.Models.Zipcode    
+
+<form method="post" asp-action="ZipCodeManager" asp-controller="BookServiceController">
+    <div class="form-step form-step-active" id="setup-content">
+               <div>
+                     <span class="postalcode-header">Enter your Postal Code</span>
+                     <div class="d-flex">
+                     <input type="input" placeholder="Postal Code" class="postal-input me-2 mt-2" />
+                     <button type="submit" class=" btn-next postal-btn" onclick="SchedualPlan();">Next</button>
+                      </div>
+               </div>
+   </div>
+</form>

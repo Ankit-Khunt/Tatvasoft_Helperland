@@ -1,0 +1,472 @@
+﻿@model Helperland.ViewModels.BookServiceViewModel
+
+
+@section Link{
+<link rel="stylesheet" href="~/css/BookService.css" asp-append-version="true" />
+
+
+}
+<main>
+    <h1 class="about-us-header text-center">Set up your cleaning service @ViewBag.UserId</h1><br />
+
+    <div class="about-us-border d-flex justify-content-center">
+        <hr class="about-us-border-1">
+        <img src="~/images/blue_star.png" height="25px" width="24px">
+        <hr class="about-us-border-1">
+    </div>
+
+    <div class=" container-fluid d-flex justify-content-center mt-4 ">
+
+        <div class="pe-4">
+            <div class="progressbar">
+                <div class="setup-service active-tab  ps-4 " id="setup-service-tab" onclick="SetupService()">
+
+                    <img class="setup-service-tab-content-active" src="~/images/setup-service-white.png" />
+                    <span class="service-text-active" id="active-text">Setup Service</span>
+                    <span class="border-stright"></span>
+                </div>
+                <div class="setup-service tab  ps-4 " id="shedual-plan-tab" onclick="removeSchedualPlan()">
+                    <img class="" id="shedual-img-black" src="~/images/schedule-plan.png" />
+                    <img class="white-img-display" id="schedule-img-white" src="~/images/schedule-plan-white.png" />
+                    <span class="service-text" id="schedual-text">Schedule & Plan</span>
+                    <span class="border-stright"></span>
+                </div>
+                <div class="setup-service tab  ps-4 " id="your-detail-tab" onclick="removeYourDetail();">
+                    <img class="" id="Your-detail-img-black" src="~/images/details.png" />
+                    <img class="white-img-display" id="Your-detail-img-white" src="~/images/details-white.png" />
+                    <span class="service-text" id="Your-detail-text">Your Details</span>
+                    <span class="border-stright"></span>
+                </div>
+                <div class="setup-service tab  ps-4 " id="Make-payment-tab">
+                    <img class="" id="Make-payment-img-black" src="~/images/make-payment.png" />
+                    <img class="white-img-display" id="Make-payment-img-white" src="~/images/make-payment-white.png" />
+                    <span class="service-text" id="Make-payment-text">Make Payment</span>
+                    <span class="border-stright"></span>
+                </div>
+
+            </div>
+
+            <div class="form-step form-step-active" id="setup-content">
+
+                <div>
+                    <span class="postalcode-header">Enter your Postal Code</span>
+                    <form method="post" asp-action="ZipCodeManager" asp-controller="BookService" id="ZipCodeId">
+                        <div class="d-flex">
+                            <div>
+                                 <input type="text" placeholder="Postal Code" class="postal-input me-2 mt-2"
+                                    id="ZipcodeValueId" onclick="hasValue('#ZipcodeValueId');"
+                                    asp-for="ZipcodeValue" /><br />
+                                <span class="error">@ViewBag.PostalError</span>
+                            </div>
+
+                            <button type="submit" class=" btn-next postal-btn">Next</button>
+                            @*onclick="SchedualPlan();"*@
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="form-step" id="schedual-content">
+               
+                <p class="fw-bold mt-4">Select number of rooms and bath</p>
+                <div class=" d-flex">
+                    <div class="sel-rooms-baths me-2">
+                        <select class="form-select" id="noBad">
+                            <option value="0" style="display: none;">1 bed</option>
+                            <option value="1">1 bed</option>
+                            <option value="2">2 bed</option>
+                            <option value="3">3 bed</option>
+                        </select>
+                    </div>
+                    <div class="sel-rooms-baths mb-4">
+                        <select class="form-select" id="noBath">
+                            <option value="0" style="display: none;">1 bath</option>
+                            <option value="1">1 bath</option>
+                            <option value="2">2 bath</option>
+                            <option value="3">3 bath</option>
+                        </select>
+                    </div>
+                </div>
+
+                <hr class="hr" />
+                <div class="row ">
+                    <div class=" col-md-6 mt-3">
+                        <p class="fw-bold">When do you need the cleaner?</p>
+                        <div class="date-time">
+                            <input type="date" id="cleaningDate"
+                                class="dateForService calender-icon form-control    me-2 mb-2">
+                            <!--<input type="time" id="" class="timeForService clock-icon form-control">-->
+                            <div class="sel-timeforser mb-4">
+                                <select class="form-select" id="cleanigTime">
+                                    <option value="1">01:00 PM</option>
+                                    <option value="2">02:00 PM</option>
+                                    <option value="3">03:00 PM</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6 mt-3">
+                        <p class="fw-bold">How long do you need the cleaner to stay?</p>
+                        <div class="sel-rooms-baths mb-4">
+                            <select class="form-select " id="basicTime">
+                                <option value="0" style="display: none;">3.0 Hrs</option>
+                                <option value="1">3.0 Hrs</option>
+                                <option value="2">4.0 Hrs</option>
+                                <option value="3">5.0 Hrs</option>
+                                <option value="4">6.0 Hrs</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <hr class="hr" />
+                <p class="fw-bold">Extra services</p>
+                <div class="extra-service-icons justify-content-evenly d-flex flex-wrap">
+                    <div>
+                        <div class="extra-icon-border d-flex icon-not-has-value" id="cabinate-icon"
+                            onclick="extraservice('#cabinate-icon','#cabinate-active-icon-gray-id','#cabinate-hidden-extra-icon-id');">
+                            <img id="cabinate-active-icon-gray-id" class="hidden-extra-icon active-icon-gray"
+                                src="~/images/bag.png">
+                            <img id="cabinate-hidden-extra-icon-id" class="hidden-extra-icon"
+                                src="~/images/inside-cabinet-green.png">
+                        </div>
+                        <div class="mt-2">
+                            <p id="fonts-service" class="extra-service-fonts text-center      ">inside cabinets</p>
+                        </div>
+
+                    </div>
+                    <div>
+                        <div class="extra-icon-border d-flex icon-not-has-value" id="frige-icon"
+                            onclick="extraservice('#frige-icon','#frige-active-icon-gray-id','#frige-hidden-extra-icon-id');">
+                            <img id="frige-active-icon-gray-id" class="hidden-extra-icon active-icon-gray"
+                                src="~/images/frig.png">
+                            <img id="frige-hidden-extra-icon-id" class="hidden-extra-icon"
+                                src="~/images/inside-fridge-green.png">
+                        </div>
+                        <div class="mt-2">
+                            <p id="fonts-service" class="extra-service-fonts text-center">inside fridge</p>
+                        </div>
+
+                    </div>
+                    <div>
+                        <div class="extra-icon-border d-flex icon-not-has-value" id="oven-icon"
+                            onclick="extraservice('#oven-icon','#oven-active-icon-gray-id','#oven-hidden-extra-icon-id');">
+                            <img id="oven-active-icon-gray-id" class="hidden-extra-icon active-icon-gray"
+                                src="~/images/microvave.png">
+                            <img id="oven-hidden-extra-icon-id" class="hidden-extra-icon"
+                                src="~/images/inside-oven-green.png">
+                        </div>
+                        <div class="mt-2">
+                            <p id="fonts-service" class="extra-service-fonts text-center">inside fridge</p>
+                        </div>
+
+                    </div>
+                    <div>
+                        <div class="extra-icon-border d-flex icon-not-has-value" id="laundry-icon"
+                            onclick="extraservice('#laundry-icon','#laundry-active-icon-gray-id','#laundry-hidden-extra-icon-id');">
+                            <img id="laundry-active-icon-gray-id" class="hidden-extra-icon active-icon-gray"
+                                src="~/images/wash_machine.png">
+                            <img id="laundry-hidden-extra-icon-id" class="hidden-extra-icon"
+                                src="~/images/laundry-wash&dry-green.png">
+                        </div>
+                        <div class="mt-2">
+                            <p id="fonts-service" class="extra-service-fonts text-center">inside fridge</p>
+                        </div>
+
+                    </div>
+                    <div>
+                        <div class="extra-icon-border d-flex icon-not-has-value" id="interior-icon"
+                            onclick="extraservice('#interior-icon','#interior-active-icon-gray-id','#interior-hidden-extra-icon-id');">
+                            <img id="interior-active-icon-gray-id" class="hidden-extra-icon active-icon-gray"
+                                src="~/images/4_sq.png">
+                            <img id="interior-hidden-extra-icon-id" class="hidden-extra-icon"
+                                src="~/images/interior-windows-green.png">
+                        </div>
+                        <div class="mt-2">
+                            <p id="fonts-service" class="extra-service-fonts text-center">inside fridge</p>
+                        </div>
+
+                    </div>
+
+
+                </div>
+                <hr class="hr-setup-ser" />
+                <p class="fw-bold">Comments</p>
+                <textarea class="form-control"></textarea>
+                <div class="my-3">
+                    <input type="checkbox" class="form-check-input" id="cbhavePets">
+                    <labe for="cbhavePets" class="form-check-label ms-1">I have pets at home</labe>
+                </div>
+                <hr class="hr-setup-ser" />
+
+                <button type="button" class="Continue-btn-schedual rounded-pill px-4 py-2 float-end"
+                    onclick="YourDetail();">
+                    Continue</a>
+
+
+                    <!-- <div>
+                        <span class="postalcode-header"> 2 Enter your Postal Code</span>
+                        <div class="d-flex">
+                            <input type="input" placeholder="Postal Code" class="postal-input me-2 mt-2" />
+                            <button type="button" class=" btn-next postal-btn" onclick="YourDetail();">Next</button>
+                        </div>
+                    </div> -->
+            </div>
+
+        @*===================Address html======================================*@
+            
+   <div class="form-step" id="detail-content">
+  <div id="AddressRadioBoxId">
+     @*<div class="AddressRadioBox d-flex">
+   
+      <input type="radio" id="radBtn1" name="radio">
+  
+  
+      <label class="radioAddress" for="radBtn1">
+      <div class="ms-3">
+        <p class="AddressRadioBox-p ps-3"><span class="AddressRadioBoxSpan">Address:</span> <span
+            id="Addressline1GetSpan">asdsdas,</span><span class="ps-2" id="Addressline2GetSpan">asdasdsad</span></p>
+        <p class="AddressRadioBox-p ps-3"><span class="AddressRadioBoxSpan">Phone Number:</span> <span
+            id="PhonenumberGetSpan">asdsdas</span></p>
+      </div>
+  
+      </label>
+  
+  
+     </div>*@
+  </div>
+    <div>
+        <button type="button" class="btn btn-primary" id="chechDemo"> Check </button>
+    </div>
+    <div class="AddNewAddressBtnClass" >
+        <button type="button" class="AddNewAddressBtn" id="AddNewAddressBtnId"> + Add New Address</button>
+    </div>
+
+       <div class=" AddressBox py-3 py-2 " id="AddressBoxId">
+        <form id="AddressForm">
+            <div class="row p-3 pb-0 pt-0  align-items-center justify-content-center">
+
+                <div class=" form-item col-12 col-sm-6">
+                    <label asp-for="AddressLine1"  class="form-label">Street name</label>
+                    <input type="text" class="form-control" id="AddressLine1Id" placeholder="Street Name" asp-for="AddressLine1">
+                    @* <span asp-validation-for="AddressLine1" class="text-danger"></span>*@
+                </div>
+                <div class="form-item col-12 col-sm-6">
+                    <label asp-for="AddressLine2" class="form-label">House number </label>
+                    <input type="text"  class="form-control" onclick="hasValue('#AddressLine2');"
+                        placeholder="House number" asp-for="AddressLine2" id="AddressLine2Id">
+                    @* <span asp-validation-for="AddressLine2" class="text-danger"></span>*@
+                    <span id="   AddressLine2Span" class="text-danger" style="display:none">this field required</span>
+
+                </div>
+                <!-- </div> -->
+                <!-- <div class="row p-3 pb-0"> -->
+                <div class=" form-item col-12 col-sm-6" >
+                    <label asp-for="PostalCodeAddresss" class="form-label" >Postal code</label>
+                    <input type="text"  id="PostalCodeNewAddressId" class="form-control" placeholder="Enter email" asp-for="PostalCodeAddresss" >
+                    @* <span asp-validation-for="PostalCodeAddresss" class="text-danger"></span>*@
+                </div>
+                <div class="form-item col-12 col-sm-6">
+                    <label asp-for="CityAddress" class="form-label">City</label>
+                    <select class="form-select" asp-for="CityAddress" id="selectCityNewAddressId">
+                       @* <option value="1">Gondal</option>
+                        <option value="2">Rajkot</option>*@
+                    </select>
+                    @* <span asp-validation-for="CityAddress" class="text-danger"></span>*@
+                </div>
+            </div>
+            <div class="row p-3 pb-4">
+                <div class="col-lg-6 ">
+                    <div class="group-input">
+                        <label asp-for="MobileAddress" class="form-label">Phone number</label>
+                        <div class="input-group " >
+                            <span class="input-group-addon">+49</span>
+                            <input type="text" id="MobilenumNewAddressId" class="form-control inputPostalCode" asp-for="MobileAddress" value="sdsa">
+                        </div>
+                        @*<span asp-validation-for="MobileAddress" class="text-danger"></span>*@
+                    </div>
+
+                </div>
+            </div>
+
+
+
+            <div class="ps-3">
+                <button type="button" class="AddressSave d-felx " onclick="submitAddress()">Save</button>
+                <button type="button" class="AddressCancle" id="AddressCancleId">Cancle</button>
+            </div>
+
+        </form>
+    </div>
+    
+   
+    <div>
+        
+       
+            
+            <button style="float:right" type="button" class=" btn-next postal-btn" onclick="MakePayment();">Continue</button>
+        
+    </div>
+   </div>
+            <div class="form-step" id="payment-content">
+               <form>
+                 <div class="row ">
+                     <div class="col-lg-4 ">
+                        <input type="text" class="form-control promoCodeBtn" placeholder="Promo code (optional)">
+                    </div>
+                     <div class="col-lg-2">
+                         <button type="button">Apply</button>
+                    </div>
+
+
+                 </div>
+               </form>
+            </div>
+        </div>
+        <div class="payment-main ">
+            <div class="payment-summery">
+                <div class="payment-summery-header ">
+                    <p class="">Payment Summary</p>
+                </div>
+                <div>
+                    <div class="payment-padding-sec ">
+                        <span id="noBadhtml"></span>
+                        <span id="noBathhtml"></span>
+                        <span id="dateOfService"></span>
+                        <!-- <span id="basicPay"></span> -->
+                        <span id="cleanigSpan"></span><br />
+
+                        <!-- <span id="total-service-time-span"></span> -->
+                        <!-- <span id="total-payment-calculate-span">00</span> -->
+                        <!-- <span id="effective-price-span">00</span> -->
+
+                        <h3 class="duration mt-3">Duration</h3>
+                        <diV>
+                            <div class="d-flex justify-content-between">
+                                <h5 class="payment-basic">Basic</h5>
+                                <span id="basicPay">0 hrs</span>
+                            </div>
+
+                            <div>
+                                <p class="mt-1 mb-0 justify-content-between d-flex "><span
+                                        id="cabinate-icon-mins"></span><span id="cabinate-icon-extra-mins"></span></p>
+                                <p class="mt-1 mb-0 justify-content-between d-flex"><span
+                                        id="frige-icon-mins"></span><span id="frige-icon-extra-mins"></span></p>
+                                <p class="mt-1 mb-0 justify-content-between d-flex"><span
+                                        id="oven-icon-mins"></span><span id="oven-icon-extra-mins"></span></p>
+                                <p class="mt-1 mb-0 justify-content-between d-flex"><span
+                                        id="laundry-icon-mins"></span><span id="laundry-icon-extra-mins"></span></p>
+                                <p class="mt-1 mb-0 justify-content-between d-flex "><span
+                                        id="interior-icon-mins"></span><span id="interior-icon-extra-mins"></span></p>
+                            </div>
+
+
+
+                        </diV>
+                    </div>
+                    <hr>
+                    <div class="payment-padding-sec ">
+                        <diV class="d-flex justify-content-between">
+                            <h6 class="total-service">Total Service Time</h6>
+                            <div>
+                                <span id="total-service-time-span">0</span><span> Hrs</span>
+                            </div>
+                        </diV>
+
+                    </div>
+                    <hr>
+                    <div class="payment-padding-sec ">
+                        <diV class="d-flex justify-content-between">
+                            <h5 class="payment-basic">Per cleaning</h5>
+                            <span>$10</span>
+                        </diV>
+                        <div class="d-flex justify-content-between">
+                            <h5 class="payment-basic">Discount</h5>
+                            <span>-$20</span>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="payment-padding-sec">
+                        <div class="justify-content-between d-flex align-items-center">
+                            <h3 class="total-payment ">Total Payment</h3>
+                            <p class="total-amount"><span>$</span><span id="total-payment-calculate-span">0.0</span></p>
+                        </div>
+                        <div class="justify-content-between d-flex align-items-center">
+                            <h5 class="payment-basic">Effective Price</h5>
+                            <h6 class="effective-price"><span>$ </span><span id="effective-price-span">00</span></h6>
+                        </div>
+                        <p class="payment-discount-pera">*You will save 20% according to §35a EStG.</p>
+                    </div>
+                    <div class="smily d-flex align-items-center ">
+                        <div class="payment-padding-sec d-flex align-items-center">
+                            <img src="~/images/smiley.png" height="21px" width="21px">
+                            <span class="smily-pera ps-2">See what is always included</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="questions  mt-4">
+                <div>
+                    <h3 class="question-header d-flex justify-content-center">Questions?</h3>
+                </div>
+                <div class="    ps-0">
+                    <div class="d-flex justify-content-center">
+                        <a href="#demo2" class="c-header" data-bs-toggle="collapse">
+                            <img onclick="rotate('#img2');" id="img2" class="rotate-up" src="~/images/faq_aa.png">
+                        </a>
+                        <p class="question-content-question ps-1">
+                            Which Helperland professional will come to my place?
+                        </p>
+                    </div>
+                    <div id="demo2" class="collapse justify-content-center">
+                        Content
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+
+</main>
+<script>
+
+
+</script>
+@if (ViewBag.Message == true)
+{
+<script>
+    $(document).ready(function () {
+
+        SchedualPlan();
+
+    });
+</script>
+}
+
+<script>
+    $('#chechDemo').click(function () {
+      $("input[type='radio']:checked").each(function () {
+        var idVal = $(this).attr("id"); //for getting id from this
+        var AddressLine1Final=$("label[for='" + idVal + "'] #Addressline1GetSpan"+idVal+"").text();
+        var AddressLine2Final=$("label[for='" + idVal + "'] #Addressline2GetSpan"+idVal+"").text();
+        var postalCodeFinal=$("label[for='" + idVal + "'] #postalCodeGetSpan"+idVal+"").text();
+        var cityFinal=$("label[for='" + idVal + "'] #cityGetSpan"+idVal+"").text();
+        var PhonenumberFinal=$("label[for='" + idVal + "'] #PhonenumberGetSpan"+idVal+"").text();
+        alert(AddressLine2Final);
+      });
+    });
+  </script>
+
+
+
+
+@section script{
+
+<script src="~/js/BookService.js" asp-append-version="true"></script>
+ 
+}

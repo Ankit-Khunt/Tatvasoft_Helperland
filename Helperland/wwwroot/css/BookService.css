@@ -1,0 +1,453 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+}
+
+a {
+    text-decoration: none;
+}
+
+.all-services {
+    min-height: 1000px;
+    overflow: hidden;
+}
+
+.about-us-header {
+    font-size: 35.95px;
+    color: #4F4F4F;
+    margin-top: 31px;
+}
+
+.about-us-border-1 {
+    width: 5%;
+    margin-right: 10px;
+    margin-left: 10px;
+    margin-top: 12px;
+    border-color: #CCCCCC;
+}
+
+/*---Prograss bar-----*/
+.progressbar {
+    display: flex;
+}
+
+.setup-service {
+    padding-left: 20px;
+    max-width: 400px !important;
+    background: #F3F3F3;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    text-align: center;
+    height: 67px;
+}
+
+.all-service-hidden {
+    position: relative;
+}
+
+.setup-service-body {
+    position: absolute;
+}
+
+.Your-detail {
+    padding-top: 10px !important;
+}
+
+.service-text {
+    color: #646464;
+    font-size: 18px;
+}
+
+.service-text-active {
+    color: white;
+    font-size: 18px;
+}
+
+.white-img-display {
+    display: none;
+}
+
+.border-stright {
+    border-right: 1px solid gray;
+    padding-left: 20px;
+    height: 67px;
+}
+
+.postalcode-header {
+    font-size: 16px;
+    color: black;
+    font-weight: bold;
+}
+
+.postal-input {
+    height: 40px;
+    width: 250px;
+}
+
+::placeholder {
+    font-size: 16px;
+    padding-left: 10px;
+}
+
+.postal-btn {
+    border: 0;
+    background: #1D7A8C;
+    border-radius: 50px;
+    color: white;
+    width: 150px;
+    height:46px;
+}
+
+
+#shedual-plan {
+    left: 2000px;
+}
+
+.active-tab {
+    background: #1D7A8C;
+}
+
+.form-step {
+    display: none;
+}
+
+.form-step-active {
+    display: block;
+    max-width: 750px;
+}
+
+
+/* ---- Schedual and plan css------- */
+
+.fw-bold {
+    font-weight: bold;
+    color: #646464;
+}
+
+.sel-rooms-baths {
+    max-width: 100px;
+}
+
+.sel-timeforse {
+    width: 100px !important;
+}
+
+input[type="date"] {
+    position: relative;
+    padding-right: 0px;
+    padding-left: 35px !important;
+    height: 38px;
+}
+
+    input[type="date"]::-webkit-calendar-picker-indicator {
+        /* color: transparent;
+    background: none;
+    
+    top: 15px;
+    left: 6px; */
+        color: transparent;
+        background-image: url("/images/icon-calendar-blue.png");
+        display: block;
+        font-family: 'FontAwesome';
+        content: '';
+        /* This is the calendar icon in FontAwesome */
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        top: 6px;
+        left: 0px !important;
+        z-index: 1;
+        margin-left: 10px !important;
+        padding-left: 0px !important;
+        color: #999;
+    }
+
+/*---extra icons */
+
+.hidden-extra-icon {
+    display: none;
+}
+
+.active-icon-gray {
+    display: block;
+}
+
+.active-icon-blue {
+    display: block;
+}
+
+.extra-icon-border {
+    border: 1px solid gray;
+    border-radius: 50%;
+    padding: 30px;
+    width: 110px;
+    height: 110px;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.extra-service-fonts {
+    color: #4F4F4F;
+}
+
+.border-continue {
+}
+
+
+/* ---extra icons end-- */
+
+.Continue-btn-schedual {
+    width: 141px;
+    height: 46px;
+    background-color: #1D7A8C;
+    align-items: center;
+    color: white;
+    justify-content: center;
+    display: flex;
+    border: none;
+}
+
+/* --payment summery start */
+.payment-main {
+    max-width: 360px;
+}
+
+.payment-summery {
+    box-shadow: 0 0 5px 0px grey;
+}
+
+.payment-summery-header {
+    height: 67px;
+    background-color: #1D7A8C;
+    display: flex;
+    align-items: center !important;
+}
+
+    .payment-summery-header p {
+        color: white;
+        font-size: 18px;
+        padding-left: 22px;
+        margin-top: 10px;
+    }
+
+.payment-padding-sec {
+    padding: 0px 18px;
+}
+
+.duration {
+    font-size: 18px;
+    color: #4F4F4F;
+    font-weight: bold;
+}
+
+.payment-basic {
+    font-size: 16px;
+    color: #4F4F4F;
+}
+
+.total-service {
+    font-size: 16px;
+    color: #4F4F4F;
+    font-weight: bold;
+}
+
+.total-payment {
+    font-size: 20px;
+    color: #1D7A8C;
+}
+
+.total-amount {
+    font-size: 42px;
+    color: #1D7A8C;
+}
+
+.effective-price {
+    font-size: 20px;
+    color: #646464;
+    font-weight: bold;
+}
+
+.payment-discount-pera {
+    font-size: 14px;
+    color: #4F4F4F;
+}
+
+.smily {
+    height: 46px;
+    background-color: #F3F3F3;
+}
+
+.smily-pera {
+    font-size: 14px;
+    color: #8D8D8D;
+}
+
+/* --payment summery end */
+
+/* ---Question start--- */
+
+.question-header {
+    font-size: 20px;
+    color: #4F4F4F;
+    font-weight: bold;
+}
+
+.question-content-question {
+    font-size: 14px;
+    color: #4F4F4F;
+}
+
+.rotate-down {
+    transform: rotatez(90deg);
+    transition: .3s;
+    ;
+}
+
+.rotate-up {
+    transform: rotatez(0deg);
+    transition: .3s;
+    ;
+}
+
+
+/* ---Question end-- */
+@media screen and (min-width:600px) {
+    .date-time {
+        display: flex;
+    }
+
+        .date-time .dateForService {
+            width: 150px;
+            justify-content: baseline;
+            align-items: center;
+            border-color: antiquewhite;
+        }
+}
+/*--for form error*/
+
+.error {
+    color:red;
+} 
+.error-hidden{
+    display:none;
+}
+
+
+/*---Address css ---*/
+.AddressBox {
+    border: 1px solid gray;
+    max-width: 800px;
+    display:none;
+}
+
+.checkboxAddress {
+    border-radius: 50%;
+    background-color: aqua;
+}
+
+.input-group-addon {
+    border: 1px solid rgba(128, 128, 128, 0.37);
+    background-color: rgba(128, 128, 128, 0.356);
+    padding: 8px;
+    padding-right: 10px;
+}
+
+.group-input {
+}
+
+.AddressSave, .AddressCancle {
+    width: 100px;
+    height: 50px;
+    border-radius: 50px;
+    background-color: #1D7A8C;
+    border: none;
+    color: white;
+    font-size: 18px;
+    align-items: center;
+    justify-content: center;
+}
+
+.AddressCancle {
+    background-color: rgba(128, 128, 128, 0.062);
+    color: gray;
+    border: 1px solid gray;
+}
+.AddNewAddressBtn {
+    width: 200px;
+    height: 46px;
+    background-color: white;
+    color: #1D7A8C;
+    font-size: 18px;
+    font-weight: bold;
+    border: 2px solid #1D7A8C;
+    border-radius:50px;
+    margin-bottom:20px;
+    margin-top:10px;
+    
+}
+    .AddNewAddressBtn:hover {
+        background-color: #1D7A8C;
+        color:white;
+        transition:.5s;
+    }
+
+
+/*------Checkbox css-----*/
+.AddressRadioBox {
+    border: 1px solid grey;
+    max-width: 810px;
+    padding: 15px;
+    margin-bottom: 0px;
+    margin-right: .1px;
+    margin: 10px 0px;
+    /* margin: 0px; */
+    align-items: center;
+    justify-content: flex-start;
+    position: relative;
+}
+
+.AddressRadioBox-p {
+    margin: 0px;
+    color: #646464;
+}
+
+.AddressRadioBoxSpan {
+    font-weight: bold;
+}
+
+input[type='radio'] {
+    position: relative;
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    outline: none;
+    border: 2px solid gray;
+    border-color: #1D7A8C;
+}
+
+    input[type='radio']:before {
+        position: absolute;
+        content: '';
+        display: block;
+        top: 0px;
+        left: 3px !important;
+        width: 10px;
+        height: 10px;
+        margin: 20% auto;
+        border-radius: 50%;
+    }
+
+    input[type="radio"]:checked:before {
+        background: #1D7A8C;
+    }
+
+    input[type="radio"]:checked {
+        border-color: #1D7A8C;
+    }
+
