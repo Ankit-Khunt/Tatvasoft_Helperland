@@ -1,13 +1,20 @@
 ﻿@model Helperland.ViewModels.BookServiceViewModel
 
+@{
+     ViewData["Title"] = "Book Service";
+}
 
 @section Link{
 <link rel="stylesheet" href="~/css/BookService.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/fontawesome-free-6.0.0-web/css/all.css"  asp-append-version="true"/>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+ 
+
 
 
 }
 <main>
-    <h1 class="about-us-header text-center">Set up your cleaning service @ViewBag.UserId</h1><br />
+    <h1 class="about-us-header text-center">Set up your cleaning service </h1><br />
 
     <div class="about-us-border d-flex justify-content-center">
         <hr class="about-us-border-1">
@@ -15,7 +22,7 @@
         <hr class="about-us-border-1">
     </div>
 
-    <div class=" container-fluid d-flex justify-content-center mt-4 ">
+    <div class=" MainDivOfServiceReq container-fluid d-flex justify-content-center mt-4 ">
 
         <div class="pe-4">
             <div class="progressbar">
@@ -46,7 +53,7 @@
 
             </div>
 
-            <div class="form-step form-step-active" id="setup-content">
+            <div class="form-step form-step-active mt-3" id="setup-content">
 
                 <div>
                     <span class="postalcode-header">Enter your Postal Code</span>
@@ -93,8 +100,15 @@
                     <div class=" col-md-6 mt-3">
                         <p class="fw-bold">When do you need the cleaner?</p>
                         <div class="date-time">
-                            <input type="date" id="cleaningDate"
+                            <div class="serviceDateDiv">
+                                <input type="text" id="cleaningDate"
                                 class="dateForService calender-icon form-control    me-2 mb-2">
+                                <img class="calander-icon" src="/images/icon-calendar-blue.png" />
+
+                            </div>
+                            
+
+                            
                             <!--<input type="time" id="" class="timeForService clock-icon form-control">-->
                             <div class="sel-timeforser mb-4">
                                 <select class="form-select" id="cleanigTime">
@@ -192,16 +206,15 @@
                 </div>
                 <hr class="hr-setup-ser" />
                 <p class="fw-bold">Comments</p>
-                <textarea class="form-control"></textarea>
+                <textarea class="form-control" asp-for="Comments" id="commentsID"></textarea>
                 <div class="my-3">
-                    <input type="checkbox" class="form-check-input" id="cbhavePets">
-                    <labe for="cbhavePets" class="form-check-label ms-1">I have pets at home</labe>
+                    <input type="checkbox" class="form-check-input" id="hasPatID"  >
+                    <labe  class="form-check-label ms-1"  >I have pets at home</labe>
                 </div>
                 <hr class="hr-setup-ser" />
 
-                <button type="button" class="Continue-btn-schedual rounded-pill px-4 py-2 float-end"
-                    onclick="YourDetail();">
-                    Continue</a>
+                <button type="button" class="Continue-btn-schedual rounded-pill px-4 py-2 float-end mb-4"
+                    onclick="YourDetail();">Continue</button>
 
 
                     <!-- <div>
@@ -216,6 +229,14 @@
         @*===================Address html======================================*@
             
    <div class="form-step" id="detail-content">
+    <div class="addressAlert mt-3" id="addressAlertId">
+      @* <div class="alert alert-danger alert-dismissible">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <p>Plaese Choose one Address from Belove </p>
+  </div>*@
+  <div class='alert alert-danger alert-dismissible fade show' role='alert'>Plaese Choose one Address from Belov<button type= 'button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>
+    </div>
+  
   <div id="AddressRadioBoxId">
      @*<div class="AddressRadioBox d-flex">
    
@@ -235,92 +256,72 @@
   
      </div>*@
   </div>
-    <div>
-        <button type="button" class="btn btn-primary" id="chechDemo"> Check </button>
-    </div>
+   
     <div class="AddNewAddressBtnClass" >
-        <button type="button" class="AddNewAddressBtn" id="AddNewAddressBtnId"> + Add New Address</button>
+        <button type="button" class="AddNewAddressBtn" id="AddNewAddressBtnId" > + Add New Address</button>
     </div>
 
-       <div class=" AddressBox py-3 py-2 " id="AddressBoxId">
-        <form id="AddressForm">
-            <div class="row p-3 pb-0 pt-0  align-items-center justify-content-center">
-
-                <div class=" form-item col-12 col-sm-6">
-                    <label asp-for="AddressLine1"  class="form-label">Street name</label>
-                    <input type="text" class="form-control" id="AddressLine1Id" placeholder="Street Name" asp-for="AddressLine1">
-                    @* <span asp-validation-for="AddressLine1" class="text-danger"></span>*@
-                </div>
-                <div class="form-item col-12 col-sm-6">
-                    <label asp-for="AddressLine2" class="form-label">House number </label>
-                    <input type="text"  class="form-control" onclick="hasValue('#AddressLine2');"
-                        placeholder="House number" asp-for="AddressLine2" id="AddressLine2Id">
-                    @* <span asp-validation-for="AddressLine2" class="text-danger"></span>*@
-                    <span id="   AddressLine2Span" class="text-danger" style="display:none">this field required</span>
-
-                </div>
-                <!-- </div> -->
-                <!-- <div class="row p-3 pb-0"> -->
-                <div class=" form-item col-12 col-sm-6" >
-                    <label asp-for="PostalCodeAddresss" class="form-label" >Postal code</label>
-                    <input type="text"  id="PostalCodeNewAddressId" class="form-control" placeholder="Enter email" asp-for="PostalCodeAddresss" >
-                    @* <span asp-validation-for="PostalCodeAddresss" class="text-danger"></span>*@
-                </div>
-                <div class="form-item col-12 col-sm-6">
-                    <label asp-for="CityAddress" class="form-label">City</label>
-                    <select class="form-select" asp-for="CityAddress" id="selectCityNewAddressId">
-                       @* <option value="1">Gondal</option>
-                        <option value="2">Rajkot</option>*@
-                    </select>
-                    @* <span asp-validation-for="CityAddress" class="text-danger"></span>*@
-                </div>
-            </div>
-            <div class="row p-3 pb-4">
-                <div class="col-lg-6 ">
-                    <div class="group-input">
-                        <label asp-for="MobileAddress" class="form-label">Phone number</label>
-                        <div class="input-group " >
-                            <span class="input-group-addon">+49</span>
-                            <input type="text" id="MobilenumNewAddressId" class="form-control inputPostalCode" asp-for="MobileAddress" value="sdsa">
-                        </div>
-                        @*<span asp-validation-for="MobileAddress" class="text-danger"></span>*@
-                    </div>
-
-                </div>
-            </div>
-
-
-
-            <div class="ps-3">
-                <button type="button" class="AddressSave d-felx " onclick="submitAddress()">Save</button>
-                <button type="button" class="AddressCancle" id="AddressCancleId">Cancle</button>
-            </div>
-
-        </form>
-    </div>
+        <partial name="~/Views/PartialView/AddNewAddressPartialView.cshtml" />
     
    
     <div>
         
        
             
-            <button style="float:right" type="button" class=" btn-next postal-btn" onclick="MakePayment();">Continue</button>
+            <button style="float:right" type="button" class=" btn-next postal-btn mt-2 mb-2" onclick="MakePayment();">Continue</button>
         
     </div>
    </div>
+   @*------------------------------payment-form------------------------------------------------*@
             <div class="form-step" id="payment-content">
-               <form>
-                 <div class="row ">
-                     <div class="col-lg-4 ">
-                        <input type="text" class="form-control promoCodeBtn" placeholder="Promo code (optional)">
-                    </div>
-                     <div class="col-lg-2">
-                         <button type="button">Apply</button>
-                    </div>
+               <p class="fw-bold mt-4"> Pay securely with Helperland payment gateway!</p>
+
+                        <p class="promocodeH5">Promo code (optional)</p>
+
+                        <form>
+                          <div class="row ">
+                            <div class="col-sm-2 promoCodeDiv ">
+                              <input type="text" class="form-control " placeholder="Promo code (optional)">
+                            </div>
+     
+                            <div class="col-lg-2 ">
+                              <button type="button" class=" promoBtn">Apply</button>
+                            </div>
 
 
-                 </div>
-               </form>
+                          </div>
+                        </form>
+
+                        <hr class="hr">
+    
+                        <form>
+                        <div class="input-group  payment-input-group" >
+                          <span class="card-icon"> <i class="fa-solid fa-credit-card"></i></span>
+                          <input type="text" id="cardNumberId" class="form-control card-number card-comun" asp-for="CardNumber"  placeholder="XXXX 0000 0000 0000" data-mask="0000 0000 0000 0000" value="">
+                          <input type="text" id="" class="form-control card-expiry card-comun" placeholder="MM / YY" data-mask="00/00"  value="">
+                          <input type="text" id="" class="form-control card-cvv card-comun" placeholder="XXX" data-mask="000" value="">
+                        </div>
+                        
+                        <hr>
+
+                        <div class="payment-chechbox-div">
+                          <div >
+                            <input type="checkbox" class="payment-checkbox">
+                          </div>
+      
+                          <div>
+                            <p>I accepted <span class="payment-link-checkbox-span">terms and conditions</span>, the <span class="payment-link-checkbox-span">cancellation policy</span> and the <span class="payment-link-checkbox-span">privacy policy.</span>
+                               I confirm that Helperland starts to execute the contract before the expiry of
+                                the withdrawal period and I lose my right of withdrawal as a consumer with
+                                 full performance of the contract.</p>
+                          </div>
+                        </div>
+                        <hr>
+
+                        <div>
+                          <button type="button" class="complete-booking-btn" onclick="sendPaymentDetail();"><h5>Complete Booking</h5></button>
+                        </div>
+                        </form>
             </div>
         </div>
         <div class="payment-main ">
@@ -428,6 +429,7 @@
         </div>
 
     </div>
+    <partial name="~/Views/PartialView/ServiceRequestAlertPartialView.cshtml" />
 
 
 
@@ -449,17 +451,7 @@
 }
 
 <script>
-    $('#chechDemo').click(function () {
-      $("input[type='radio']:checked").each(function () {
-        var idVal = $(this).attr("id"); //for getting id from this
-        var AddressLine1Final=$("label[for='" + idVal + "'] #Addressline1GetSpan"+idVal+"").text();
-        var AddressLine2Final=$("label[for='" + idVal + "'] #Addressline2GetSpan"+idVal+"").text();
-        var postalCodeFinal=$("label[for='" + idVal + "'] #postalCodeGetSpan"+idVal+"").text();
-        var cityFinal=$("label[for='" + idVal + "'] #cityGetSpan"+idVal+"").text();
-        var PhonenumberFinal=$("label[for='" + idVal + "'] #PhonenumberGetSpan"+idVal+"").text();
-        alert(AddressLine2Final);
-      });
-    });
+   
   </script>
 
 
@@ -468,5 +460,8 @@
 @section script{
 
 <script src="~/js/BookService.js" asp-append-version="true"></script>
- 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+
+
 }

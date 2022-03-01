@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HomePage</title>
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+     <title>@ViewData["Title"] - HELPERLAND</title>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="~/css/footer.css" asp-append-version="true" />
@@ -22,9 +22,9 @@
 </head>
 <body>
 
-    @if (ViewBag.Nav != true)
+    @if (!User.Identity.IsAuthenticated)
     {
-        <header>
+        <header id="header">
             <nav class="navbar navbar-expand-lg  navbar-dark" style="background-color: #525252;">
                 <div class="container-fluid">
                     <a class="navbar-brand" asp-action="index" asp-controller="home"><img src="~/images/logo.png" width="73px" height="54px"></a>
@@ -51,7 +51,7 @@
                             </li>
 
                             <li class="nav-item nav-padding ">
-                                <a class="nav-link border border-1 rounded-pill ms-1 me-1 " style="background-color: #29626d;padding-left:1.5rem;padding-right: 1.5rem;padding-top: 0.4rem;padding-bottom: .5rem;" href="#">Login</a>
+                                <a class="nav-link border border-1 rounded-pill ms-1 me-1 " style="background-color: #29626d;padding-left:1.5rem;padding-right: 1.5rem;padding-top: 0.4rem;padding-bottom: .5rem;"asp-action="AccesManager" asp-controller="home">Login</a>
                             </li>
 
                             <li class="nav-item nav-padding ">
@@ -65,11 +65,13 @@
     }
     else
     {
-        <header>
+        <header class="header">
             <nav class="d-none d-md-flex navbar navbar-expand-md  container-fluid justify-content-between ">
 
                 <div class="header-logo">
-                    <img src="assets/img/logo-small.png">
+                    <a asp-action="Index" asp-controller="Home" >
+                        <img src="~/images/logo-small.png">
+                    </a>
                 </div>
 
 
@@ -77,10 +79,10 @@
                 <div class="header-links  d-flex align-items-center">
                     <ul class="navbar-nav ">
                         <li class="nav-item nav-item-sp text-center align-items-center">
-                            <a class="nav-link" href="#" id="Book-now-btn">Book now</a>
+                            <a class="nav-link" asp-action="BookServicePage" asp-controller="BookService" id="Book-now-btn">Book now</a>
                         </li>
                         <li class="nav-item nav-item-sp">
-                            <a class="nav-link aa" id="btn-hover" href="#">Prices & services</a>
+                            <a class="nav-link aa" id="btn-hover"asp-action="Price" asp-controller="Home" >Prices & services</a>
                         </li>
                         <li class="nav-item nav-item-sp">
                             <a class="nav-link" href="#">Warranty</a>
@@ -89,7 +91,7 @@
                             <a class="nav-link" href="#">Blog</a>
                         </li>
                         <li class="nav-item nav-item-sp">
-                            <a class="nav-link" href="#">Contact</a>
+                            <a class="nav-link" asp-action="Contact" asp-controller="Home" >Contact</a>
                         </li>
 
                     </ul>
@@ -98,41 +100,44 @@
 
                     <div class="header-icons d-flex align-items-center justify-content-center">
                         <div class="notification d-flex justify-content-center">
-                            <img src="assets/img/icon-notification.png" width="29px" height="32px">
+                            <img src="~/images/icon-notification.png" width="29px" height="32px">
                             <span class="position-relative text-center badge rounded-circle">2</span>
                         </div>
 
-                        <div class="man d-flex align-items-center  " data-bs-toggle="popover" title="Popover Header"
-                             data-bs-content="Some content inside the popover" data-bs-placement="bottom">
-                            <img src="assets/img/man.png ">
+                        <div class="man d-flex align-items-center  " id="headerManId">
+                            <img src="~/images/man.png ">
                             <div class="down-arrow">
-                                <img src="assets/img/down-arrow-service.png">
+                                <img src="~/images/down-arrow-service.png">
                             </div>
 
                         </div>
 
                     </div>
 
-
-
-
-
                 </div>
 
-
-
-
-
-
             </nav>
+            <div class="header-dropdown-div">
+                <div class="triangle-up"></div>
+                <ul class="header-dropdown-1">
+                <li class="header-man-welcome">Welcome</li>
+                <li>Ankit Khunt</li>
+                 </ul>
+                 <hr class="header-drop-hr" >
+                  <ul class="header-dropdown-2">
+                  <li>My Dashboard</li>
+                  <li>My Setting</li>
+                  <li><a class="LogOutClassLink" asp-action="LogOut" asp-controller="Account">LogOut</a></li>
+                  </ul>
+            </div>
             <nav class="navSm d-flex d-md-none align-items-center justify-content-between">
                 <div class="logoDiv">
-                    <a class="d-block" href="index.html">
-                        <img src="assets/img/logo-small.png" alt="logo" />
+                    <a class="d-block" asp-action="index" asp-controller="home">
+                        <img src="~/images/logo-small.png" alt="logo" />
                     </a>
                 </div>
                 <div class="notifications position-relative">
-                    <img src="assets/img/icon-notification.png" />
+                    <img src="~/images/icon-notification.png" />
                     <span class="position-absolute text-center badge rounded-circle">2</span>
                 </div>
                 <div class="hamburger me-3 me-md-0"></div>
@@ -147,19 +152,19 @@
                         <ul>
                             <li class="navSmMenuItem">Dashboard</li>
                             <li class="navSmMenuItem">New Service Request</li>
-                            <li class="navSmMenuItem active">Upcoming Services</li>
+                            <li class="navSmMenuItem ">Upcoming Services</li>
                             <li class="navSmMenuItem">Service Schedule</li>
                             <li class="navSmMenuItem">Service History</li>
                             <li class="navSmMenuItem">My Ratings</li>
                             <li class="navSmMenuItem">Block Customer</li>
                             <li class="navSmMenuItem">My Settings</li>
-                            <li class="navSmMenuItem">Logout</li>
+                            <li class="navSmMenuItem"><a asp-action="LogOut" asp-controller="Account">Logout</a></li>
                             <hr class="my-1" />
-                            <li class="navSmMenuItem"><a href="#">Book now</a></li>
-                            <li class="navSmMenuItem"><a href="prices.html">Plans & Services</a></li>
+                            <li class="navSmMenuItem"><a asp-action="BookServicePage" asp-controller="BookService">Book now</a></li>
+                            <li class="navSmMenuItem"><a  asp-action="price" asp-controller="home">Plans & Services</a></li>
                             <li class="navSmMenuItem"><a href="#">Warranty</a></li>
                             <li class="navSmMenuItem"><a href="#">Blog</a></li>
-                            <li class="navSmMenuItem"><a href="contact.html">Contact</a></li>
+                            <li class="navSmMenuItem"><a asp-action="Contact" asp-controller="Home">Contact</a></li>
                             <hr class="my-1" />
                         </ul>
                     </div>
@@ -244,10 +249,13 @@
             ©2018 Helperland. All rights reserved. <a href="#">Terms and Conditions</a> | <a href="#">Privacy Policy</a>
         </div>
     </footer>
+
    @* @await RenderSectionAsync("Scripts", required: false)*@
 </body>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+ <script src="~/js/_Layout.js" asp-append-version="true"></script>
 <script>
     $(document).ready(function () {
         $("#bookServiceId").on("click", function () {

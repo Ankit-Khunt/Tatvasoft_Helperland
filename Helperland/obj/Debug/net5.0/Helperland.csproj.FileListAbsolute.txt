@@ -437,10 +437,15 @@ D:\New version Heplerland\Helperland\bin\Debug\net5.0\Microsoft.AspNetCore.Mvc.R
 D:\New version Heplerland\Helperland\bin\Debug\net5.0\Microsoft.Extensions.DependencyModel.dll
 D:\New version Heplerland\Helperland\obj\Debug\net5.0\Helperland.MvcApplicationPartsAssemblyInfo.cs
 D:\New version Heplerland\Helperland\bin\Debug\net5.0\libman.json
-D:\New version Heplerland\Helperland\obj\Debug\net5.0\Razor\Views\BookService\temp.cshtml.g.cs
 D:\New version Heplerland\Helperland\bin\Debug\net5.0\System.Data.SqlClient.dll
 D:\New version Heplerland\Helperland\bin\Debug\net5.0\runtimes\win-arm64\native\sni.dll
 D:\New version Heplerland\Helperland\bin\Debug\net5.0\runtimes\win-x64\native\sni.dll
 D:\New version Heplerland\Helperland\bin\Debug\net5.0\runtimes\win-x86\native\sni.dll
 D:\New version Heplerland\Helperland\bin\Debug\net5.0\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
 D:\New version Heplerland\Helperland\bin\Debug\net5.0\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
+D:\New version Heplerland\Helperland\obj\Debug\net5.0\Razor\Views\PartialView\AddNewAddressPartialView.cshtml.g.cs
+D:\New version Heplerland\Helperland\obj\Debug\net5.0\Razor\Views\PartialView\ServiceRequestAlertPartialView.cshtml.g.cs
+D:\New version Heplerland\Helperland\obj\Debug\net5.0\Razor\Views\CustomerService\CustomerDashboard.cshtml.g.cs
+D:\New version Heplerland\Helperland\obj\Debug\net5.0\Razor\Views\PartialView\Home\ForgotPasswordPartialView.cshtml.g.cs
+D:\New version Heplerland\Helperland\obj\Debug\net5.0\Razor\Views\Account\ResetPassword.cshtml.g.cs
+D:\New version Heplerland\Helperland\obj\Debug\net5.0\Razor\Views\Account\ForgotPassword.cshtml.g.cs

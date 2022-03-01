@@ -15,5 +15,8 @@ namespace Helperland.ViewModels
         [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }
+
+        public bool RememberLogin { get; set;}
+        public String ReturnUrl { get; set;}
     }
 }

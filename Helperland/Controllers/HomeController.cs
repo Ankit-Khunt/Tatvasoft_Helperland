@@ -10,6 +10,8 @@ using Helperland.Models;
 using Helperland.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 
 namespace Helperland.Controllers
 {
@@ -17,21 +19,31 @@ namespace Helperland.Controllers
     public class HomeController : Controller
     {
         public HelperlandContext _helperlandContext;
-        public HomeController(HelperlandContext helperlandContext)
+        private IWebHostEnvironment _hostingEnvironment;
+
+        public string UploadFileName { get; private set; }
+        public string FileName { get; private set; }
+
+        public HomeController(HelperlandContext helperlandContext, IWebHostEnvironment environment)
         {
             _helperlandContext = helperlandContext;
+            _hostingEnvironment = environment;
         }
         // GET: /<controller>/
        
         [HttpGet]
         public IActionResult Index()
         {
+            var userName=HttpContext.Session.GetString("User_Name");
+            ViewBag.UserName=userName; 
                 return View();
-        }
-        public IActionResult AccesManager()
+            }
+        public IActionResult AccesManager(string ReturnUrl= "/")
         {
+            LoginViewModel objLoginModel = new LoginViewModel();
+            objLoginModel.ReturnUrl = ReturnUrl;
             ViewBag.openLoginModel = true;
-
+           
             return View("~/Views/Home/Index.cshtml");
 
         }
@@ -40,7 +52,7 @@ namespace Helperland.Controllers
         {
             return View();
         }
-        [Authorize] 
+       
         public IActionResult Price()
         {
             return View();
@@ -60,18 +72,32 @@ namespace Helperland.Controllers
         {
             if (ModelState.IsValid)
             {
+                string uniqueFileName = null;
+                if (model.File != null)
+                {
+                    UploadFileName = model.File.FileName;
+                    FileName = uniqueFileName;
+                    var path = Path.Combine(_hostingEnvironment.WebRootPath, "ContactUsAttechment");
+                    uniqueFileName = Guid.NewGuid().ToString() + "_" + model.File.FileName;
+                    string filePath = Path.Combine(path, uniqueFileName);
+                    model.File.CopyTo(new FileStream(filePath, FileMode.Create));
+                }
                 ContactUs newContat = new ContactUs
                 {
-                    Name = model.FileName + model.LastName,
+                    Name = model.FirstName + " "+ model.LastName,
                     Email = model.Email,
                     Message = model.Message,
                     Subject = model.Subject,
-                    PhoneNumber=model.PhoneNumber
+                    PhoneNumber=model.PhoneNumber,
+                    CreatedOn = DateTime.Now,
+                    UploadFileName = UploadFileName,
+                    FileName = uniqueFileName,
                 };
                 _helperlandContext.Add(newContat);
                 _helperlandContext.SaveChanges();
                 SendEmailToUser(model.Email,model.Message,model.Subject,model.PhoneNumber,model.FirstName);
-                return RedirectToAction("index");
+                ViewBag.Alert = "<div class='alert alert-success alert-dismissible fade show' role='alert'>Thank you for Contact Us<button type= 'button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+                return View();
             }
             return View();
         }

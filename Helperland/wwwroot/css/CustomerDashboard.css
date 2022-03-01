@@ -1,0 +1,412 @@
+﻿table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control:before {
+    left: 2px !important;
+    margin-left: 0px !important;
+}
+
+.export-btn {
+    background-color: #146371;
+    width: 200px;
+    height: 34px;
+    color: white;
+    border: none;
+    border-radius: 50px;
+}
+.serviceUserHeader {
+    height :120px;
+    background-color: #F9F9F9;
+}
+.Welcome-user {
+    font-size: 30px;
+    color: #4F4F4F;
+}
+.headerUserName {
+    font-size:30px;
+    font-weight:bold;
+    
+}
+
+.th-1 {
+    padding-left: 10px !important;
+}
+
+.td-1 {
+    width: 130px;
+    padding-left: 10px;
+}
+
+.td-2 {
+    width: 180px;
+}
+
+.service-detail-date {
+    padding-left: 5px;
+}
+
+.service-detail-time {
+    margin-top: 5px;
+}
+
+.service-provider-name {
+    flex-direction: column;
+}
+
+.service-provider-icon {
+    border: 1px solid gray;
+    padding: 12px;
+    padding-left: 6px;
+    padding-right: 6px;
+    margin-right: 8px;
+}
+
+.payment-amount {
+    font-size: 20px;
+    color: #1d7a8c;
+    font-weight: bold;
+}
+
+.staus-of-History {
+    width: 82px;
+    height: 22px;
+    background-color: #67b644;
+    padding: 2px 5px;
+    font-size: 13px;
+    color: #ffffff;
+}
+
+.staus-of-History-2 {
+    width: 82px;
+    height: 22px;
+    background-color: #ff6b6b;
+    padding: 2px 5px;
+    font-size: 13px;
+    color: #ffffff;
+}
+
+.rate-us {
+    background-color: #6da9b5;
+    width: 70px;
+    height: 34px;
+    border: none;
+    border-radius: 50px;
+    color: #ffffff;
+    font-size: 14px;
+}
+
+.dataTables_wrapper {
+    max-width: 861px !important;
+}
+
+table {
+    border-collapse: collapse !important;
+    max-width: 100% !important;
+    width: 100% !important;
+}
+
+thead tr {
+    background: rgb(224, 224, 224, 0.5) !important;
+    border: 1px solid #e1e1e1 !important;
+}
+
+tbody tr {
+    border: 1px solid #e1e1e1 !important;
+}
+
+/* .tdHead svg,
+.tdHead img,
+.timing img,
+.custAddress img {
+	margin-right: 7px;
+}
+
+.tdHead h5 {
+	font-size: 16px;
+	color: #646464;
+	margin-bottom: 0;
+}
+
+.timing {
+	font-size: 16px;
+	color: #646464;
+	margin-top: 11px;
+}
+
+.custName,
+.custAddress,
+.distance {
+	font-size: 16px;
+	color: #646464;
+}
+
+.serviceProvider > img {
+	padding: 12px 7px;
+	border: 1px solid #aaaaaa;
+	margin-right: 12px;
+}
+
+.serviceProviderInfo .serviceProviderName {
+	font-size: 16px;
+	color: #646464;
+	margin-bottom: 4px;
+}
+
+.feedback img {
+	margin-right: 1px;
+}
+
+.paymentAmount {
+	color: #1d7a8c;
+	font-size: 24px;
+	font-weight: bold;
+}
+
+.paymentSign{
+	font-size: 20px;
+	font-weight: normal;
+}
+
+.cancel {
+	font-size: 16px;
+	color: #fff;
+	padding: 10px 16px 12px;
+	background: #ff6b6b;
+	border: none;
+	outline: none;
+}
+
+.status {
+	padding: 5px 10px;
+	font-size: 13px;
+	color: #fff;
+}
+
+.status.completed {
+	background: #67b644;
+}
+
+.status.cancelled {
+	background: #ff6b6b;
+}
+
+.rate {
+	font-size: 14px;
+	color: #fff;
+	background: #6da9b5;
+	padding: 9px 13px;
+	outline: none;
+	border: none;
+} */
+
+table.dataTable thead th.sorting_asc {
+    background-image: url("../img/acendingSort.png") !important;
+}
+
+table.dataTable thead th.sorting_desc {
+    background-image: url("../img/decendingSort.png") !important;
+}
+
+table.dataTable thead .sorting {
+    background-image: url("../img/sort.png") !important;
+    background-position: right 4px top 50% !important;
+    margin-left: 0px !important;
+}
+
+table.dataTable thead th,
+table.dataTable tbody td {
+    border: none !important;
+    padding: 16px 18px !important;
+}
+
+.dataTables_wrapper .dataTables_paginate a.paginate_button.current,
+.dataTables_wrapper .dataTables_paginate a.paginate_button.current:hover,
+.dataTables_wrapper .dataTables_paginate a.paginate_button:hover {
+    border: 1px solid #1d7a8c !important;
+    background: #1d7a8c !important;
+    color: #fff !important;
+}
+
+.dataTables_wrapper .dataTables_paginate a.paginate_button.disabled:hover {
+    cursor: not-allowed !important;
+    background: transparent !important;
+    border: 1px solid #e1e1e1 !important;
+}
+
+.dataTables_wrapper .dataTables_paginate a.paginate_button.next:hover,
+.dataTables_wrapper .dataTables_paginate a.paginate_button.previous:hover,
+.dataTables_wrapper .dataTables_paginate a.paginate_button.first:hover,
+.dataTables_wrapper .dataTables_paginate a.paginate_button.last:hover {
+    background: transparent !important;
+    border: 1px solid #e1e1e1 !important;
+}
+
+.dataTables_wrapper .dataTables_paginate,
+.dataTables_wrapper .dataTables_paginate span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    flex-wrap: wrap;
+}
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        border: 1px solid #e1e1e1 !important;
+        border-radius: 50% !important;
+        color: #777777 !important;
+        padding: 0 !important;
+        height: 38px !important;
+        width: 38px !important;
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.3s, color 0.3s;
+    }
+
+.dataTables_filter {
+    display: none;
+}
+
+div.dataTables_info {
+    padding-top: 15px !important;
+    padding-left: 8px !important;
+}
+
+div.dataTables_length,
+div.dataTables_paginate {
+    padding-top: 10px !important;
+}
+
+.dataTables_wrapper div.dataTables_info {
+    clear: right !important;
+    font-size: 14px !important;
+    color: #646464 !important;
+}
+
+.dataTables_wrapper .dataTables_length select {
+    margin: 0 10px !important;
+    font-size: 14px !important;
+    color: #646464 !important;
+    border: 1px solid #e1e1e1 !important;
+    border-radius: 4px !important;
+    outline: none !important;
+}
+
+.dt-button {
+    float: right !important;
+    border-radius: 300px !important;
+    background: #146371 !important;
+    color: #fff !important;
+    padding: 5px 20px !important;
+    font-size: 14px !important;
+    margin-bottom: 6px !important;
+    border: none !important;
+    outline: none !important;
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+    .dt-button::before,
+    .rate::before,
+    .cancel::before {
+        pointer-events: none;
+        content: "Click Here to Download Excel file of this table";
+        position: absolute;
+        width: max-content;
+        color: #fff;
+        right: calc(100% + 6px);
+        font-size: 13px;
+        background: #000;
+        border-radius: 5px;
+        padding: 5px 10px;
+        opacity: 0;
+        transition: opacity 0.3s;
+        z-index: 5000;
+    }
+
+.rate::before {
+    content: "Rate this Service Provider";
+}
+
+.cancel::before {
+    content: "Cancel this Service";
+}
+
+.dt-button::after,
+.rate::after,
+.cancel::after {
+    pointer-events: none;
+    content: "";
+    position: absolute;
+    right: calc(100% - 6px);
+    width: 0;
+    height: 0;
+    border: 6px solid transparent;
+    transition: border-left 0.3s;
+    z-index: 5000;
+}
+
+.dt-button:hover::before,
+.rate:hover::before,
+.cancel:hover::before {
+    opacity: 1;
+}
+
+.dt-button:hover::after,
+.rate:hover::after,
+.cancel:hover::after {
+    border-left: 6px solid #000;
+}
+
+.tableHeader {
+    font-size: 22px;
+    color: #646464;
+    float: left;
+    margin-bottom: 13px;
+}
+
+.heading {
+    font-size: 30px;
+    height: 120px;
+    font-weight: normal;
+    color: #4f4f4f;
+    background: #f9f9f9;
+}
+
+    .heading span {
+        font-weight: bold;
+    }
+
+.text-md-nowrap {
+    white-space: nowrap;
+}
+
+
+@media screen and (max-width: 576px) {
+
+    table tbody td {
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        text-align: center;
+        align-items: center;
+    }
+
+    th {
+        display: none !important;
+    }
+
+    tr {
+        box-shadow: 0 0 10px gray;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid #e1e1e1;
+        justify-content: center;
+        text-align: center;
+        margin-bottom: 30px;
+        width: 100%;
+    }
+
+    table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control:before {
+        display: none !important;
+    }
+}

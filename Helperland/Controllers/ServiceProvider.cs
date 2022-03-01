@@ -48,16 +48,18 @@ namespace Helperland.Controllers
                         FirstName = model.FirstName,
                         Email = model.Email,
                         LastName = model.LastName,
-                        Password = Helperland.ViewModels.EncryptPassword.texttoEncrypt(model.Password),  //PasswordEncrypted
+                        //Password = Helperland.ViewModels.EncryptPassword.texttoEncrypt(model.Password),  //PasswordEncrypted
+                        Password=model.Password,
                         Mobile = model.Mobile,
                         CreatedDate = DateTime.Now,
                         ModifiedDate = DateTime.Now,
-                        UserTypeId = 2
+                        UserTypeId = 2,
+                        IsApproved=true
                     };
                     
                      
                     _helperlandContext.User.Add(newServiceProvider);
-                    ViewBag.Message = "Success";
+                    ViewBag.Alert = "<div class='alert alert-success alert-dismissible fade show' role='alert'> Request Send Successfuly <button type= 'button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
                     _helperlandContext.SaveChanges();
                     return View();
                 }

@@ -1,17 +1,122 @@
 ﻿@model Helperland.Models.User
 @{
     Layout = "~/Views/Shared/IndexLayout.cshtml";
+  
+     ViewData["Title"] = "Home";
+
 }
 
 
 
     <section class="banner">
-        <header id="header">
+    @if (User.Identity.IsAuthenticated)
+    {
+         <header id="header2">
+            <nav class="d-none d-md-flex navbar navbar-expand-md  container-fluid justify-content-between ">
+
+                <div class="header-logo navbar-brand" >
+                    <img  src="~/images/white-logo-transparent-background.png">
+                </div>
+
+
+                <!-- Links -->
+                <div class="header-links  d-flex align-items-center">
+                    <ul class="navbar-nav ">
+                        <li class="nav-item nav-item-sp text-center align-items-center">
+                            <a class="nav-link" asp-action="BookServicePage" asp-controller="BookService" id="Book-now-btn">Book now</a>
+                        </li>
+                        <li class="nav-item nav-item-sp">
+                            <a class="nav-link aa" id="btn-hover" asp-action="price" asp-controller="home">Prices & services</a>
+                        </li>
+                        <li class="nav-item nav-item-sp">
+                            <a class="nav-link" href="#">Warranty</a>
+                        </li>
+                        <li class="nav-item nav-item-sp">
+                            <a class="nav-link" href="#">Blog</a>
+                        </li>
+                        <li class="nav-item nav-item-sp">
+                            <a class="nav-link" asp-action="Contact" asp-controller="Home">Contact</a>
+                        </li>
+
+                    </ul>
+
+
+
+                    <div class="header-icons d-flex align-items-center justify-content-center">
+                        <div class="notification d-flex justify-content-center">
+                            <img src="~/images/icon-notification.png" width="29px" height="32px">
+                            <span class="position-relative text-center badge rounded-circle">2</span>
+                        </div>
+
+                        <div class="man d-flex align-items-center  " data-bs-toggle="popover" title="Popover Header"
+                             data-bs-content="Some content inside the popover" data-bs-placement="bottom" id="headerManId">
+                            <img src="~/images/man.png ">
+                            <div class="down-arrow">
+                                <img src="~/images/down-arrow-service.png">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="header-dropdown-div">
+                <div class="triangle-up"></div>
+                <ul class="header-dropdown-1">
+                <li class="header-man-welcome">Welcome</li>
+                <li>@ViewBag.UserName</li>
+                 </ul>
+                 <hr class="header-drop-hr" >
+                  <ul class="header-dropdown-2">
+                  <li>My Dashboard</li>
+                  <li>My Setting</li>
+                  <li><a class="LogOutClassLink" asp-action="LogOut" asp-controller="Account">LogOut</a></li>
+                  </ul>
+            </div>
+           
+            <nav class="navSm d-flex d-md-none align-items-center justify-content-between">
+                <div class="logoDiv">
+                    <a class="d-block" href="index.html">
+                        <img src="~/images/logo-small.png" alt="logo" />
+                    </a>
+                </div>
+                <div class="notifications position-relative">
+                    <img src="~/images/icon-notification.png" />
+                    <span class="position-absolute text-center badge rounded-circle">2</span>
+                </div>
+                <div class="hamburger me-3 me-md-0"></div>
+                <div class="fullPage d-flex">
+                    <div class="fullPageHidden"></div>
+                    <div class="navSmMenu bg-white">
+                        <div class="greetings">
+                            Welcome,<br />
+                            <strong>Gaurang Patel</strong>
+                        </div>
+                        <hr class="my-1" />
+                        <ul>
+                            <li class="navSmMenuItem" ><a asp-action="BookServicePage" asp-controller="BookService">Book now</a></li>
+                            <li class="navSmMenuItem"><a asp-action="Price" asp-controller="home">Prices</a></li>
+                            <li class="navSmMenuItem"><a href="#">Our Gaurantee</a></li>
+                             <li class="navSmMenuItem"><a href="#">Blog</a></li>
+                             <li class="navSmMenuItem"><a asp-action="Price" asp-controller="home">Contact Us</a></li>
+                             <li class="navSmMenuItem"><a  asp-action="LogOut" asp-controller="Account">LogOut</a></li>
+                            <li class="navSmMenuItem">Become a Helper</li>
+                       
+                            <hr class="my-1" />
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+        </header>
+    }
+    else
+    {
+        <header id="header1">
             <!-- navbar starts -->
             <nav class="navbar navbar-expand-lg navbar-dark">
                 <div class="container-fluid">
-                    <a href="#" class="navbar-brand"><img src="~/images/white-logo-transparent-background.png" class="white-logo-transparent-background"></a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+                    <a href="#" id="headerlogoId" class="navbar-brand"><img   src="~/images/white-logo-transparent-background.png" class="white-logo-transparent-background"></a>
+                    <button id="IndexCollapsBtn" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="collapse navbar-collapse" id="collapsibleNavbar">
@@ -21,19 +126,19 @@
                                 
                             </li>
                             <li class="nav-item text-center mb-1">
-                                <a class="nav-link" asp-action="price" asp-controller="home">Prices</a>
+                                <a class="nav-link rounded-pill" asp-action="price" asp-controller="home">Prices</a>
                             </li>
                             <li class="nav-item text-center mb-1">
-                                <a class="nav-link" href="#">Our Guarantee</a>
+                                <a class="nav-link rounded-pill" href="#">Our Guarantee</a>
                             </li>
                             <li class="nav-item text-center mb-1">
-                                <a class="nav-link" href="#">Blog</a>
+                                <a class="nav-link rounded-pill" asp-action="CustomerDashboard" asp-controller="CustomerService">Blog</a>
                             </li>
                             <li class="nav-item text-center mb-1">
-                                <a class="nav-link" asp-action="contact" asp-controller="home">Contact Us</a>
+                                <a class="nav-link rounded-pill" asp-action="contact" asp-controller="home">Contact Us</a>
                             </li>
                             <li class="nav-item text-center mb-1">
-                                <a class="nav-link border border-1 rounded-pill ms-1 me-1 bl" data-bs-toggle="modal" data-bs-target="#Login">Login</a>
+                                <a class="nav-link border border-1 rounded-pill ms-1 me-1 bl" id="IndexLoginBtn" data-bs-toggle="modal" data-bs-target="#Login">Login</a>
                             </li>
                             <li class="nav-item text-center mb-1">
                                 <a class="nav-link border border-1 rounded-pill ms-1 me-1 bl" asp-action="Register_ServiceProvider" asp-controller="ServiceProvider">Become a Helper</a>
@@ -43,45 +148,9 @@
                 </div>
             </nav>
         </header>
-
-
-
-
-
-        <div class="modal fade" id="forgot_password">
-            <div class="modal-dialog modal-dialog-centered modal-lg">
-                <div class="modal-content">
-
-                    <!-- Modal Header -->
-
-                    <div class="modal-header m-head">
-                        <h4 class="model-title">Forgot Password</h4>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
-
-                    <!-- Modal body -->
-                    <div class="modal-body">
-                        <form class="">
-                            <div class="form-group">
-                                <input class="form-control" type="email" asp-for="Email" placeholder="E-mail" />
-                            </div>
-
-                            <div class="justify-content-center d-flex  ">
-                                <button type="submit" class="User_submit_btn rounded-pill mt-3 py-3">Send</button>
-                            </div>
-                        </form>
-                        <div class="text-center mt-4 mb-2">
-                            <span class="Login_span">Login</span>
-                        </div>
-                    </div>
-
-
-
-                </div>
-            </div>
-        </div>
-
-
+     }
+       
+       <partial name="~/Views/PartialView/Home/ForgotPasswordPartialView.cshtml" />
 
         <div class="d-flex flex-wrap flex-column">
             <div class="d-flex flex-column mt-190 ml-55">
@@ -151,7 +220,7 @@
         <section class="d-flex flex-wrap flex-column align-items-center mt-156">
             <div class="d-flex flex-wrap flex-column">
                 <div class="d-flex flex-wrap align-items-center justify-content-center">
-                    <div class="para">
+                    <div class="para ms-3">
                         <h6>Lorem ipsum dolor sit amet, consectetur</h6>
                         <p>
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nisi sapien, suscipit ut accumsan vitae, pulvinar ac libero.

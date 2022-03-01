@@ -1,15 +1,22 @@
-﻿var totalServiceTime = 3;
+﻿///*const { error } = require("jquery");
+
+var totalServiceTime = 3;
 var totalPayment = 0;
 var effectivePrice = 0;
 var onetimeAddress = 0;
 var onetimeNewAddress = 0;
 var fatch2ndtimeUpdate = 0;
+var serviceHourlyRate = 10;
+var serviceDiscount = 20;
+var extraHoure = 0;
+var selectedDate;
+var DateTime;
+
 
 $(document).ready(function () {
 
 
-
-
+    
     $("#noBad").click(function () {
         var conceptName = $('#noBad').find(":selected").text();
         $("#noBadhtml").html(conceptName);
@@ -41,15 +48,36 @@ $(document).ready(function () {
         $("#cleanigSpan").html(conceptName);
     });
     $(function () {
-        $("#cleaningDate").on("change", function () {
-            var selected = $(this).val();
-
-            $("#dateOfService").html(selected);
 
 
+        $('#cleaningDate').datepicker({
+            inline: true,
+            firstDay: 1,
+            changeMonth: false,
+            changeYear: true,
+            showOtherMonths: true,
+            showMonthAfterYear: false,
+            yearRange: "2015:2025",
+            dayNamesMin: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+            dateFormat: "yy-mm-dd",
+
+            onSelect: function (date) {
+                selectedDate = $(this).val(),
+                    $("#dateOfService").html(selectedDate);
 
 
+            }
         });
+        //alert(date);
+        //$("#cleaningDate").on("change", function () {
+        //     selectedDate = $(this).val();
+
+        //    $("#dateOfService").html(selectedDate);
+
+
+
+
+        /*});*/
     });
 
 
@@ -64,9 +92,11 @@ $(document).ready(function () {
     }
     var strDate = date + "/" + mm + "/" + d.getFullYear();
     $("#dateOfService").html(strDate);
+    $("#cleaningDate").val(strDate);
+    selectedDate = strDate;
 
 
-    $("#AddNewAddressBtnId").click(function() {
+    $("#AddNewAddressBtnId").click(function () {
         $(this).css("display", "none");
         $("#AddressBoxId").css("display", "block");
         if (onetimeNewAddress == 0) {
@@ -75,32 +105,52 @@ $(document).ready(function () {
                 success: function (data) {
                     console.log(data);
                     // $('tbody').append(`<tr> <td>${data[i].addressLine1}</td> <td>${data[i].addressLine2}</td> <td>${data[i].mobile}</td>  </tr>`)
-                    var myarray = [];
-                    for (var i = 0; i < data.length; i++) {
-                        if (jQuery.inArray(data[i].city, myarray)==-1)  
-                        {
-                            $("#selectCityNewAddressId").append(`<option value="${i + 1}">${data[i].city}</option>`);
-                                 myarray.push(data[i].city);
+                    //if (data.length == 0) {
+
+                    //}
+                    //else {
+                        var myarray = [];
+                        for (var i = 0; i < data.length; i++) {
+                            if (jQuery.inArray(data[i].city, myarray) == -1) {
+                                $("#selectCityNewAddressId").append(`<option value="${i + 1}">${data[i].city}</option>`);
+                                myarray.push(data[i].city);
+                            }
+
                         }
-                       
-                    }
-               
-                    $("#PostalCodeNewAddressId").val(data[0].postalCode);
-                    $("#MobilenumNewAddressId").val(data[0].mobile);
+
+                        $("#PostalCodeNewAddressId").val(data[0].postalCode);
+                        $("#MobilenumNewAddressId").val(data[0].mobile);
+                   /* }*/
                     
+
                 },
                 error: function (er) {
+                    alert("not get");
                     console.log(er);
                 }
             });
             onetimeNewAddress++;
         }
-       
+
     });
-    $("#AddressCancleId").click(function() {
+    $("#AddressCancleId").click(function () {
         $("#AddressBoxId").css("display", "none");
         $("#AddNewAddressBtnId").css("display", "block");
     });
+
+    
+
+    //$('#chechDemo').click(function () {
+    //    $("input[type='radio']:checked").each(function () {
+    //        var idVal = $(this).attr("id"); //for getting id from this
+    //        var AddressLine1Final = $("label[for='" + idVal + "'] #Addressline1GetSpan" + idVal + "").text();
+    //        var AddressLine2Final = $("label[for='" + idVal + "'] #Addressline2GetSpan" + idVal + "").text();
+    //        var postalCodeFinal = $("label[for='" + idVal + "'] #postalCodeGetSpan" + idVal + "").text();
+    //        var cityFinal = $("label[for='" + idVal + "'] #cityGetSpan" + idVal + "").text();
+    //        var PhonenumberFinal = $("label[for='" + idVal + "'] #PhonenumberGetSpan" + idVal + "").text();
+          
+    //    });
+    //});
 
 
 });
@@ -120,14 +170,14 @@ function submitAddress() {
         MobileAddress: $("#MobilenumNewAddressId").val()
     }
     console.log(data);
-    alert(data);
+   /* alert(data);*/
     $.ajax({
         type: 'POST',
         url: '/BookService/UserAddressGet',
         contentType: 'application/x-www-form-urlencoded; charset=UTF-8', // when we use .serialize() this generates the data in query string format. this needs the default contentType (default content type is: contentType: 'application/x-www-form-urlencoded; charset=UTF-8') so it is optional, you can remove it
         data: data,
         success: function (result) {
-            alert('Successfully received Data ');
+           /* alert('Successfully received Data ');*/
             console.log(result);
             onetimeAddress = 0;
             $("#AddressBoxId").css("display", "none");
@@ -136,7 +186,7 @@ function submitAddress() {
             //MakePayment();
         },
         error: function () {
-            alert('Failed to receive the Data');
+           /* alert('Failed to receive the Data');*/
             console.log('Failed ');
         }
     });
@@ -166,10 +216,10 @@ function setValue1(valueNo) {
             }
             currentValue1 = valueNo;
         }
-        totalPayment = (totalServiceTime * 5) / .5;
+        totalPayment = (totalServiceTime * (serviceHourlyRate/2)) / .5;
         $("#total-service-time-span").html(totalServiceTime);
         $("#total-payment-calculate-span").html(totalPayment);
-        effectivePrice = (80 * totalPayment) / 100;
+        effectivePrice = ((100 - serviceDiscount) * totalPayment) / 100;
         $("#effective-price-span").html(effectivePrice);
 
     }
@@ -198,10 +248,10 @@ function setValueBath(valueNo) {
             }
             currentValueBath = valueNo;
         }
-        totalPayment = (totalServiceTime * 5) / .5;
+        totalPayment = (totalServiceTime * (serviceHourlyRate/2)) / .5;
         $("#total-service-time-span").html(totalServiceTime);
         $("#total-payment-calculate-span").html(totalPayment);
-        effectivePrice = (80 * totalPayment) / 100;
+        effectivePrice = ((100 - serviceDiscount) * totalPayment) / 100;
         $("#effective-price-span").html(effectivePrice);
 
     }
@@ -241,10 +291,10 @@ function setValue2(valueNo) {
             }
             currentValue2 = valueNo;
         }
-        totalPayment = (totalServiceTime * 5) / .5;
+        totalPayment = (totalServiceTime * (serviceHourlyRate/2)) / .5;
         $("#total-service-time-span").html(totalServiceTime);
         $("#total-payment-calculate-span").html(totalPayment);
-        effectivePrice = (80 * totalPayment) / 100;
+        effectivePrice = ((100 - serviceDiscount) * totalPayment) / 100;
         $("#effective-price-span").html(effectivePrice);
 
     }
@@ -281,10 +331,10 @@ function SetupService() {
 }
 
 function SchedualPlan() {
-    
-    totalPayment = (totalServiceTime * 5) / .5;
+
+    totalPayment = (totalServiceTime * (serviceHourlyRate/2)) / .5;
     $("#total-payment-calculate-span").html(totalPayment);
-    effectivePrice = (80 * totalPayment) / 100;
+    effectivePrice = ((100 - serviceDiscount) * totalPayment) / 100;
     $("#effective-price-span").html(effectivePrice);
 
     $("#basicPay").html("3 Hrs");
@@ -419,18 +469,33 @@ function removeYourDetail() {
 
 }
 
+
+
 function MakePayment() {
-    $("#detail-content").removeClass("form-step-active");
-    $("#payment-content").addClass("form-step-active");
-    $("#Make-payment-tab").addClass("active-tab");
+    if ($("input[type='radio']:checked").val() == null) {
+        $("#addressAlertId").css("display", "block");
+      
+    }
+    else {
+        $("#detail-content").removeClass("form-step-active");
+        $("#payment-content").addClass("form-step-active");
+        $("#Make-payment-tab").addClass("active-tab");
 
-    $("#Make-payment-text").addClass("service-text-active");
+        $("#Make-payment-text").addClass("service-text-active");
 
 
-    $("#Make-payment-img-white").show();
-    $("#Make-payment-img-black").hide();
+        $("#Make-payment-img-white").show();
+        $("#Make-payment-img-black").hide();
+        $("#addressAlertId").css("display", "none");
 
-}
+    }
+        
+
+ }
+
+
+
+
 
 //select
 
@@ -454,6 +519,7 @@ function extraservice(borderid, gyayid, blueid) {
 
             $(borderid + "-mins").html("inside cabinate (extra) ");
             totalServiceTime += .5;
+            extraHoure += .5;
             $("#total-service-time-span").html(totalServiceTime);
             $(borderid + "-extra-mins").html("30min");
         }
@@ -461,43 +527,48 @@ function extraservice(borderid, gyayid, blueid) {
         if (borderid == "#frige-icon") {
             $(borderid + "-mins").html("inside fridge (extra)");
             totalServiceTime += .5;
+            extraHoure += .5;
             $("#total-service-time-span").html(totalServiceTime);
             $(borderid + "-extra-mins").html("30min");
         }
         if (borderid == "#oven-icon") {
             $(borderid + "-mins").html("inside oven (extra)");
             totalServiceTime += .5;
+            extraHoure += .5;
             $("#total-service-time-span").html(totalServiceTime);
             $(borderid + "-extra-mins").html("30min");
         }
         if (borderid == "#laundry-icon") {
             $(borderid + "-mins").html("inside laundry (extra)");
             totalServiceTime += .5;
+            extraHoure += .5;
             $("#total-service-time-span").html(totalServiceTime);
             $(borderid + "-extra-mins").html("30min");
         }
         if (borderid == "#interior-icon") {
             $(borderid + "-mins").html("inside interior (extra)");
             totalServiceTime += .5;
+            extraHoure += .5;
             $("#total-service-time-span").html(totalServiceTime);
             $(borderid + "-extra-mins").html("30min");
         }
 
         $(borderid).addClass("icon-has-value");
         $(borderid).removeClass("icon-not-has-value");
-        totalPayment = (totalServiceTime * 5) / .5;
+        totalPayment = (totalServiceTime * (serviceHourlyRate/2)) / .5;
         $("#total-payment-calculate-span").html(totalPayment);
-        effectivePrice = (80 * totalPayment) / 100;
+        effectivePrice = ((100 - serviceDiscount) * totalPayment) / 100;
         $("#effective-price-span").html(effectivePrice);
     }
     else {
         $(borderid + "-mins").html("");
         $(borderid + "-extra-mins").html("");
         totalServiceTime -= .5;
+        extraHoure -= .5;
         $("#total-service-time-span").html(totalServiceTime);
-        totalPayment = (totalServiceTime * 5) / .5;
+        totalPayment = (totalServiceTime * (serviceHourlyRate/2)) / .5;
         $("#total-payment-calculate-span").html(totalPayment);
-        effectivePrice = (80 * totalPayment) / 100;
+        effectivePrice = ((100 - serviceDiscount) * totalPayment) / 100;
         $("#effective-price-span").html(effectivePrice);
 
         $(borderid).addClass("icon-not-has-value");
@@ -537,4 +608,176 @@ function hasValue(elem) {
             $(elem + "Span").css("display","none");
         }
     });
+}
+
+
+//----------------------payment-------------------js-------------------
+
+function sendPaymentDetail() {
+    var data = {
+        
+        CardNumber: $("#cardNumberId").val()
+    }
+    console.log(data);
+   /* alert(data);*/
+    $.ajax({
+        type: 'POST',
+        url: '/BookService/CheckCardDetail',
+        contentType: 'application/x-www-form-urlencoded; charset=UTF-8', // when we use .serialize() this generates the data in query string format. this needs the default contentType (default content type is: contentType: 'application/x-www-form-urlencoded; charset=UTF-8') so it is optional, you can remove it
+        data: data,
+     
+        success: function (result) {
+           // alert('Successfully payment received Data ');
+            ServiceRequestSuccessful();
+            
+           
+            
+            console.log(result);
+            
+        },
+        error: function () {
+            //alert('Failed to receive payment the Data');
+           
+            serviceAlert(1);
+            console.log('Failed ');
+        }
+    });
+}
+
+
+
+function ServiceRequestSuccessful() {
+    var checked;
+    if ($("#hasPatID").is(":checked")) {
+        checked = true;
+    }
+    
+    var data = {
+        ServiceHourlyRate:serviceHourlyRate,    
+        ServiceHours:totalServiceTime,
+        ExtraHours:extraHoure,
+        SubTotal:totalPayment,
+        Discount:serviceDiscount,
+        TotalCost:effectivePrice,
+        Comments:$("#commentsID").val(),
+        HasPets: checked,
+        ServiceStartDate: selectedDate
+        
+    }
+    console.log(data);
+    $.ajax({
+        type: 'POST',
+            url: '/BookService/ServiceRequestSuccessful',
+            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+            data:data,
+
+            success : function(result) {
+               // alert('Successfully serviceRquest received Data ');
+                serviceAddressSend();
+                if (extraHoure > 0) {
+                    ExtraServiceSend();
+                }
+                console.log(result);
+
+        },
+        error : function(){
+            //alert('Failed to receive the Data of serviceRquest');
+            $("#alertServiceModelMessageID").html("ServiceAddress has not been Succcessful Submitted");
+            serviceAlert(0);
+            console.log('Failed ');
+        }
+    });
+}
+
+function serviceAddressSend() {
+    var idVal, AddressLine1Final, AddressLine2Final, postalCodeFinal, cityFinal, PhonenumberFinal;
+    $("input[type='radio']:checked").each(function () {
+         idVal = $(this).attr("id"); //for getting id from this
+         AddressLine1Final = $("label[for='" + idVal + "'] #Addressline1GetSpan" + idVal + "").text();
+         AddressLine2Final = $("label[for='" + idVal + "'] #Addressline2GetSpan" + idVal + "").text();
+         postalCodeFinal = $("label[for='" + idVal + "'] #postalCodeGetSpan" + idVal + "").text();
+         cityFinal = $("label[for='" + idVal + "'] #cityGetSpan" + idVal + "").text();
+         PhonenumberFinal = $("label[for='" + idVal + "'] #PhonenumberGetSpan" + idVal + "").text();
+        /*alert(AddressLine2Final);*/
+    });
+    var data = {
+        AddressLine1: AddressLine1Final,
+        AddressLine2: AddressLine2Final,
+        CityName: cityFinal,
+        ZipcodeValue: postalCodeFinal,
+        MobileNum: PhonenumberFinal
+    }
+    console.log(data);
+    $.ajax
+        ({
+            type: 'POST',
+            url: '/BookService/serviceAddressSend',
+            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+            data: data,
+
+            success: function (result) {
+               // alert('Successfully ServiceRequestAddress send ');
+                $("#alertServiceModelMessageID").html("Booking has been successfuly Submitted");
+                serviceAlert(3);
+                console.log(result);
+
+            },
+            error: function () {
+                //alert('Failed to receive serviceAddressAddress the Data');
+                $("#alertServiceModelMessageID").html("Booking has not been successfuly Submitted");
+                serviceAlert(3);
+                console.log('Failed ');
+            }
+
+        });
+}
+
+
+function serviceAlert(message) {
+    if (message == 3)
+    {
+        $.ajax({
+            url: "/BookService/AlertServiceReqID",
+            success: function (data) {
+                console.log(data);
+                $("#alertServiceReqID").html(data[0].serviceRequestId);
+            },
+            error: function (er) {
+                console.log(er);
+            }
+        });
+    }
+
+    if (message == 1) {
+        $("#alertServiceModelMessageID").html("Paymeant Request has not been Succcessful Submitted");
+    }
+    $("#alertServiceReqID").html("Not Yet Create");
+        $('#ServiceReqAlert').modal('show');
+   
+}
+
+function ExtraServiceSend() {
+    var data = {
+
+        ExtraHours: extraHoure
+    }
+    console.log(data);
+    /* alert(data);*/
+    $.ajax({
+        type: 'POST',
+        url: '/BookService/ExtraServiceSend',
+        contentType: 'application/x-www-form-urlencoded; charset=UTF-8', // when we use .serialize() this generates the data in query string format. this needs the default contentType (default content type is: contentType: 'application/x-www-form-urlencoded; charset=UTF-8') so it is optional, you can remove it
+        data: data,
+
+        success: function (result) {
+           /* alert('Successfully extrareq received Data ');*/
+            console.log(result);
+
+        },
+        error: function () {
+          /*  alert('Failed to receive extrareq ');*/
+            console.log('Failed ');
+        }
+    });
+
 }

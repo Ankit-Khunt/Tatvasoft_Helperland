@@ -12,7 +12,9 @@
 
             <!-- Modal body -->
             <div class="modal-body">
+                    @Html.Raw(ViewBag.Alert)
                 <form method="post" asp-action="User_Login" asp-controller="Account">
+                      @Html.HiddenFor(x => x.ReturnUrl)
                     <div class="form-group mt-3">
                         <input class="form-control" asp-for="Email" placeholder="Email " />
                         <span asp-validation-for="Email" class="text-danger"></span>
@@ -24,8 +26,11 @@
 
                     <div class="form-group mt-2">
                         <div class="checkbox">
-                            <input type="checkbox" />
-                            <label>Remember me</label>
+                            <label>
+                            <input asp-for="RememberLogin" />
+                            @Html.DisplayNameFor(model => model.RememberLogin)
+                            </label>
+                            
                         </div>
                     </div>
 
@@ -41,8 +46,8 @@
             <!-- Modal footer -->
 
             <div class="justify-content-center text-center row User_Login_Footer">
-
-                <a class="User_forgot_Passwoord" data-bs-toggle="modal" data-bs-target="#forgot_password" data-bs-dismiss="modal">Forgot Password ?</a>
+                <a class="User_forgot_Passwoord" data-bs-toggle="modal" data-bs-target="#forgot_password" data-bs-dismiss="modal"  >Forgot Password ?</a>
+                @*<a class="User_forgot_Passwoord"   data-url='@Url.Action("ForgotPassword","Account")'>Forgot Password ?</a>*@
 
                 <p>Don't have an account? <span> <a class="User_Create_Account" asp-action="User_Register" asp-controller="Account">Create an account</a></span></p>
 

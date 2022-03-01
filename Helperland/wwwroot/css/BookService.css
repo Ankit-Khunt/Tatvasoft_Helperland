@@ -1,9 +1,12 @@
-﻿* {
+﻿@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap');
+
+* {
     margin: 0;
     padding: 0;
 }
 
 body {
+    font-family: 'Roboto', sans-serif;
 }
 
 a {
@@ -28,7 +31,11 @@ a {
     margin-top: 12px;
     border-color: #CCCCCC;
 }
-
+.MainDivOfServiceReq{
+    min-height:400px;
+    padding-left:30px;
+    padding-right:30px;
+}
 /*---Prograss bar-----*/
 .progressbar {
     display: flex;
@@ -136,38 +143,16 @@ a {
     width: 100px !important;
 }
 
-input[type="date"] {
-    position: relative;
-    padding-right: 0px;
-    padding-left: 35px !important;
-    height: 38px;
+.serviceDateDiv{
+    position:relative;
+
 }
-
-    input[type="date"]::-webkit-calendar-picker-indicator {
-        /* color: transparent;
-    background: none;
-    
-    top: 15px;
-    left: 6px; */
-        color: transparent;
-        background-image: url("/images/icon-calendar-blue.png");
-        display: block;
-        font-family: 'FontAwesome';
-        content: '';
-        /* This is the calendar icon in FontAwesome */
-        width: 20px;
-        height: 20px;
-        position: absolute;
-        top: 6px;
-        left: 0px !important;
-        z-index: 1;
-        margin-left: 10px !important;
-        padding-left: 0px !important;
-        color: #999;
-    }
-
+.calander-icon{
+    position:absolute;
+    top:8px;
+    left:5px;
+}
 /*---extra icons */
-
 .hidden-extra-icon {
     display: none;
 }
@@ -305,13 +290,13 @@ input[type="date"] {
 .rotate-down {
     transform: rotatez(90deg);
     transition: .3s;
-    ;
+    
 }
 
 .rotate-up {
     transform: rotatez(0deg);
     transition: .3s;
-    ;
+    
 }
 
 
@@ -325,7 +310,9 @@ input[type="date"] {
             width: 150px;
             justify-content: baseline;
             align-items: center;
-            border-color: antiquewhite;
+            height:38px !important;
+            position:relative;
+            padding-left:30px;  
         }
 }
 /*--for form error*/
@@ -339,10 +326,13 @@ input[type="date"] {
 
 
 /*---Address css ---*/
+.addressAlert{
+    display:none ;
+}
 .AddressBox {
     border: 1px solid gray;
     max-width: 800px;
-    display:none;
+    display: none;
 }
 
 .checkboxAddress {
@@ -451,3 +441,191 @@ input[type='radio'] {
         border-color: #1D7A8C;
     }
 
+/* -----Payment css------- */
+.promocodeH5 {
+    color: #646464;
+    padding-bottom: 0px;
+    margin-bottom: 5px;
+}
+
+.promoCodeDiv {
+    min-width: 300px;
+}
+
+.promoBtn {
+    width: 100px;
+    height: 40px;
+    border: 1px solid #1D7A8C;
+    border-radius: 50px;
+    background-color: white;
+    color: #1D7A8C;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 4px;
+}
+
+.hr {
+    opacity: .1;
+}
+/* ----------payment------------ */
+.payment-input-group {
+    margin: 30px 0px 60px 0px;
+    -webkit-box-shadow: 0 0 1px 1px #1d798c2d;
+    -moz-box-shadow: 0 0 1px 1px #1d798c2d;
+    box-shadow: 0 0 1px 1px #1d798c2d;
+    max-width: 800px;
+}
+
+.card-comun {
+    border: none;
+}
+
+.payment-input-group input:focus {
+    outline: none;
+    border-color: none;
+    box-shadow: none;
+}
+
+.card-number {
+    max-width: 500px;
+}
+
+.card-expiry {
+    max-width: 100px;
+}
+
+.card-cvv {
+    max-width: 100px;
+}
+
+.card-icon {
+    width: 30px;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+}
+
+.card-input {
+    position: relative;
+    max-width: 200px !important;
+    /* text-align:center; */
+}
+
+    .card-input::placeholder {
+        padding-left: 10px !important;
+    }
+
+.icon-relative {
+    position: relative;
+}
+
+    .icon-relative .icon-card {
+        position: absolute;
+        bottom: 12px;
+        top: 4px;
+        left: 5px;
+        font-size: 20px;
+        color: #555555;
+    }
+
+.payment-chechbox-div {
+    display: flex;
+    max-width: 800px;
+    font-size: 14px;
+    margin-top: 50px;
+}
+
+.payment-checkbox {
+    margin-right: 20px;
+    width: 20px;
+    height: 20px;
+}
+
+.complete-booking-btn {
+    width: 200px;
+    height: 46px;
+    margin-top:10px;
+    background-color: #1D7A8C;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    padding-top: 5.5px;
+    float: right;
+}
+
+.payment-link-checkbox-span {
+    color: #1D7A8C;
+}
+
+
+/*-------------modal Alert-------------*/
+.success-icon {
+    font-size: 80px;
+    position: relative;
+    padding-top: 30px;
+    justify-content: center;
+    display: flex;
+    height: 100px;
+}
+
+.serviceModalDivContent {
+
+}
+
+.alertServiceModelMessage {
+    text-align:center;
+    font-size: 28px;
+    color: #4F4F4F;
+    width:400px;
+}
+
+.serviceAlertBtn {
+    width: 100px;
+    height: 50px;
+    border: none;
+    background-color: #1D7A8C;
+    border-radius: 50px;
+    color: white;
+}
+
+.serviceReqAlertIdSpan {
+    font-size: 18px;
+    color: #4F4F4F;
+}
+
+.modal-header {
+    border-bottom: none !important;
+}
+
+
+/*--------------responcive------------------*/
+
+@media only screen and (max-width:900px){
+    .payment-main{
+        display:none;
+    }
+
+   
+}
+
+@media only screen and (max-width:600px){
+    .service-text {
+        display: none;
+    }
+    .setup-service{
+        
+    }
+
+    .service-text-active {
+        display: none;
+    }
+
+    .progressbar{
+        margin-left:60px;
+    }
+}

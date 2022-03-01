@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Helperland.CustomeHandler;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Helperland
 {
@@ -31,24 +32,25 @@ namespace Helperland
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAuthentication("CookieAuthentication").AddCookie("CookieAuthentication", config =>
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(x =>
             {
-                config.Cookie.Name = "UserLoginCookie";
-                config.LoginPath = "/Home/AccesManager";
-                config.AccessDeniedPath = "/Home/About";    
-            });
+                //x.Cookie.Name = "UserLoginCookie",
+                x.LoginPath = "/Home/AccesManager";
+                x.AccessDeniedPath = "/Home/About";
+            //x.AccessDeniedPath = "/Home/About"  
+            }) ;
 
 
-            services.AddAuthorization(config =>
-            {
-                config.AddPolicy("UserPolicy", policyBuilder =>
-                 {
-                     policyBuilder.UseRequireCustomeClaim(ClaimTypes.Email);
-                     policyBuilder.UseRequireCustomeClaim(ClaimTypes.DateOfBirth);
-                 });
-            });
-            services.AddScoped<IAuthorizationHandler, PolicyAuthorizationHandler>();
-            services.AddScoped<IAuthorizationHandler, RolesAuthorizationHandler>();
+            //services.AddAuthorization(config =>
+            //{
+            //    config.AddPolicy("UserPolicy", policyBuilder =>
+            //     {
+            //         policyBuilder.UseRequireCustomeClaim(ClaimTypes.Email);
+            //         policyBuilder.UseRequireCustomeClaim(ClaimTypes.DateOfBirth);
+            //     });
+            //});
+            //services.AddScoped<IAuthorizationHandler, PolicyAuthorizationHandler>();
+            //services.AddScoped<IAuthorizationHandler, RolesAuthorizationHandler>();
             services.AddControllersWithViews();
 
             services.AddSession(options =>

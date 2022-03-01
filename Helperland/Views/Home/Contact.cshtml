@@ -1,7 +1,10 @@
-﻿@model Helperland.ViewModels.Contact_Us_ViewModel
-
+﻿
+@model Helperland.ViewModels.Contact_Us_ViewModel
+@{
+     ViewData["Title"] = "Contact Us";
+}
 @section Link{
-    <link rel="stylesheet" href="~/css/Contact.css" />
+    <link rel="stylesheet" href="~/css/Contact.css" asp-append-version="true"/>
 }
 
 <main>
@@ -48,34 +51,46 @@
 
 
     </section>
+    
+   
     <section class="get-in-touch">
         <h2 class="get-in-touch-header text-center">Get in touch with us</h2>
-
+        <div id="ContactAlert" class="row">
+        <div class="col-4">
+              @Html.Raw(ViewBag.Alert)
+        </div>
+        
+         </div>
+       
 
         <div class="contactUsForm container">
 
 
             <form enctype="multipart/form-data" asp-contoller="Home" asp-action="Contact" method="post">
-                <div class="row align-items-center justify-content-center ">
+                <div class="row  ">
                     <div class="form-item col-12 col-sm-6">
                         <input type="text" class="form-control" asp-for="FirstName" 
                                placeholder="First Name" />
+                               <span asp-validation-for="FirstName" class="text-danger"></span>
                     </div>
                     <div class="form-item col-12 col-sm-6">
                         <input type="text" class="form-control" asp-for="LastName"
                                placeholder="Last Name" />
+                                <span asp-validation-for="LastName" class="text-danger"></span>
                     </div>
                     <div class="form-item col-12 col-sm-6">
                         <div class="input-group mx-0 row">
-                            <input type="text" class="input-group-text col-2 px-0" id="countryCode"
+                            <input disabled type="text" class="input-group-text col-2 px-0" id="countryCode"
                                    placeholder="+49" />
                             <input asp-for="PhoneNumber" class="form-control col-10" placeholder="Mobile Number"
                                    aria-label="Mobile Number" aria-describedby="basic-addon1" />
+                                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="form-item col-12 col-sm-6">
                         <input  class="form-control" asp-for="Email"
                                placeholder="Email Address" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
                     <div class="form-item col-12">
                         <select class="form-select" asp-for="Subject" aria-label="Subect">
@@ -84,11 +99,27 @@
                             <option value="2">Two</option>
                             <option value="3">Three</option>
                         </select>
+                         <span asp-validation-for="Subject" class="text-danger"></span>
                     </div>
                     <div class="form-item col-12">
                         <textarea  class="form-control" asp-for="Message" cols="30" rows="10"
                                   placeholder="Message"></textarea>
+                                   <span asp-validation-for="Message" class="text-danger"></span>
                     </div>
+                    <div class="row">
+                     <div class="col-sm-12 mb-3">
+                    <div class="form-group">
+                        <label class="control-label mb-3" for="fileUpload">
+                            Attach the File
+                        </label>
+
+                        <input id="fileUpload"  asp-for="File"  hidden />
+                        <label for="fileUpload" id="forFileUpload">Upload</label>
+                        <span id="file-chosen"></span>
+                        @Html.ValidationMessageFor(model => model.File, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                 </div>
                     <button class="submit rounded-pill border-0 outline-0">Submit</button>
                 </div>
             </form>

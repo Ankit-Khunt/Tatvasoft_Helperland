@@ -123,7 +123,7 @@ header .white-logo-transparent-background {
     height: 46px;
     padding-left: 16px;
     /* border-width: 1px; */
-    color: #C8C8C8;
+    /*color: #C8C8C8;*/
 }
 
 .form-checkbox-1, .form-checkbox-2 {
@@ -257,7 +257,7 @@ header .white-logo-transparent-background {
 }
 
 #email {
-    background-color: #F4F5F8;
+   /* background-color: #F4F5F8;*/
 }
 
 .newsletterForm button {
@@ -368,4 +368,48 @@ header .white-logo-transparent-background {
     .left-img, .right-img {
         display: none !important;
     }
+}
+
+
+dropdown-menu {
+    min-width: 0px !important;
+    width: 120px;
+    align-self: center !important;
+}
+
+
+#dropdownMenuButton1 {
+    display: inline-flex;
+    align-items: center;
+    background: transparent;
+    border: 0px;
+    padding: 0px;
+    height: 16px;
+    width: 44px;
+}
+
+.dropdown-item {
+    padding: 4px !important;
+    color: black !important;
+}
+
+#dropdownMenuButton1 #flagImage {
+    margin-right: 5px;
+}
+
+#dropdownMenuButton1 #ddIcon {
+    height: 4px;
+    width: 8px;
+}
+
+.btn-group {
+    display: block !important;
+    margin-left: 10px !important;
+    text-align: center !important;
+}
+
+.dropdown-menu {
+    margin-top: 45px !important;
+    position: absolute;
+    right: 0 !important;
 }

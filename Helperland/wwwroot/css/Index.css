@@ -6,6 +6,7 @@ a {
     text-decoration: none;
 }
 
+
 .banner {
     background-image: url(../images/group-35.jpg);
 }
@@ -20,6 +21,78 @@ nav a {
     font-weight: normal;
     font-style: normal;
     color: #f1f1f1 !important;
+  
+}
+.navbar {
+    background: transparent;
+    position:relative;
+    
+}
+.nav-item{
+    margin-left:20px;
+}
+#bookServiceId:hover {
+    color: #1D7A8C !important;
+    background-color: white !important;
+}
+
+.nav-link:hover {
+    color: #1D7A8C !important;
+    background-color: white !important;
+}
+.CollapsClick {
+}
+.header-dropdown-div {
+    width: 200px;
+    top: 120px;
+    right: 30px;
+    position: absolute;
+    display: none;
+}
+.header-drop-hr {
+   
+   margin:0px;
+  
+}
+.header-man-welcome{
+    font-size:14px;
+}
+.display-block {
+    display: block;
+}
+.triangle-up {
+    right: 10px;
+    position:absolute;
+    top:-10px;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid white;
+}
+.header-dropdown-1 {
+    margin: 0px;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    color: #4F4F4F;
+}
+.header-dropdown-2 {
+    margin: 0px;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+   
+    color: #4F4F4F;
+}
+.header-dropdown-2 li{
+padding-top:10px;
+}
+.header-dropdown-1,.header-dropdown-2 li {
+    list-style: none;
+    cursor:pointer;
 }
 
 .white-logo-transparent-background {

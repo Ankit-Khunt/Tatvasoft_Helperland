@@ -2,8 +2,11 @@
 
 @{
     Layout = null;
-}
+    
+     ViewData["Title"] = "Register ServiceProvider";
 
+}
+<html>
 <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -35,7 +38,7 @@
                                     <a class="nav-link border border-1 rounded-pill ms-1 me-1 bl" href="#" id="book">Book a cleaner</a>
                                 </li>
                                 <li class="nav-item text-center mb-1 ms-1">
-                                    <a class="nav-link" asp-action="price" asp-controller="home">Prices</a>
+                                    <a class="nav-link " asp-action="price" asp-controller="home">Prices</a>
                                 </li>
                                 <li class="nav-item text-center mb-1 ms-1">
                                     <a class="nav-link" href="#">Our Guarantee</a>
@@ -47,12 +50,12 @@
                                     <a class="nav-link" asp-action="contact" asp-controller="home">Contact Us</a>
                                 </li>
                                 <li class="nav-item text-center mb-1 ms-1">
-                                    <a class="nav-link border border-1 rounded-pill ms-1 me-1 bl" href="#" id="lgn">Login</a>
+                                    <a class="nav-link border border-1 rounded-pill ms-1 me-1 bl" asp-action="accesManager" asp-controller="home"  id="lgn">Login</a>
                                 </li>
                                 <li class="nav-item text-center mb-1 ms-1">
                                     <a class="nav-link border border-1 rounded-pill ms-1 me-1 bl" asp-action="service-provider" asp-controller="home" id="b-helper">Become a Helper</a>
                                 </li>
-                                <li class="nav-item text-center">
+                                @*<li class="nav-item text-center">
                                     <div class="nav-link ">
                                         <select id="dropdown">
                                             <option value="India"></option>
@@ -60,7 +63,37 @@
                                             <option value="US"></option>
                                         </select>
                                     </div>
-                                </li>
+                                </li>*@
+                                 <li class="btn-group dropstart ms-1 mt-3">
+                                <button class="btn btn-secondary data-toggle"
+                                        type="button"
+                                        id="dropdownMenuButton1"
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+                                    <img id="flagImage"
+                                         src="~/images/india.svg"
+                                         alt="" />
+                                    <img id="ddIcon"
+                                         src="~/images/forma-1.png"
+                                         style="transform:rotate(180deg)!important;"
+                                         alt="" />
+                                </button>
+                                <ul class="dropdown-menu mt-5"
+                                    aria-labelledby="dropdownMenuButton1">
+                                    <li>
+                                        <a class="dropdown-item">
+                                            <img src="~/images/india.svg" alt="" />
+                                            India
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#">
+                                            <img src="~/images/australia.svg" alt="" />
+                                            Australia
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
                             </ul>
                         </div>
                     </div>
@@ -68,10 +101,16 @@
             </header>
 
             <div class=" register-now container">
+                
+                    
                 <form asp-action="Register_ServiceProvider" asp-controller="ServiceProvider" method="post">
                     <div class=" row justify-content-center  ">
 
                         <h1 class="form-header text-center">Register Now!</h1>
+                        <div class="m-1">
+                             @Html.Raw(ViewBag.Alert)
+                        </div>
+                       
                         <div class="form-content">
                             <input type="text" placeholder="First name" asp-for="FirstName" class="form-item col-12">
                             <span asp-validation-for="FirstName" class="text-danger"></span>
@@ -82,8 +121,8 @@
                             <span asp-validation-for="Email" class="text-danger"></span>
                             @Html.ValidationMessage("EmailExists", new { @class = "text-danger" })
                             <div class="col-12 form-mobile">
-                                <div class=" mx-0 row">
-                                    <input type="text" class="form-group1 col-2 " id="countryCode"
+                                <div class="mx-0  row">
+                                    <input disabled type="text" class="form-group1 col-2 " id="countryCode"
                                            placeholder="+49" />
                                     <input type="text" class="form-group2 col-10" placeholder="Mobile Number"
                                            aria-label="Mobile Number" aria-describedby="basic-addon1" asp-for="Mobile" />
@@ -133,11 +172,7 @@
 
         </div>
 
-        @if (!string.IsNullOrEmpty(ViewBag.Message))
-        {
-            
-            <h1>@ViewBag.Message</h1>
-        }
+       
 
 
 
@@ -352,28 +387,11 @@
 
 <!-- <script src="assets/js/Service-Provider.js"></script> -->
 
-<script>
-    $(window).scroll(function () {
-        var sticky = $("#header"),
-            scroll = $(window).scrollTop();
 
-        if (scroll > 64) {
-            sticky.addClass("fixed");
-            $(".navbar-brand img").height(54).width(73);
-            $(".navbar").css("background", "rgba(82, 82, 82, 0.8)");
-
-            ;
-        }
-        else {
-            sticky.removeClass("fixed");
-            $(".navbar-brand img").height(102).width(138);
-            $(".navbar").css("background", "transparent");
-            $(".bl").css("background", "transparent");
-        }
-    });
-</script>
 
 <script src="~/lib/jquery/jquery.js"></script>
 <script src="~/lib/jquery/jquery.validate.js"></script>
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+<script src="~/js/Service_Provider.js" asp-append-version="true"></script>
+
 </html>
