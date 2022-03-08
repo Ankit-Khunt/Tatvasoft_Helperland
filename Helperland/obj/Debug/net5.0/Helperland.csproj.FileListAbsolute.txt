@@ -449,3 +449,15 @@ D:\New version Heplerland\Helperland\obj\Debug\net5.0\Razor\Views\CustomerServic
 D:\New version Heplerland\Helperland\obj\Debug\net5.0\Razor\Views\PartialView\Home\ForgotPasswordPartialView.cshtml.g.cs
 D:\New version Heplerland\Helperland\obj\Debug\net5.0\Razor\Views\Account\ResetPassword.cshtml.g.cs
 D:\New version Heplerland\Helperland\obj\Debug\net5.0\Razor\Views\Account\ForgotPassword.cshtml.g.cs
+D:\New version Heplerland\Helperland\obj\Debug\net5.0\Razor\Views\CustomerService\ServiceDetailPartialView.cshtml.g.cs
+D:\New version Heplerland\Helperland\obj\Debug\net5.0\Razor\Views\CustomerService\RescheduleService.cshtml.g.cs
+D:\New version Heplerland\Helperland\obj\Debug\net5.0\Razor\Views\CustomerService\CancelServiceRequest.cshtml.g.cs
+D:\New version Heplerland\Helperland\obj\Debug\net5.0\Razor\Views\CustomerService\VerticalBar.cshtml.g.cs
+D:\New version Heplerland\Helperland\obj\Debug\net5.0\Razor\Views\CustomerService\ServiceHistory.cshtml.g.cs
+D:\New version Heplerland\Helperland\obj\Debug\net5.0\Razor\Views\CustomerService\MyAccount.cshtml.g.cs
+D:\New version Heplerland\Helperland\obj\Debug\net5.0\Razor\Views\CustomerService\MyDetails.cshtml.g.cs
+D:\New version Heplerland\Helperland\obj\Debug\net5.0\Razor\Views\CustomerService\MyAddresses.cshtml.g.cs
+D:\New version Heplerland\Helperland\obj\Debug\net5.0\Razor\Views\CustomerService\DeleteAddress.cshtml.g.cs
+D:\New version Heplerland\Helperland\obj\Debug\net5.0\Razor\Views\CustomerService\EditAddress.cshtml.g.cs
+D:\New version Heplerland\Helperland\obj\Debug\net5.0\Razor\Views\CustomerService\ChangePassword.cshtml.g.cs
+D:\New version Heplerland\Helperland\obj\Debug\net5.0\Razor\Views\CustomerService\EditRating.cshtml.g.cs

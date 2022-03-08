@@ -1,6 +1,4 @@
-﻿///*const { error } = require("jquery");
-
-var totalServiceTime = 3;
+﻿var totalServiceTime = 3;
 var totalPayment = 0;
 var effectivePrice = 0;
 var onetimeAddress = 0;
@@ -11,11 +9,15 @@ var serviceDiscount = 20;
 var extraHoure = 0;
 var selectedDate;
 var DateTime;
+var CleaningTime;
+var FinalDateAndTime;
+
 
 
 $(document).ready(function () {
 
-
+    CleaningTime = $("#cleaningTimeOption1").text();
+    
     
     $("#noBad").click(function () {
         var conceptName = $('#noBad').find(":selected").text();
@@ -44,8 +46,8 @@ $(document).ready(function () {
 
     });
     $("#cleanigTime").click(function () {
-        var conceptName = $(this).find(":selected").text();
-        $("#cleanigSpan").html(conceptName);
+         CleaningTime = $(this).find(":selected").text();
+        $("#cleanigSpan").html(CleaningTime);
     });
     $(function () {
 
@@ -59,10 +61,21 @@ $(document).ready(function () {
             showMonthAfterYear: false,
             yearRange: "2015:2025",
             dayNamesMin: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-            dateFormat: "yy-mm-dd",
+            dateFormat: "dd-mm-yy",
 
             onSelect: function (date) {
                 selectedDate = $(this).val(),
+                //var d = new Date(); // for now
+                //var h = d.getHours();
+                //h = (h < 10) ? ("0" + h) : h;
+
+                //var m = d.getMinutes();
+                //m = (m < 10) ? ("0" + m) : m;
+
+                //var s = d.getSeconds();
+                //s = (s < 10) ? ("0" + s) : s;
+
+                //datetext = datetext + " " + h + ":" + m + ":" + s;
                     $("#dateOfService").html(selectedDate);
 
 
@@ -648,11 +661,13 @@ function sendPaymentDetail() {
 
 function ServiceRequestSuccessful() {
     var checked;
+    FinalDateAndTime = selectedDate + " " + CleaningTime;
     if ($("#hasPatID").is(":checked")) {
         checked = true;
     }
     
     var data = {
+        
         ServiceHourlyRate:serviceHourlyRate,    
         ServiceHours:totalServiceTime,
         ExtraHours:extraHoure,
@@ -661,7 +676,7 @@ function ServiceRequestSuccessful() {
         TotalCost:effectivePrice,
         Comments:$("#commentsID").val(),
         HasPets: checked,
-        ServiceStartDate: selectedDate
+        ServiceStartDate: FinalDateAndTime
         
     }
     console.log(data);

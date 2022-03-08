@@ -1,0 +1,130 @@
+﻿@model IEnumerable<Helperland.Models.Rating>
+
+<div class="modal-dialog modal-dialog-centered rating-dialog">
+     @foreach(var data in Model){
+      <div class="modal-content">
+        <div class="modal-header">
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+            <div class="d-flex align-items-center">
+                <img id="modalPeofileImage" src="@data.RatingToNavigation.UserProfilePicture" alt=""/>              
+                <div class="ms-2 d-flex flex-column users-rating">             
+                   <span id="modal-sp-name">@data.RatingToNavigation.FirstName @data.RatingToNavigation.LastName</span>           
+                   <div class="d-flex flex-wrap align-items-center">
+                       <div class="rateit-average">
+                            @{
+                         int count = 1;
+                            for(int i = 1; i < 6; i++)
+                            {
+                      
+                        
+                                if(i <= @data.OnTimeArrival)
+                                {
+                                        <img src="~/images/star-filled.png" class="star-filled me-1">
+                                }
+                                else
+                                {
+                                        <img src="~/images/star-unfilled.png" class="star-unfilled me-1">
+                                }
+                        
+                    
+                            }    
+                    
+                        }
+                       </div>
+                       <span id="average-rating-text">@data.Ratings</span>
+                   </div>          
+                </div>
+            </div>
+
+            <h6 class="mt-2 ">Rate your service provider</h6>
+
+             <div class="d-flex justify-content-center my-2">
+                <hr class="divider-line" />
+             </div>
+
+            <div class="d-flex mb-3">
+                <span class="me-3">On time arrival</span>
+                @{
+                    
+                     
+                    for(int i = 1; i < 6; i++)
+                    {
+                      
+                        
+                        if(i <= @data.OnTimeArrival)
+                        {
+                                <img  src="~/images/star-filled.png" class="star-filled  me-1 rateStar starOnTime starOnTime-@i " onclick="rateclick('star-@i','starOnTime');" onmouseover="RateitJs('.starOnTime','@i')">
+                        }
+                        else
+                        {
+                                <img  src="~/images/star-unfilled.png" class="star-unfilled me-1 rateStar starOnTime starOnTime-@i" onclick="rateclick('star-@i','starOnTime');" onmouseover="RateitJs('.starOnTime','@i')">
+                        }
+                        
+                    
+                    }    
+                    
+                }
+                <div class="ms-2 rateit-ontime"></div>
+
+            </div>
+            <div class="d-flex mb-3">
+                <span>Friendly</span>
+                @{
+                     
+                    for(int i = 1; i < 6; i++)
+                    {
+                      
+                        
+                        if(i <= @data.OnTimeArrival)
+                        {
+                                <img  src="~/images/star-filled.png" class="star-filled  me-1 rateStar starFriend starFriend-@i " onclick="rateclick('star-@i','starFriend');" onmouseover="RateitJs('.starFriend','@i')">
+                        }
+                        else
+                        {
+                                <img  src="~/images/star-unfilled.png" class="star-unfilled me-1 rateStar starFriend starFriend-@i" onclick="rateclick('star-@i','starFriend');" onmouseover="RateitJs('.starFriend','@i')">
+                        }
+                        
+                    
+                    }    
+                    
+                }
+                <div class="ms-2 rateit-friendly"></div>
+
+            </div>
+            <div class="d-flex mb-3">
+                <span>Quality of service</span>
+                @{
+                     
+                    for(int i = 1; i < 6; i++)
+                    {
+                      
+                        
+                        if(i <= @data.OnTimeArrival)
+                        {
+                                <img  src="~/images/star-filled.png" class="star-filled  me-1 rateStar starService starService-@i " onclick="rateclick('star-@i','starService');" onmouseover="RateitJs('.starService','@i')">
+                        }
+                        else
+                        {
+                                <img  src="~/images/star-unfilled.png" class="star-unfilled me-1 rateStar starService starService-@i" onclick="rateclick('star-@i','starService');" onmouseover="RateitJs('.starService','@i')">
+                        }
+                        
+                    
+                    }    
+                    
+                }
+                <div class="ms-2 rateit-quality"></div>
+            </div>
+            <label class="mb-1">Feedback on service provider</label>
+            <textarea rowspan="2" class="mb-3" id="feedback"></textarea><br />
+            <button id="ratingSubmit" >Submit</button>
+        </div>
+      </div>
+      }
+    </div>  

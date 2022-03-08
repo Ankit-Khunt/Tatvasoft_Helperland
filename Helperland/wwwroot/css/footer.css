@@ -307,25 +307,24 @@ header {
         .verticalNavItems .verticalNavItem.active {
             background: #146371;
         }
-
+.active {
+    background: #146371;
+}
 .serviceHistoryTableContainer {
     flex: 1;
     min-width: 0;
 }
 
+.vertical-a-color{
+    color:white;
+}
 
-
-
-
-
-
-
+.vertical-a-color:hover{
+    color:white !important;
+}
 /* ----------hamburger------------- */
-
 @media screen and (max-width: 768px) {
-
-    .rate:hover::after,
-    .cancel:hover::after {
+    .rate:hover::after, .cancel:hover::after {
         border-left: 6px solid transparent;
     }
 

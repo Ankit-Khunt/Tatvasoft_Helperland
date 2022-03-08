@@ -215,7 +215,7 @@ namespace Helperland.Controllers
                 serviceRequest.UserId = userId;
                 serviceRequest.CreatedDate = DateTime.Now;
                 serviceRequest.Discount = model.Discount;
-               
+                serviceRequest.Status = ValuesData.SERVICE_PENDING;
                 serviceRequest.ExtraHours = model.ExtraHours;
                 serviceRequest.HasPets = model.HasPets;
                 serviceRequest.PaymentDone = paymetDone;

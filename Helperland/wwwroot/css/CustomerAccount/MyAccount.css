@@ -1,0 +1,169 @@
+﻿.progressbar {
+    display: flex;
+}
+
+.setup-service {
+    width: 300px;
+    background: white;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    text-align: center;
+    height: 67px;
+    border-bottom: 2px solid grey;
+}
+
+.active-tab {
+    border-bottom: 3px solid #1D7A8C;
+}
+
+.active-content {
+    display: block !important;
+}
+
+.content {
+    display: none;
+}
+
+.service-text-active {
+    color: #1D7A8C !important;
+}
+
+.all-service-hidden {
+    position: relative;
+}
+
+.setup-service-body {
+    position: absolute;
+}
+
+.Your-detail {
+    padding-top: 10px !important;
+}
+
+.service-text {
+    color: #646464;
+    font-size: 18px;
+}
+
+.service-text-active {
+    color: white;
+    font-size: 18px;
+}
+
+.white-img-display {
+    display: none;
+}
+
+.border-stright {
+    border-right: 1px solid gray;
+    padding-left: 20px;
+    height: 67px;
+}
+
+#myDetailsForm .form-label,
+#changePasswordForm .form-label {
+    color: #4f4f4f;
+    font-weight: 700;
+    margin-bottom: 0px;
+}
+
+#myDetailsForm input[type="submit"],
+#changePasswordForm input[type="submit"],
+#editAddressForm input[type="submit"],
+#newAddressBtn {
+    text-align: center;
+    background-color: #1d7a8c;
+    color: white;
+    border-radius: 20px;
+    font-size: 16px;
+    font-weight: 700;
+    border: 0px;
+}
+
+    #myDetailsForm input[type="submit"]:hover,
+    #changePasswordForm input[type="submit"]:hover,
+    #editAddressForm input[type="submit"]:hover,
+    #newAddressBtn {
+        background-color: #1d7a8c;
+        border: 0px;
+    }
+
+table {
+    border: 1px solid #e1e1e1 !important;
+    border-bottom: 0px !important;
+}
+
+thead {
+    background-color: #f9f9f9;
+}
+
+    thead tr th {
+        font-weight: 700;
+        font-size: 16px;
+        color: #646464;
+        border-bottom: 1px solid #e1e1e1 !important;
+    }
+
+td {
+    vertical-align: middle;
+    font-weight: 400;
+    font-size: 16px;
+    color: #646464;
+    border-bottom: 1px solid #e1e1e1 !important;
+    padding: 15px 17px !important;
+}
+
+    td a:hover {
+        cursor: pointer;
+    }
+
+#customerModal {
+    width: auto;
+    height: auto;
+    position: fixed;
+    left: 50%;
+    top: 60%;
+    transform: translate(-50%, -50%);
+}
+
+.modal-dialog {
+    background-color: white;
+}
+
+.modal-header {
+    background-color: white;
+    border: 0px;
+    padding-top: 5px;
+    padding-bottom: 0px;
+}
+
+.modal-title {
+    font-weight: 700;
+    color: #4c4c4c;
+}
+
+#BirthDay,
+#BirthMonth,
+#BirthYear {
+    padding: 6px;
+    padding-right: 30px;
+}
+
+.col-auto {
+    padding: 0px 10px;
+}
+
+.edit-address-dialog {
+    width: 400px;
+}
+
+#editAddressForm label {
+    margin: 0px;
+    font-weight: 500;
+    color: #4f4f4f;
+}
+
+#editAddressForm input[type="submit"] {
+    width: 100%;
+}

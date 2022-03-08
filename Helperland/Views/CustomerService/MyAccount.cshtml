@@ -1,0 +1,84 @@
+﻿
+
+@{
+    ViewData["Title"] = "MyAccount";
+}
+
+@section Link{
+    <link rel="stylesheet" href="~/css/CustomerAccount/MyAccount.css"  asp-append-version="true"/>
+     <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+}
+<main>
+
+    <div class="modal fade" tab-index="-1" id="customerModal" role=" dialog"></div> 
+     
+     <div class="serviceUserHeader container-fluid justify-align-center d-flex justify-content-center">
+              <h1 class=" Welcome-user d-flex align-items-center justify-content-center flex-wrap text-break ">Welcome,
+            <span class="headerUserName">@User.Identity.Name</span> </h1>
+     </div>   
+       
+     
+        <div class=" container-fluid d-felx justify-content-center mt-4">
+          
+              <div class="" style="float:left">
+                  <partial name="VerticalBar.cshtml" />
+              </div>
+            
+               <div style="height:1000px">
+                   <div class="progressbar" >
+                              <div class="setup-service active-tab  ps-4 " id="MyDetailTab"
+                                onclick='MyAccountPrograssbar("#MyDetailTab","#myDatailTextId")'>
+    
+                                <span class="service-text-active" id="myDatailTextId">My Detail</span>
+    
+                              </div>
+                              <div class="setup-service tab  ps-4 " id="myAddressTab"
+                                onclick="MyAccountPrograssbar('#myAddressTab','#myAddressTextId')">
+    
+                                <span class="service-text" id="myAddressTextId">My Address</span>
+    
+                              </div>
+                              <div class="setup-service tab  ps-4 " id="changePpassTab"
+                                onclick="MyAccountPrograssbar('#changePpassTab','#changePassTextId');">
+    
+                                <span class="service-text" id="changePassTextId">Change Password</span>
+    
+                              </div>
+
+                             
+    
+                            </div>
+                            <div class="d-flex">
+                                <div id="myDetailContent" class="active-content content" style="width:100%">
+                              <partial name="MyDetails.cshtml" />
+                            </div>
+                            <div id="myAddressContent" class="content" style="width:100%">
+                                
+                            </div>
+                            <div id="changePassContent" class="content" style="width:100%">
+                              <partial name="ChangePassword.cshtml" />
+                            </div>
+                            </div>
+                             
+               </div>
+                    
+                      
+               
+           </div>
+            
+           
+              
+            
+     
+
+       
+            
+
+       
+</main>
+
+
+@section script{
+   
+<script src="~/js/CustomerAccount/MyAccount.js" asp-append-version="true"></script>
+}

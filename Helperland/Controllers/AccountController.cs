@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace Helperland.Controllers
 {
@@ -107,7 +108,7 @@ namespace Helperland.Controllers
                 var userClaims = new List<Claim>()
                 {
 
-                    new Claim("UserName", user.FirstName),
+                    new Claim("userId",  user.UserId.ToString()),
                     new Claim(ClaimTypes.Name, user.LastName),
                     new Claim(ClaimTypes.Email, user.Email),
                     new Claim(ClaimTypes.DateOfBirth, user.Password),
@@ -116,7 +117,7 @@ namespace Helperland.Controllers
 
                 //var userIdentity = new ClaimsIdentity(userClaims, "User Identity");
                 var userIdentity = new ClaimsIdentity(userClaims, CookieAuthenticationDefaults.AuthenticationScheme);
-
+                HttpContext.Session.SetString("CurrentUser", JsonConvert.SerializeObject(user));
                 var userPrincipal = new ClaimsPrincipal( userIdentity );
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, userPrincipal, new AuthenticationProperties()
                  {
@@ -127,7 +128,7 @@ namespace Helperland.Controllers
                 HttpContext.Session.SetString("User_Name", user.FirstName+" "+user.LastName);
                 if (model.ReturnUrl == null)
                 {
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("CustomerDashboard","CustomerService");
                 }
                 else
                 {

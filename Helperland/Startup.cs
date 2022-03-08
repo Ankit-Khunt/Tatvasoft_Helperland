@@ -26,7 +26,7 @@ namespace Helperland
         {
             _config = config;
         }
-
+        
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -51,8 +51,8 @@ namespace Helperland
             //});
             //services.AddScoped<IAuthorizationHandler, PolicyAuthorizationHandler>();
             //services.AddScoped<IAuthorizationHandler, RolesAuthorizationHandler>();
-            services.AddControllersWithViews();
-
+            services.AddControllersWithViews() ;
+            
             services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(20); // set the session expired time.
@@ -63,8 +63,9 @@ namespace Helperland
 
             services.AddDbContext<HelperlandContext>(options => options.UseSqlServer(_config.GetConnectionString("ConnectionString")));
 
-           // services.AddScoped<IHelperlandHomeRepository, SQLIHelperlandHomeRepository>();  //sql server integration
-
+            // services.AddScoped<IHelperlandHomeRepository, SQLIHelperlandHomeRepository>();  //sql server integration
+            //services.AddHttpContextAccessor();
+            //services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddDistributedMemoryCache();
             services.AddSession();
@@ -86,7 +87,7 @@ namespace Helperland
             app.UseAuthentication();
             app.UseRouting();
             app.UseAuthorization();
-
+            //app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSession();
 

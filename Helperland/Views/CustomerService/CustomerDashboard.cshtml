@@ -1,23 +1,29 @@
-﻿@{
+﻿@using Helperland.ViewModels;
+@model IEnumerable<CustomeDashbordViewModel>
+@{
     ViewData["Title"] = "CustomerService";
+  
 }
 @section Link{
     <link rel="stylesheet" href="~/css/CustomerDashboard.css" asp-append-version="true"/>
     <link rel="stylesheet" href="~/fontawesome-free-6.0.0-web/css/all.css"  asp-append-version="true"/>
      <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css" />
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.3/r-2.2.9/rg-1.1.4/datatables.min.css" />
+     <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
 }
 
 <main>
+
+    <div class="modal fade" tab-index="-1" id="customerModal" role=" dialog"></div> 
      
      <div class="serviceUserHeader container-fluid justify-align-center d-flex justify-content-center">
               <h1 class=" Welcome-user d-flex align-items-center justify-content-center flex-wrap text-break ">Welcome,
-            <span class="headerUserName">Sandip!</span> </h1>
+            <span class="headerUserName">@Html.Raw(ViewBag.UserName)</span> </h1>
      </div>   
        
-
-        <div class="container position-relative d-flex align-items-start justify-content-center">
-            <div class="verticalNavbar d-none d-md-block">
+     
+        <div class=" container-fluid position-relative d-flex align-items-start justify-content-center my-4">
+            @*<div class="verticalNavbar d-none d-md-block me-3">
                 <ul class="verticalNavItems p-0 m-0">
                     <li class="verticalNavItem active">Dashboard</li>
                     <li class="verticalNavItem">New Service Request</li>
@@ -27,47 +33,95 @@
                     <li class="verticalNavItem">My Ratings</li>
                     <li class="verticalNavItem">Block Customer</li>
                 </ul>
-            </div>
+            </div>*@
+            <partial name="VerticalBar.cshtml" />
             <div class="serviceHistoryTableContainer">
-                <div class="justify-content-between align-items-center d-flex">
+                <div class="justify-content-between align-items-center d-flex ">
                     <h2 class="tableHeader">Current Service Requests</h2>
-                    <button type="button" class="export-btn"> Add New Service Request</button>
+                    <button type="button" class="Add-new-ser-btn"> <a asp-action="BookServicePage" asp-controller="BookService">Add New Service Request</a></button>
                 </div>
                
-                <table id="upcomingHistoryTable">
+                <table id="upcomingHistoryTable" class="my-2">
                     <thead>
                         <tr>
-                            <th> <span class="th-1">Service Details</span></th>
-							<th>Service Provider</th>
-							<th>Payment</th>
-							<th>Status</th>
-							<th>Rate SP</th>
+                            <th id="th1" style="width:0px !important"> <span class="th-1">Service Id</span></th>
+							<th id="th2">Service Date</th>
+							<th id="th3">Service Provider</th>
+							<th id="th4">Payment</th>
+							<th id="th5" class="text-center">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        
-                        <tr>
+                    @{
+
+                        if(Model != null)
+                        {
+
+                            foreach(CustomeDashbordViewModel Data in Model)
+                            {
+                                var ServiceStDate = @Data.ServiceStartDate;
+                                String serstartHour = ServiceStDate. ToString("HH:mm");
+                                string serviceOnlyStatHour = ServiceStDate.ToString("HH");
+                                int endHour = Int16.Parse(serviceOnlyStatHour);
+                                float sqlServiceHour = @Data.ServiceHours;
+                                int sqlserviceHoutInt =(int) @Data.ServiceHours;
+                                float finalDecimalMinut = (sqlServiceHour - sqlserviceHoutInt)*60;
+                                if (finalDecimalMinut >= 60)
+                                {
+                                    finalDecimalMinut -= 60;
+
+                                    endHour += 1;
+                                }
+                                
+                                string endMinTimestr = ServiceStDate.ToString("mm");
+                                int endmintime=Int16.Parse(endMinTimestr);
+                               
+                                int finalendHour = endHour + sqlserviceHoutInt;
+                                //string endTime=
+                                //int fooInt=Int16.Parse(foo);
+                               // int endHour = fooInt + 1; 
+
+                                var OnlySerStDate=ServiceStDate.ToShortDateString();
+                                //var ServiceTime=
+                                <tr>
+                                <td >
+                                <div class="td-id">
+                                 <span onclick="ServiceDetailFun(@Data.ServiceRequestId);">@Data.ServiceRequestId</span>
+                                </div>
+
+                               
+                                </td>
                            
                                 <td >
                                 <div class="td-1">
                                     <div>
                                         <img src="~/images/calander.png" class="me-1"><span
-                                                class="service-detail-date">31/03/2018</span>
+                                                class="service-detail-date">@OnlySerStDate</span>
                                     </div>
-                                    <div class="service-detail-time">
-                                         <img src="~/images/clock.png" class="me-1"> <span>12:00 - 18:00</span>
-                                    </div>
+                                            @if (finalendHour < 10)
+                                            {
+                                                 <div class="service-detail-time">
+                                                    <img src="~/images/clock.png" class="me-1"> <span><span>@serstartHour</span>-<span><span>0</span>@finalendHour:@finalDecimalMinut<span>@if (finalDecimalMinut < 10) {<Span>0</span>}</span></span></span>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                 <div class="service-detail-time">
+                                                <img src="~/images/clock.png" class="me-1"> <span><span>@serstartHour</span>-<span></span>@finalendHour:@finalDecimalMinut<span>@if (finalDecimalMinut < 10) {<Span>0</span>}</span></span>
+                                                </div>
+                                            }
+                                            
                                 </div>
                                 
                                 </td>
-
-                                 <td>
+                                
+                                    <td>
                                     <div class="justify-content-start align-items-center d-flex td-2">
                                     <div>
                                         <span class="service-provider-icon rounded-circle"><img src="~/images/forma-1-copy-19.png " alt=""></span>
                                     </div>
                                     <div class="d-flex service-provider-name">
-                                        <span>Lyurm Watsom</span>
+                                        <span >@Data.UserTypeId</span>
                                         <div>
                                             <img src="~/images/star-filled.png">
                                             <img src="~/images/star-filled.png">
@@ -79,38 +133,43 @@
 
                                      </div>
                                  </td>
+                             
+                                 
 
                                 <td>
-                                 <span class="payment-amount">€63</span>
+                                 <span class="payment-amount">@Data.SubTotal€</span>
                                 </td>
                                 <td>
-                                <span class="staus-of-History">Completed</span>
+                                <div class="d-flex align-items-center">
+                                <button type="button" class="reshadual-btn rounded-pill" id="@Data.ServiceRequestId" >
+                                Reschedual
+                                </button>
+                                <button type="button" class="CancleBtnTable rounded-pill" id="@Data.ServiceRequestId">Cancle</button>
+                                </div>
                                 </td>
-
-                                 <td>
-                                    <button type="button" name="rate-us" class="rate-us">Rate Us</button>
-                                 </td>
-                          
-                            
                         </tr>
-                       
-                       
+                            }
+                        }
+                    }
                     </tbody>
                 </table>
             </div>
         </div>
 
-   
+       
 </main>
 
+
 @section script{
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="~/js/CustomerDashboard.js" asp-append-version="true">
+   
+    
     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript"
-    src="https://cdn.datatables.net/v/dt/dt-1.11.3/r-2.2.9/rg-1.1.4/datatables.min.js"></script>
+   
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.3/r-2.2.9/rg-1.1.4/datatables.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.1.0/js/dataTables.buttons.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.html5.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="~/js/CustomerDashboard.js" asp-append-version="true"></script>
+
 }
