@@ -1,4 +1,8 @@
 ﻿
+var ontimeValueFinal = 0;
+var friendlyFinal = 0;
+var serviceFinal = 0;
+var hourOut = true;
 
 $(document).ready(function () {
    
@@ -50,9 +54,6 @@ $(document).ready(function () {
 
 });
 
-//int ontimeValueFinal = 0;
-//int friendlyFinal = 0;
-//int serviceFinal = 0;
 
 function onRelod() {
     location.reload();
@@ -71,8 +72,35 @@ $(".rate-sp").click(function () {
             $("#ratingModal").modal("show");
             var ontimeValue;
             RateitJs();
-            rateclick(ratenum);
-            
+            rateclick();
+            $("#ratingSubmit").attr("data-id", result.serviceRequestId);
+            $(".submitRating").click(function () {
+               
+                var data = {
+                    ServiceRequestId: $(this).attr("id"),
+                    OnTimeArrival: ontimeValueFinal,
+                    Friendly: ontimeValueFinal,
+                    QualityOfService: serviceFinal,
+                    Ratings: (ontimeValueFinal + ontimeValueFinal + serviceFinal) / 3,
+                    Comments: $("#feedback").val(),
+                };
+                console.log(data);
+                $.ajax({
+
+                    type: "POST",
+                    url: "/CustomerService/EditRating",
+                    contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                    data: data,
+                    success: function (result) {
+                        alert("success");
+                      
+                    },
+                    error: function () {
+                        alert("Failed to receive the Data");
+                        console.log("Failed ");
+                    },
+                });
+            });
             
         },
         error: function () {
@@ -86,7 +114,8 @@ $("#export").on("click", function () {
 });
 
 
-function RateitJs(starid,id) {
+function RateitJs(starid, id) {
+    hoveris = true;
     /* $(this).mouseover(function () {*/
     if (id == "1") {
         $(starid + "-1").attr('src', '/images/star-filled.png');
@@ -94,8 +123,9 @@ function RateitJs(starid,id) {
         $(starid + "-3").attr("src", "/images/star-unfilled.png");
         $(starid + "-4").attr("src", "/images/star-unfilled.png");
         $(starid + "-5").attr("src", "/images/star-unfilled.png");
+        
     }
-
+   
 
     /*});*/
     //$(starid + "-2").mouseover(function () {
@@ -105,6 +135,7 @@ function RateitJs(starid,id) {
         $(starid + "-3").attr("src", "/images/star-unfilled.png");
         $(starid + "-4").attr("src", "/images/star-unfilled.png");
         $(starid + "-5").attr("src", "/images/star-unfilled.png");
+       
     }
 
 
@@ -138,55 +169,63 @@ function RateitJs(starid,id) {
         $(starid + "-3").attr("src", "/images/star-filled.png");
         $(starid + "-4").attr("src", "/images/star-filled.png");
         $(starid + "-5").attr("src", "/images/star-filled.png");
-        }
+    }
 
+
+    hourOut = true;
+
+   /* mouseout(starid, hourOut);*/
       
-
+   
     //});
     
-    $(".rateStar").mouseout(function () {
-        $(".rateStar").attr("src", "/images/star-unfilled.png");
-    });
+   
     
 }
 
 function rateclick(ratenum,fromwhere) {
     var ontimeValue;
     if (ratenum == "star-1") {
-        ontimeValue = 1;
+        value = 1;
     }
     else if (ratenum == "star-2") {
-        ontimeValue = 2;
+        value = 2;
     }
     else if (ratenum == "star-3") {
-        ontimeValue = 3;
+        value = 3;
     }
     else if (ratenum == "star-4") {
-        ontimeValue = 4;
+        value = 4;
     }
     else if (ratenum == "star-5") {
-        ontimeValue = 5;
+        value = 5;
     }
 
     if (fromwhere == "starOnTime") {
-        alert(ontimeValue);
+        ontimeValueFinal = value;
+        alert(ontimeValueFinal);
     }
     else if (fromwhere == "starFriend") {
-
+        friendlyFinal = value;
+        alert(friendlyFinal);
     }
     else if (fromwhere == "starService") {
-
+        serviceFinal = value;
+        alert(serviceFinal);
     }
-   
+    hourOut = false;
+   /* mouseout(fromwhere, hourOut);*/
     return ontimeValue;
 
 }
 
 
 
-
-
-
-
-
+function onmouseOutFun(starname) {
+    if (hourOut == true) {
+       
+        $(starname).attr("src", "/images/star-unfilled.png");
+ 
+    }
+}
 

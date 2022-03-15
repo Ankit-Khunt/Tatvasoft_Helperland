@@ -1,12 +1,32 @@
 ﻿
          <div class="verticalNavbar d-none d-md-block me-3">
-                <ul class="verticalNavItems p-0 m-0">
+
+                 @if(ViewBag.Hamburger == "serviceProvider")
+                    {
+                    <ul class="verticalNavItems p-0 m-0">
+                    <li class="verticalNavItem " id="DashboardVerId"><a class="vertical-a-color"  >Dashboard</a></li>
+                    <li id="NewServiceId" class="verticalNavItem"  ><a class="vertical-a-color" asp-action="NewServiceRequests" asp-controller="ServiceProvider">New Service Request</a></li>
+                    <li class="verticalNavItem " id="UpcomindSPId" ><a class="vertical-a-color" asp-action="SPUpcomingService" asp-controller="ServiceProvider">Upcoming Service</a></li>
+                    <li class="verticalNavItem"><a>Service Schedual</a></li>
+                    <li class="verticalNavItem" id="SPHistoryVarId"><a class="vertical-a-color" asp-action="SPServiceHistory" asp-controller="ServiceProvider">Service History</a></li>
+                    <li class="verticalNavItem" id="SPMyRatingVBID"><a class="vertical-a-color" asp-action="SPMyRating" asp-controller="ServiceProvider">My Rating</a></li>
+                    <li class="verticalNavItem" id="BlockCustomerVarId"><a class="vertical-a-color" asp-action="BlockCustomer" asp-controller="ServiceProvider">Block Customer</a></li>
+                     <li class="verticalNavItem"><a>Invoices</a></li>
+                     <li class="verticalNavItem"><a>Notifications</a></li>
+                     </ul>
+                    }
+                else
+                {
+                    <ul class="verticalNavItems p-0 m-0">
                     <li class="verticalNavItem " id="DashboardVerId"><a class="vertical-a-color" asp-action="CustomerDashboard" asp-controller="CustomerService">Dashboard</a></li>
                     <li id="ServiceHistoryVarId" class="verticalNavItem"  ><a class="vertical-a-color" asp-action="ServiceHistory" asp-controller="CustomerService">Service History</a></li>
                     <li class="verticalNavItem "><a>Service Scheduale</a></li>
                     <li class="verticalNavItem"><a>Favourite Pros</a></li>
                     <li class="verticalNavItem"><a>Invoices</a></li>
                     <li class="verticalNavItem"><a>Notifications</a></li>
-                   
-                </ul>
+                    
+                     </ul>
+        
+                }
+    
          </div>

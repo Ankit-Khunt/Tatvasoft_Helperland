@@ -1,0 +1,110 @@
+﻿@using Helperland.Models
+@model IEnumerable<ServiceRequest> 
+
+@{
+    ViewData["Title"] = "Block Customer";
+}
+
+
+
+@section Link{
+     <link rel="stylesheet" href="~/css/ServiceProviderAccount/BlockCustomer.css" asp-append-version="true"/>
+     <link rel="stylesheet" href="~/css/PopUp.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/fontawesome-free-6.0.0-web/css/all.css"  asp-append-version="true"/>
+     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css" />
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.3/r-2.2.9/rg-1.1.4/datatables.min.css" />
+     <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+}
+
+<main id="newMAinId">
+
+    <div class="modal fade" tab-index="-1" id="BlockModel" role=" dialog"></div> 
+     
+     <div class="serviceUserHeader container-fluid justify-align-center d-flex justify-content-center">
+              <h1 class=" Welcome-user d-flex align-items-center justify-content-center flex-wrap text-break ">Welcome,
+            <span class="headerUserName">@User.Identity.Name.Split(" ").ElementAt(0) !</span> </h1>
+     </div>   
+       
+     
+        <div class=" container-fluid position-relative d-flex align-items-start justify-content-center my-4">
+            
+            <partial name="~/Views/CustomerService/VerticalBar.cshtml" />
+            <div class="serviceHistoryTableContainer">
+               
+                   
+
+                   
+               
+                <div class="tableDiv">
+                           <table id="upcomingHistoryTable" class="my-2" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th id="th1" style="width:0px !important"> <span class="th-1">Service Id</span></th>
+							
+                        </tr>
+                    </thead>
+                    <tbody id="NewServiceBodyId" >
+                    @{
+
+                        if(Model != null)
+                        {
+
+                            foreach(var Data in Model)
+                            {
+                              
+                                
+                                <tr >
+                                <td >
+                                
+                                <div class="table-row my-4  ">
+                                <div >
+                                <div class="justify-content-center d-flex">
+                                 <div class=" customer-img d-flex align-items-center justify-content-center ">
+                                    <img src="~/images/forma-1-copy-19.png" width="40px" height="40px">
+                                    </div>
+                                </div>
+                                   
+                                    <div class="mt-3">
+                                    <span>@Data.User.FirstName @Data.User.LastName</span>
+                                    </div>
+                                    <div class="mt-3">
+                                    <button class="block-btn rounded-pill" onclick='BlockCustomerFun("@Data.User.UserId")'> Block</button>
+                                    </div>
+                                </div>
+                                </div>
+                                </td>
+                           
+                                
+
+                        </tr>
+                            }
+                        }
+                    }
+                 </tbody>
+      
+                 
+                 </table>
+                </div>
+                  @*<partial name="NewServiceRequestTable.cshtml" />  *@
+
+         
+
+                
+            </div>
+        </div>
+
+       
+</main>
+
+
+
+@section script{
+
+<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>   
+ <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.3/r-2.2.9/rg-1.1.4/datatables.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.1.0/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.html5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="~/js/ServiceProviderAccount/BlockCustomer.js" asp-append-version="true"></script>
+}

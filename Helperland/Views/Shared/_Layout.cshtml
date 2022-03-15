@@ -149,7 +149,10 @@
                             <strong>Gaurang Patel</strong>
                         </div>
                         <hr class="my-1" />
-                        <ul>
+                        @if (ViewBag.Hamburger == "serviceProvider")
+                        {
+                            
+                            <ul>
                             <li class="navSmMenuItem">Dashboard</li>
                             <li class="navSmMenuItem">New Service Request</li>
                             <li class="navSmMenuItem ">Upcoming Services</li>
@@ -166,7 +169,31 @@
                             <li class="navSmMenuItem"><a href="#">Blog</a></li>
                             <li class="navSmMenuItem"><a asp-action="Contact" asp-controller="Home">Contact</a></li>
                             <hr class="my-1" />
-                        </ul>
+                            </ul>
+
+                            
+                        }
+                        else
+                        {
+                            <ul>
+                            <li class="navSmMenuItem">Dashboard</li>
+                            <li class="navSmMenuItem">Service History</li>
+                            <li class="navSmMenuItem">Service Scheduale</li>
+                            <li class="navSmMenuItem">Invoices</li>
+                            <li class="navSmMenuItem">Notifications</li>
+                            <li class="navSmMenuItem">Favourite Pros</li>
+                            <li class="navSmMenuItem"><a asp-action="LogOut" asp-controller="Account">Logout</a></li>
+                            <hr class="my-1" />
+                            <li class="navSmMenuItem"><a asp-action="BookServicePage" asp-controller="BookService">Book now</a></li>
+                            <li class="navSmMenuItem"><a  asp-action="price" asp-controller="home">Plans & Services</a></li>
+                            <li class="navSmMenuItem"><a href="#">Warranty</a></li>
+                            <li class="navSmMenuItem"><a href="#">Blog</a></li>
+                            <li class="navSmMenuItem"><a asp-action="Contact" asp-controller="Home">Contact</a></li>
+                            <hr class="my-1" />
+                             </ul>
+                        }
+                        
+
                     </div>
                 </div>
             </nav>

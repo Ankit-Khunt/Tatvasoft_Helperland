@@ -1,0 +1,164 @@
+﻿@using Helperland.Models
+@model IEnumerable<Rating>
+
+   
+
+
+<table id="upcomingHistoryTable" >
+                     <thead class="d-felx " >
+                          <tr>
+                             <th>
+                    
+							</th>
+                        </tr>
+                    </thead>
+                    <tbody id="NewServiceBodyId" >
+                    @{
+
+                        if(Model != null)
+                        {
+
+                            foreach(var Data in Model)
+                            {
+                               var ServiceStDate = @Data.ServiceRequest.ServiceStartDate;
+                                String serstartHour = ServiceStDate. ToString("HH:mm");
+                                string serviceOnlyStatHour = ServiceStDate.ToString("HH");
+                                int endHour = Int16.Parse(serviceOnlyStatHour);
+                                double sqlServiceHour = @Data.ServiceRequest.ServiceHours;
+                                int sqlserviceHoutInt =(int) @Data.ServiceRequest.ServiceHours;
+                                double finalDecimalMinut = (sqlServiceHour - sqlserviceHoutInt)*60;
+                                if (finalDecimalMinut >= 60)
+                                {
+                                    finalDecimalMinut -= 60;
+
+                                    endHour += 1;
+                                }
+                                
+                                string endMinTimestr = ServiceStDate.ToString("mm");
+                                int endmintime=Int16.Parse(endMinTimestr);
+                               
+                                int finalendHour = endHour + sqlserviceHoutInt;
+                                //string endTime=
+                                //int fooInt=Int16.Parse(foo);
+                               // int endHour = fooInt + 1; 
+
+                                var OnlySerStDate=ServiceStDate.ToShortDateString();
+                                //var ServiceTime=
+                                
+                                <tr  >
+                                <td >
+                                <div class="row-flex-direction d-flex justify-content-between">
+                                
+                                <div class="d-flex row-flex-direction ">
+                                <div class="td-id">
+                                 <span class="table-service-id" onclick="ServiceDetailFun(@Data.ServiceRequest.ServiceRequestId);">@Data.ServiceRequest.ServiceRequestId</span><br />
+                                 <span class="table-customer-name">@Data.RatingFromNavigation.FirstName @Data.RatingFromNavigation.LastName</span>
+                                </div>
+                                <div class="td-1 ">
+                                    <div>
+                                        <img src="~/images/calander.png" class="me-1"><span
+                                                class="service-detail-date">@Data.ServiceRequest.ServiceStartDate.Date.ToString("dd/MM/yyyy")</span>
+                                    </div>
+                                            @if (finalendHour < 10)
+                                            {
+                                                 <div class="service-detail-time">
+                                                    <img src="~/images/clock.png" class="me-1"> <span><span>@serstartHour</span>-<span><span>0</span>@finalendHour:@finalDecimalMinut<span>@if (finalDecimalMinut < 10) {<Span>0</span>}</span></span></span>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                 <div class="service-detail-time">
+                                                <img src="~/images/clock.png" class="me-1"> <span><span>@serstartHour</span>-<span></span>@finalendHour:@finalDecimalMinut<span>@if (finalDecimalMinut < 10) {<Span>0</span>}</span></span>
+                                                </div>
+                                            }
+                                </div>
+                                </div>
+                                 
+                                <div class="me-3">
+                                <div><span class="rating-header">ratings</span></div>
+                                <div>
+                                    @for(var i=1;i<=5;i++)
+                                    {
+                                        if (i <= Data.Ratings)
+                                        {
+                                            <span><img src="~/images/star-filled.png"></span>
+                                        }
+                                        else
+                                        {
+                                            <span><img src="~/images/star-unfilled.png"></span>
+                                        }
+
+                                    }
+                                     <span class="very-good">very Good</span>
+                                </div>
+                               
+
+                                </div>
+                                </div>
+                               
+
+                                <hr class="table-col-hr">
+                                <div>
+                                <span class="Customer-content">Customer Comment</span><br />
+                                <p class="rating-coment">@Data.Comments</p>
+
+                                </div>
+                               
+                                </td>
+                        </tr>
+                            }
+                        }
+                    }
+                 </tbody>
+      
+                 
+                 </table>
+ <script>
+   $(document).ready(function () {
+    
+    $('#upcomingHistoryTable').DataTable({
+        "dom": '<"top"i>rt<"bottom"flp><"clear">',
+        //"columnDefs": [
+        //    { "orderable": false, "targets": 4 }
+        //],
+        'responsive': true,
+
+        "bFilter": false, //hide Search bar
+        "pagingType": "full_numbers",
+        paging: true,
+        "pagingType": "full_numbers",
+        // bFilter: false,
+        ordering: true,
+        searching: false,
+        info: true,
+
+        language: {
+            paginate: {
+                first: "<img src='/images/firstPage.png' alt='first' />",
+                previous: "<img src='/images/previous.png' alt='previous' />",
+                next: '<img src="/images/previous.png" alt="next" style="transform: rotate(180deg)" />',
+                last: "<img src='/images/firstPage.png' alt='first' style='transform: rotate(180deg)' />",
+            },
+        },
+        "buttons": ["excel"],
+        /*"columnDefs": [{ orderable: false, targets: 2 }],*/
+        //"columnDefs": [
+        //    { "orderable": false, "targets": 4 }
+        //],
+        "oLanguage": {
+            "sInfo": "Total Records: _TOTAL_"
+        },
+        "dom": '<"top">rt<"bottom"lip><"clear">',
+        responsive: true,
+        "order": []
+    });
+
+
+    
+
+});
+
+
+
+
+</script>

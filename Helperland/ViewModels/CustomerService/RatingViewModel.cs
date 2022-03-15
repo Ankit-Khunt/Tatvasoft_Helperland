@@ -15,9 +15,9 @@ namespace Helperland.ViewModels.CustomerService
         public decimal OnTimeArrival { get; set; }
         public decimal Friendly { get; set; }
         public decimal QualityOfService { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
 
-        public User RatingFromNavigation { get; set; }
-        public User RatingToNavigation { get; set; }
-        public ServiceRequest ServiceRequest { get; set; }
+        public string UserProfilePicture { get; set; }
     }
 }

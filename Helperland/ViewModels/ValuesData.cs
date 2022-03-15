@@ -15,6 +15,9 @@ namespace Helperland.ViewModels
         public const int SERVICE_CANCELLED = 4;
         public const int SERVICE_REFUNDED = 5;
 
+        public const int CUSTOMER_BLOK = 2;
+        public const int CUSTOMER_UNLOCK = 1;
+
         public static List<SelectListItem> timeList = new List<SelectListItem>{
                              new SelectListItem{Text="8:00", Value="8:00:00"},
                              new SelectListItem{Text="8:30", Value="8:30:00"},
@@ -59,6 +62,8 @@ namespace Helperland.ViewModels
         public static List<SelectListItem> languageList = new List<SelectListItem>{
                              new SelectListItem{Text="English", Value="1"},
                              new SelectListItem{Text="French", Value="2"}, };
+
+        
     }
 
 

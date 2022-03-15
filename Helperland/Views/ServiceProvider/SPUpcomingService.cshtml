@@ -1,0 +1,59 @@
+﻿@using Helperland.Models
+@model IEnumerable<ServiceRequest>
+
+@{
+    ViewData["Title"] = "SP Service History";
+}
+
+
+
+@section Link{
+     <link rel="stylesheet" href="~/css/ServiceProviderAccount/SPUpcomingService.css" asp-append-version="true"/>
+     <link rel="stylesheet" href="~/css/PopUp.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/fontawesome-free-6.0.0-web/css/all.css"  asp-append-version="true"/>
+     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css" />
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.3/r-2.2.9/rg-1.1.4/datatables.min.css" />
+     <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+    
+}
+
+<main id="newMAinId">
+
+    <div class="modal fade" tab-index="-1" id="serviceProviderModel" role=" dialog"></div> 
+    <div class="modal fade" tab-index="-1" id="serviceProviderModelPopUp" role=" dialog"></div> 
+     
+     <div class="serviceUserHeader container-fluid justify-align-center d-flex justify-content-center">
+              <h1 class=" Welcome-user d-flex align-items-center justify-content-center flex-wrap text-break ">Welcome,
+            <span class="headerUserName">@User.Identity.Name.Split(" ").ElementAt(0) !</span> </h1>
+     </div>   
+       
+     
+        <div class=" container-fluid position-relative d-flex align-items-start justify-content-center my-4">
+            
+            <partial name="~/Views/CustomerService/VerticalBar.cshtml" />
+            <div class="serviceHistoryTableContainer">
+                <div class="tableDiv" id="tableDivID">
+                    
+                             
+                     <partial name="~/Views/ServiceProvider/SPUpcomingServiceTable.cshtml" />   
+                </div>
+                
+            </div>
+        </div>
+
+      
+</main>
+
+
+
+@section script{
+
+    
+ <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>   
+ <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.3/r-2.2.9/rg-1.1.4/datatables.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.1.0/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.html5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="~/js/ServiceProviderAccount/SPUpcomingService.js" asp-append-version="true"></script>
+}

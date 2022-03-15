@@ -1,0 +1,121 @@
+﻿@using Helperland.ViewModels.ServiceProvider
+@model IEnumerable<NewServiceRequestViewModel> 
+
+  
+         <table id="upcomingHistoryTable" class="my-2" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th id="th1" style="width:0px !important"> <span class="th-1">Service Id</span></th>
+							<th id="th2">Service Date</th>
+							<th id="th3">Customer Details</th>
+							<th id="th4">Payment</th>
+                            <th id="th5">Time conflict</th>
+							<th id="th6" class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="NewServiceBodyId" >
+                    @{
+
+                        if(Model != null)
+                        {
+
+                            foreach(var Data in Model)
+                            {
+                               var ServiceStDate = @Data.serviceRequestViewModel.ServiceStartDate;
+                                String serstartHour = ServiceStDate. ToString("HH:mm");
+                                string serviceOnlyStatHour = ServiceStDate.ToString("HH");
+                                int endHour = Int16.Parse(serviceOnlyStatHour);
+                                double sqlServiceHour = @Data.serviceRequestViewModel.ServiceHours;
+                                int sqlserviceHoutInt =(int) @Data.serviceRequestViewModel.ServiceHours;
+                                double finalDecimalMinut = (sqlServiceHour - sqlserviceHoutInt)*60;
+                                if (finalDecimalMinut >= 60)
+                                {
+                                    finalDecimalMinut -= 60;
+
+                                    endHour += 1;
+                                }
+                                
+                                string endMinTimestr = ServiceStDate.ToString("mm");
+                                int endmintime=Int16.Parse(endMinTimestr);
+                               
+                                int finalendHour = endHour + sqlserviceHoutInt;
+                                //string endTime=
+                                //int fooInt=Int16.Parse(foo);
+                               // int endHour = fooInt + 1; 
+
+                                var OnlySerStDate=ServiceStDate.ToShortDateString();
+                                //var ServiceTime=
+                                
+                                <tr >
+                                <td >
+                                <div class="td-id">
+                                 <span onclick="ServiceDetailFun(@Data.serviceRequestViewModel.ServiceRequestId);">@Data.serviceRequestViewModel.ServiceRequestId</span>
+                                </div>
+
+                               
+                                </td>
+                           
+                                <td >
+                                <div class="td-1">
+                                    <div>
+                                        <img src="~/images/calander.png" class="me-1"><span
+                                                class="service-detail-date">@Data.serviceRequestViewModel.ServiceStartDate.Date.ToString("dd/MM/yyyy")</span>
+                                    </div>
+                                            @if (finalendHour < 10)
+                                            {
+                                                 <div class="service-detail-time">
+                                                    <img src="~/images/clock.png" class="me-1"> <span><span>@serstartHour</span>-<span><span>0</span>@finalendHour:@finalDecimalMinut<span>@if (finalDecimalMinut < 10) {<Span>0</span>}</span></span></span>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                 <div class="service-detail-time">
+                                                <img src="~/images/clock.png" class="me-1"> <span><span>@serstartHour</span>-<span></span>@finalendHour:@finalDecimalMinut<span>@if (finalDecimalMinut < 10) {<Span>0</span>}</span></span>
+                                                </div>
+                                            }
+                                </div>
+                                
+                                </td>
+                                
+                                    <td>
+                                    <div class="justify-content-start align-items-center d-flex td-2">
+                                    <div>
+                                       <img src="~/images/home-icon.png">
+                                    </div>
+                                    <div class="d-flex service-provider-name ps-1">
+                                        
+                                        <div>
+                                            <span> @Data.user.FirstName @Data.user.LastName</span>
+                                            <br/>
+                                            <span> @Data.addressViewModel.AddressLine1</span><span> @Data.addressViewModel.AddressLine2</span><br/>
+                                            <span>@Data.addressViewModel.PostalCode</span>
+                                        </div>
+                                    </div>
+
+                                     </div>
+                                 </td>
+                             
+                                 
+
+                                <td>
+                                 <span class="payment-amount">@Data.serviceRequestViewModel.SubTotal€</span>
+                                </td>
+                                <td>
+                                
+                                </td>
+                                <td>
+                                    <span><button type="button" class="Action-btn rounded-pill">Accept</button></span>
+                                </td>
+
+                        </tr>
+                            }
+                        }
+                    }
+                 </tbody>
+      
+                 
+                 </table>
+
+   
+
+

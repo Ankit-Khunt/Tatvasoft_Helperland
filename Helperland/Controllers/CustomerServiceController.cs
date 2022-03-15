@@ -240,8 +240,39 @@ namespace Helperland.Controllers
         [HttpGet]
         public PartialViewResult EditRating(int id)
         {
-            IEnumerable<Rating>  rating = _helperlandContext.Rating.Include(x => x.RatingToNavigation).Where(x => x.ServiceRequestId == id).ToList();
-           return PartialView(rating);
+            Rating rating=_helperlandContext.Rating.Include(x=>x.RatingToNavigation).FirstOrDefault(x=>x.ServiceRequestId == id);
+            RatingViewModel model=new RatingViewModel();
+            var serviceProRate = _helperlandContext.Rating.Where(x => x.RatingTo == rating.RatingTo).ToList();
+            decimal avgRat=0;
+            foreach(var data in serviceProRate)
+            {
+                avgRat += data.Ratings;
+            }
+            decimal x = avgRat;
+            model.ServiceRequestId =id;
+            model.FirstName=rating.RatingToNavigation.FirstName;
+            model.LastName=rating.RatingToNavigation.LastName;
+            model.Ratings = avgRat; 
+            model.OnTimeArrival = rating.OnTimeArrival;
+            model.QualityOfService=rating.QualityOfService;
+            model.Friendly=rating.Friendly;
+            model.UserProfilePicture = rating.RatingToNavigation.UserProfilePicture;
+            //IEnumerable<Rating>  rating = _helperlandContext.Rating.Include(x => x.RatingToNavigation).Where(x => x.ServiceRequestId == id).ToList();
+           return PartialView(model);
+        }
+        [HttpPost]
+        public JsonResult EditRating( RatingViewModel model)
+        {
+            Rating rating = _helperlandContext.Rating.FirstOrDefault(x => x.ServiceRequestId == model.ServiceRequestId);
+            rating.RatingDate = DateTime.Now;
+            rating.Ratings = model.Ratings;
+            rating.OnTimeArrival = model.OnTimeArrival;
+            rating.Friendly = model.Friendly;
+            rating.QualityOfService = model.QualityOfService;
+            rating.Comments = model.Comments;
+            _helperlandContext.Rating.Update(rating);
+            _helperlandContext.SaveChanges();
+            return Json(" ");
         }
 
         public IActionResult MyAccount()

@@ -112,7 +112,8 @@ namespace Helperland.Controllers
                     new Claim(ClaimTypes.Name, user.LastName),
                     new Claim(ClaimTypes.Email, user.Email),
                     new Claim(ClaimTypes.DateOfBirth, user.Password),
-                    new Claim(ClaimTypes.Role,user.UserTypeId.ToString())
+                    new Claim(ClaimTypes.Role,user.UserTypeId.ToString()),
+                    new Claim(ClaimTypes.NameIdentifier,user.UserId.ToString()),
                  };
 
                 //var userIdentity = new ClaimsIdentity(userClaims, "User Identity");
@@ -125,10 +126,19 @@ namespace Helperland.Controllers
                  });
                 HttpContext.Session.SetString("User_Id", user.UserId.ToString());
                 HttpContext.Session.SetString("User_Email",user.Email);   //session value set
-                HttpContext.Session.SetString("User_Name", user.FirstName+" "+user.LastName);
+                HttpContext.Session.SetString("User_Name", user.FirstName+" "+user.LastName)    ;
                 if (model.ReturnUrl == null)
                 {
-                    return RedirectToAction("CustomerDashboard","CustomerService");
+                    switch (user.UserTypeId){
+                        case 1:return RedirectToAction("Admin", "admin");
+                            break;
+                        case 2:return RedirectToAction("NewServiceRequests", "ServiceProvider");
+                            break;
+                        case 3:return RedirectToAction("CustomerDashboard", "CustomerService");
+                            break;
+                        default:return RedirectToAction("Index","Home");
+                    }
+                   // return RedirectToAction("CustomerDashboard","CustomerService");
                 }
                 else
                 {

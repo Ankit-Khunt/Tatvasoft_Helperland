@@ -61,7 +61,7 @@ namespace Helperland
             });
 
 
-            services.AddDbContext<HelperlandContext>(options => options.UseSqlServer(_config.GetConnectionString("ConnectionString")));
+            services.AddDbContext<HelperlandContext>(options =>     options.UseSqlServer(_config.GetConnectionString("ConnectionString")));
 
             // services.AddScoped<IHelperlandHomeRepository, SQLIHelperlandHomeRepository>();  //sql server integration
             //services.AddHttpContextAccessor();

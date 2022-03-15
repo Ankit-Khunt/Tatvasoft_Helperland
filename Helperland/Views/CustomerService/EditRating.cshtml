@@ -1,7 +1,7 @@
-﻿@model IEnumerable<Helperland.Models.Rating>
+﻿@model Helperland.ViewModels.CustomerService.RatingViewModel
 
 <div class="modal-dialog modal-dialog-centered rating-dialog">
-     @foreach(var data in Model){
+    
       <div class="modal-content">
         <div class="modal-header">
           <button
@@ -13,9 +13,9 @@
         </div>
         <div class="modal-body">
             <div class="d-flex align-items-center">
-                <img id="modalPeofileImage" src="@data.RatingToNavigation.UserProfilePicture" alt=""/>              
+                <img id="modalPeofileImage" src="@Model.UserProfilePicture" alt=""/>              
                 <div class="ms-2 d-flex flex-column users-rating">             
-                   <span id="modal-sp-name">@data.RatingToNavigation.FirstName @data.RatingToNavigation.LastName</span>           
+                   <span id="modal-sp-name">@Model.FirstName @Model.LastName</span>           
                    <div class="d-flex flex-wrap align-items-center">
                        <div class="rateit-average">
                             @{
@@ -24,7 +24,7 @@
                             {
                       
                         
-                                if(i <= @data.OnTimeArrival)
+                                if(i <= @Model.OnTimeArrival)
                                 {
                                         <img src="~/images/star-filled.png" class="star-filled me-1">
                                 }
@@ -38,7 +38,7 @@
                     
                         }
                        </div>
-                       <span id="average-rating-text">@data.Ratings</span>
+                       <span id="average-rating-text">@Model.Ratings</span>
                    </div>          
                 </div>
             </div>
@@ -58,13 +58,13 @@
                     {
                       
                         
-                        if(i <= @data.OnTimeArrival)
+                        if(i <= @Model.OnTimeArrival)
                         {
-                                <img  src="~/images/star-filled.png" class="star-filled  me-1 rateStar starOnTime starOnTime-@i " onclick="rateclick('star-@i','starOnTime');" onmouseover="RateitJs('.starOnTime','@i')">
+                                <img  src="~/images/star-filled.png" class="star-filled  me-1 rateStar starOnTime starOnTime-@i " onclick="rateclick('star-@i','starOnTime');" onmouseover="RateitJs('.starOnTime','@i')" onmouseout="onmouseOutFun('.starOnTime')">
                         }
                         else
                         {
-                                <img  src="~/images/star-unfilled.png" class="star-unfilled me-1 rateStar starOnTime starOnTime-@i" onclick="rateclick('star-@i','starOnTime');" onmouseover="RateitJs('.starOnTime','@i')">
+                                <img  src="~/images/star-unfilled.png" class="star-unfilled me-1 rateStar starOnTime starOnTime-@i" onclick="rateclick('star-@i','starOnTime');" onmouseover="RateitJs('.starOnTime','@i')" onmouseout="onmouseOutFun('.starOnTime')">
                         }
                         
                     
@@ -82,13 +82,13 @@
                     {
                       
                         
-                        if(i <= @data.OnTimeArrival)
+                        if(i <= @Model.OnTimeArrival)
                         {
-                                <img  src="~/images/star-filled.png" class="star-filled  me-1 rateStar starFriend starFriend-@i " onclick="rateclick('star-@i','starFriend');" onmouseover="RateitJs('.starFriend','@i')">
+                                <img  src="~/images/star-filled.png" class="star-filled  me-1 rateStar starFriend starFriend-@i " onclick="rateclick('star-@i','starFriend');" onmouseover="RateitJs('.starFriend','@i')" onmouseout="onmouseOutFun('.starFriend')">
                         }
                         else
                         {
-                                <img  src="~/images/star-unfilled.png" class="star-unfilled me-1 rateStar starFriend starFriend-@i" onclick="rateclick('star-@i','starFriend');" onmouseover="RateitJs('.starFriend','@i')">
+                                <img  src="~/images/star-unfilled.png" class="star-unfilled me-1 rateStar starFriend starFriend-@i" onclick="rateclick('star-@i','starFriend');" onmouseover="RateitJs('.starFriend','@i')" onmouseout="onmouseOutFun('.starFriend')">
                         }
                         
                     
@@ -106,13 +106,13 @@
                     {
                       
                         
-                        if(i <= @data.OnTimeArrival)
+                        if(i <= @Model.OnTimeArrival)
                         {
-                                <img  src="~/images/star-filled.png" class="star-filled  me-1 rateStar starService starService-@i " onclick="rateclick('star-@i','starService');" onmouseover="RateitJs('.starService','@i')">
+                                <img  src="~/images/star-filled.png" class="star-filled  me-1 rateStar starService starService-@i " onclick="rateclick('star-@i','starService');" onmouseover="RateitJs('.starService','@i')" onmouseout="onmouseOutFun('.starService')">
                         }
                         else
                         {
-                                <img  src="~/images/star-unfilled.png" class="star-unfilled me-1 rateStar starService starService-@i" onclick="rateclick('star-@i','starService');" onmouseover="RateitJs('.starService','@i')">
+                                <img  src="~/images/star-unfilled.png" class="star-unfilled me-1 rateStar starService starService-@i" onclick="rateclick('star-@i','starService');" onmouseover="RateitJs('.starService','@i')" onmouseout="onmouseOutFun('.starService')">
                         }
                         
                     
@@ -123,8 +123,8 @@
             </div>
             <label class="mb-1">Feedback on service provider</label>
             <textarea rowspan="2" class="mb-3" id="feedback"></textarea><br />
-            <button id="ratingSubmit" >Submit</button>
+            <button id=@Model.ServiceRequestId class="submitRating">Submit</button>
         </div>
       </div>
-      }
+      
     </div>  
