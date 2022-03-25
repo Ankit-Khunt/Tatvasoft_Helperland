@@ -240,9 +240,7 @@ td > span,
     border: 1px solid #b0b0b0;
     border-radius: 500px;
 }
-.modal-dialog {
-    background-color: white;
-}
+
 
 .modal-header {
     background-color: white;

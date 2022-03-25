@@ -165,10 +165,55 @@ $(document).ready(function () {
     //    });
     //});
 
+    $('#cardCheck').hide();
+    $('#paymentCheckboxSpan').hide  ();
+    //$('#cardNumberId').keyup(function () {
+    //    validateUsername();
+    //});
+
+   
 
 });
 
+function validateUsername() {
+    var result = true;
+    let cardNumber = $('#cardNumberId').val();
+    let cardMonth = $("#cardMonthID").val();
+    let cardCVV = $("#cardCVVID").val();
+    if (cardNumber.length == '' || cardMonth.length == '' || cardCVV.length == '') {
+        $('#cardCheck').show();
+       
+        result= false;
+    }
+    else if (cardNumber.length < 16) 
+     {
+        $('#cardCheck').show();
+        $('#cardCheck').html
+            ("**length of card must be 16 Digit");
+        
+         result= false;
+    }
+    if (!$(".payment-checkbox").is(':checked')) {
+        $('#paymentCheckboxSpan').show();
+        $('#paymentCheckboxSpan').html
+            ("**Required");
 
+        result = false;
+    }
+    else {
+        $('#paymentCheckboxSpan').hide  ();
+    }
+
+    if (result) {
+        $('#cardCheck').hide();
+      
+    }
+
+    return result;
+   
+       
+    
+}
 var AddressLine1forReUse = $("#AddressLine1Id").val();
 var AddressLine2forReUse = $("#AddressLine2Id").val();
 
@@ -627,34 +672,40 @@ function hasValue(elem) {
 //----------------------payment-------------------js-------------------
 
 function sendPaymentDetail() {
-    var data = {
-        
-        CardNumber: $("#cardNumberId").val()
-    }
-    console.log(data);
-   /* alert(data);*/
-    $.ajax({
-        type: 'POST',
-        url: '/BookService/CheckCardDetail',
-        contentType: 'application/x-www-form-urlencoded; charset=UTF-8', // when we use .serialize() this generates the data in query string format. this needs the default contentType (default content type is: contentType: 'application/x-www-form-urlencoded; charset=UTF-8') so it is optional, you can remove it
-        data: data,
-     
-        success: function (result) {
-           // alert('Successfully payment received Data ');
-            ServiceRequestSuccessful();
-            
-           
-            
-            console.log(result);
-            
-        },
-        error: function () {
-            //alert('Failed to receive payment the Data');
-           
-            serviceAlert(1);
-            console.log('Failed ');
+    var validate = validateUsername();
+    if (!validate) {
+
+    } else {
+        var data = {
+
+            CardNumber: $("#cardNumberId").val()
         }
-    });
+        console.log(data);
+        /* alert(data);*/
+        $.ajax({
+            type: 'POST',
+            url: '/BookService/CheckCardDetail',
+            contentType: 'application/x-www-form-urlencoded; charset=UTF-8', // when we use .serialize() this generates the data in query string format. this needs the default contentType (default content type is: contentType: 'application/x-www-form-urlencoded; charset=UTF-8') so it is optional, you can remove it
+            data: data,
+
+            success: function (result) {
+                // alert('Successfully payment received Data ');
+                ServiceRequestSuccessful();
+
+
+
+                console.log(result);
+
+            },
+            error: function () {
+                //alert('Failed to receive payment the Data');
+
+                serviceAlert(1);
+                console.log('Failed ');
+            }
+        });
+    }
+   
 }
 
 

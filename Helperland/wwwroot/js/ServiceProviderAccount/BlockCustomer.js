@@ -45,20 +45,15 @@
 
 
 
-
-
-
-
-
-function callSPHistoryTable(id) {
+function BlockCustomerFun(Customerid) {
     $.ajax({
-        url: "/ServiceProvider/SPServiceHistoryStaus",
-        type: "GET",
+        url: "/ServiceProvider/BlockCustomer",
+        type: "POST",
         data: {
-            Id: id,
+            customerId: Customerid,
         },
         success: function (result) {
-            $("#upcomingHistoryTable").html(result);
+            window.location.href = "/serviceprovider/BlockCustomer";
 
         },
         error: function () {
@@ -67,15 +62,15 @@ function callSPHistoryTable(id) {
     });
 }
 
-function BlockCustomerFun(id) {
+function UnlockCustomerFun(Customerid) {
     $.ajax({
-        url: "/ServiceProvider/BlockCustomerFun",
-        type: "GET",
+        url: "/ServiceProvider/unblockCustomer",
+        type: "POST",
         data: {
-            Id: id,
+            customerId: Customerid,
         },
         success: function (result) {
-            popUpFun(result);
+            window.location.href = "/serviceprovider/BlockCustomer";
 
         },
         error: function () {
@@ -84,48 +79,10 @@ function BlockCustomerFun(id) {
     });
 }
 
-function popUpFun(result) {
-    $.ajax({
-        url: "/ServiceProvider/PopUpFun",
-        type: "GET",
-        data: {
-            Message: result.message,
-            ImgSrc: result.imgSrc,
-        },
-        success: function (result) {
-
-            
-
-            $("#BlockModel").html(result);
-            $("#BlockModel").modal("show");
-
-            $(".SPDetailModalCloseId").click(function () {
-                location.reload();
-            });
 
 
-        },
-        error: function () {
-            alert("error");
-        },
-    });
-}
 
-function callBlockTable()
-{
-    $.ajax({
-        url: "/ServiceProvider/BlockCustomerTable",
-        type: "GET",
-       
-        success: function (result) {
-            $("#upcomingHistoryTable").html(result);
 
-        },
-        error: function () {
-            alert("error SPServiceHistoryStaus");
-        },
-    });
-}
 
 
 

@@ -79,8 +79,9 @@ $(".rate-sp").click(function () {
                 var data = {
                     ServiceRequestId: $(this).attr("id"),
                     OnTimeArrival: ontimeValueFinal,
-                    Friendly: ontimeValueFinal,
+                    Friendly: friendlyFinal,
                     QualityOfService: serviceFinal,
+
                     Ratings: (ontimeValueFinal + ontimeValueFinal + serviceFinal) / 3,
                     Comments: $("#feedback").val(),
                 };
@@ -92,7 +93,9 @@ $(".rate-sp").click(function () {
                     contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
                     data: data,
                     success: function (result) {
-                        alert("success");
+                        $("#EditRatingCloseBtn").click(function () {
+                            location.reload();
+                        });
                       
                     },
                     error: function () {
@@ -203,15 +206,16 @@ function rateclick(ratenum,fromwhere) {
 
     if (fromwhere == "starOnTime") {
         ontimeValueFinal = value;
-        alert(ontimeValueFinal);
+        loadRating();
+        
     }
     else if (fromwhere == "starFriend") {
         friendlyFinal = value;
-        alert(friendlyFinal);
+        loadRating();
     }
     else if (fromwhere == "starService") {
         serviceFinal = value;
-        alert(serviceFinal);
+        loadRating();
     }
     hourOut = false;
    /* mouseout(fromwhere, hourOut);*/
@@ -229,3 +233,58 @@ function onmouseOutFun(starname) {
     }
 }
 
+function loadRating() {
+    count = 0;
+    var ratingAvg = [ontimeValueFinal,friendlyFinal,serviceFinal];
+    for (var i = 0; i < 3; i++) {
+        if (ratingAvg[i] != 0) {
+            count++;
+        }
+    }
+   var ratingAvg2 = (ontimeValueFinal + friendlyFinal + serviceFinal) / count;
+    
+    $(".rateit-average").html('');
+    for (var i = 1; i < 6; i++)
+    {
+
+
+        if (i <= ratingAvg2)
+        {
+            $(".rateit-average").append('<img src="/images/star-filled.png" class="star-filled me-1">');
+        } 
+        
+        else
+        {
+            
+            $(".rateit-average").append(`<img src="/images/star-unfilled.png" class="star-unfilled me-1">  `);
+             
+                   
+        }
+                        
+                    
+    }
+    $("#averageRatingText").html(ratingAvg2.toFixed(2));
+
+}
+
+function ServiceDetailFun(serviceId) {
+
+    $.ajax({
+        url: '/CustomerService/ServiceDetailPartialView',
+        type: 'GET',
+        data: {
+            id: serviceId,
+        },
+        success: function (result) {
+            $("#customerModal").html(result);
+            $("#customerModal").modal("show");
+            //alert('Successfully ServiceDEtail received Data ');
+
+
+        },
+        error: function () {
+            alert('Failed to receive the Data of serviceRquest');
+            console.log('Failed ');
+        }
+    });
+}

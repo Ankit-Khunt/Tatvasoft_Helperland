@@ -298,12 +298,15 @@
                         <div class="input-group  payment-input-group" >
                           <span class="card-icon"> <i class="fa-solid fa-credit-card"></i></span>
                           <input type="text" id="cardNumberId" class="form-control card-number card-comun" asp-for="CardNumber"  placeholder="XXXX 0000 0000 0000" data-mask="0000 0000 0000 0000" value="">
-                          <input type="text" id="" class="form-control card-expiry card-comun" placeholder="MM / YY" data-mask="00/00"  value="">
-                          <input type="text" id="" class="form-control card-cvv card-comun" placeholder="XXX" data-mask="000" value="">
+                          <input type="text" id="cardMonthID" class="form-control card-expiry card-comun" placeholder="MM / YY" data-mask="00/00"  value="">
+                          <input type="text" id="cardCVVID" class="form-control card-cvv card-comun" placeholder="XXX" data-mask="000" value="">
+                           
                         </div>
-                        
-                        <hr>
-
+                         <span id="cardCheck" style="color: red;" >
+                                    **card Details are not correct
+                              </span>
+                        <hr class="hr-payment">
+                      
                         <div class="payment-chechbox-div">
                           <div >
                             <input type="checkbox" class="payment-checkbox">
@@ -316,6 +319,9 @@
                                  full performance of the contract.</p>
                           </div>
                         </div>
+                         <span id="paymentCheckboxSpan" style="color: red;" >
+                                    **card Details are not correct
+                              </span>
                         <hr>
 
                         <div>

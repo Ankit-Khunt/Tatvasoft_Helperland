@@ -94,7 +94,7 @@ namespace Helperland.Controllers
             //we can use var insted of User
            User user = _helperlandContext.User.Where(x => x.Email == model.Email && x.Password == model.Password).FirstOrDefault();
             var UserHasEmailReg = IsEmailExists(model.Email);
-            if (user == null)
+            if (user == null)   
             {
                 ViewBag.openLoginModel = true;
                 ViewBag.Alert = "<div class='alert alert-danger alert-dismissible fade show' role='alert'>Your EmailId and Password are not correct<button type= 'button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
@@ -120,17 +120,24 @@ namespace Helperland.Controllers
                 var userIdentity = new ClaimsIdentity(userClaims, CookieAuthenticationDefaults.AuthenticationScheme);
                 HttpContext.Session.SetString("CurrentUser", JsonConvert.SerializeObject(user));
                 var userPrincipal = new ClaimsPrincipal( userIdentity );
-                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, userPrincipal, new AuthenticationProperties()
-                 {
-                     IsPersistent = model.RememberLogin
-                 });
+                //await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, userPrincipal, new AuthenticationProperties()
+                // {
+                //     IsPersistent = model.RememberLogin
+                // });
+                var authProperties = new AuthenticationProperties
+                {
+                    AllowRefresh = true,
+                    ExpiresUtc = DateTimeOffset.Now.AddDays(1),
+                    IsPersistent = model.RememberLogin,
+                };
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, userPrincipal, authProperties);
                 HttpContext.Session.SetString("User_Id", user.UserId.ToString());
                 HttpContext.Session.SetString("User_Email",user.Email);   //session value set
                 HttpContext.Session.SetString("User_Name", user.FirstName+" "+user.LastName)    ;
                 if (model.ReturnUrl == null)
                 {
                     switch (user.UserTypeId){
-                        case 1:return RedirectToAction("Admin", "admin");
+                        case 1:return RedirectToAction("AdminServiceRequest", "Admin");
                             break;
                         case 2:return RedirectToAction("NewServiceRequests", "ServiceProvider");
                             break;

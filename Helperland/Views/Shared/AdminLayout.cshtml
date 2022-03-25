@@ -1,0 +1,74 @@
+﻿    <!DOCTYPE html>
+
+<html>
+    <html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User-management</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+
+
+    <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap5.min.css"> -->
+    <!-- <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap5.min.css"> -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css" />
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.3/r-2.2.9/rg-1.1.4/datatables.min.css" />
+     
+   
+    <link rel="stylesheet" href="~/css/Admin/AdminLayout.css" asp-append-version="true" />
+
+    @if (IsSectionDefined("Link"))
+    {
+        @RenderSection("Link",required:true);
+    }
+</head>
+<body >
+     <header>
+        <div class="d-flex align-items-center">
+            <div id="open"><i class="fa fa-bars" ></i></div>
+            <div id="close"><i class="fa fa-times"></i></div>
+            
+            <div>
+                <h1><a asp-action="Index" asp-controller="home">helperland</a></h1>
+            </div>
+            <div class="ms-auto me-4">
+                <a href="#" class="logo1"><i class="fa fa-user-circle-o"></i></a><span class="js mx-2">Jhon Smith</span><a href="#" class="logo1"><i class="fa fa-power-off"></i></a>
+            </div>
+            </div>
+    </header>
+
+    <div class="fullPage d-flex ">
+        <div class="navSmMenu bg-white">
+                    
+                    <hr class="my-1" />
+                    <ul>
+                    <li class="li"><a class="liText">Service Requests</a></li>
+                    <li class="li"><a class="liText">User Management</a>t</li>
+                </ul>
+                </div>
+                <div class="fullPageHidden"></div>
+                
+            </div>
+  
+ 
+    <div>
+        @RenderBody()
+    </div>
+</body>
+</html>
+
+
+ <script src="~/js/Admin/AdminLayout.js" asp-append-version="true"></script>
+@if (IsSectionDefined("script"))
+{
+    @RenderSection("script", required: true)
+  
+}

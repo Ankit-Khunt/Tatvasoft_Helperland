@@ -9,6 +9,7 @@ namespace Helperland.ViewModels.ServiceProvider
         public User user { get; set; }
         public ServiceRequest serviceRequestViewModel { get; set; }
         public ServiceRequestAddress addressViewModel { get; set; }
+        public FavoriteAndBlocked favoriteAndBlocked { get; set; }
 
         public string ServiceArea { get; set; }
 

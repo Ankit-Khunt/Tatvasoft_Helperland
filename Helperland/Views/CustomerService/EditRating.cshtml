@@ -5,6 +5,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <button
+          id="EditRatingCloseBtn"
             type="button"
             class="btn-close"
             data-bs-dismiss="modal"
@@ -18,27 +19,33 @@
                    <span id="modal-sp-name">@Model.FirstName @Model.LastName</span>           
                    <div class="d-flex flex-wrap align-items-center">
                        <div class="rateit-average">
-                            @{
-                         int count = 1;
-                            for(int i = 1; i < 6; i++)
-                            {
+                           @{
+                                decimal ratingAverage = @Model.Ratings;
+                                int count = 1;
+                                if (@Model.Ratings== null)
+                                {
+                                for(int i = 1; i < 6; i++) { <img src="~/images/star-unfilled.png" class="star-unfilled me-1">
+                                  }
+                                  }
+                                  else
+                                  {
+                                  <span></span>
+                                  for(int i=1; i < 6; i++) { if (i <=ratingAverage) { <img src="~/images/star-filled.png" class="star-filled me-1">
+                                    }
+                                    else
+                                    {
+                                    <img src="~/images/star-unfilled.png" class="star-unfilled me-1">
+                                    }
+
+
+                                    }
+                                    }
+
+
+                                    }
+                           </div>
+                           <span id="averageRatingText">@Math.Round(ratingAverage,2)</span>
                       
-                        
-                                if(i <= @Model.OnTimeArrival)
-                                {
-                                        <img src="~/images/star-filled.png" class="star-filled me-1">
-                                }
-                                else
-                                {
-                                        <img src="~/images/star-unfilled.png" class="star-unfilled me-1">
-                                }
-                        
-                    
-                            }    
-                    
-                        }
-                       </div>
-                       <span id="average-rating-text">@Model.Ratings</span>
                    </div>          
                 </div>
             </div>
@@ -82,7 +89,7 @@
                     {
                       
                         
-                        if(i <= @Model.OnTimeArrival)
+                        if(i <= @Model.Friendly)
                         {
                                 <img  src="~/images/star-filled.png" class="star-filled  me-1 rateStar starFriend starFriend-@i " onclick="rateclick('star-@i','starFriend');" onmouseover="RateitJs('.starFriend','@i')" onmouseout="onmouseOutFun('.starFriend')">
                         }
@@ -106,7 +113,7 @@
                     {
                       
                         
-                        if(i <= @Model.OnTimeArrival)
+                        if(i <= @Model.QualityOfService)
                         {
                                 <img  src="~/images/star-filled.png" class="star-filled  me-1 rateStar starService starService-@i " onclick="rateclick('star-@i','starService');" onmouseover="RateitJs('.starService','@i')" onmouseout="onmouseOutFun('.starService')">
                         }

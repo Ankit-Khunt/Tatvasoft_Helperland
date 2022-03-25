@@ -1,0 +1,268 @@
+﻿@using Helperland.Models
+@using Helperland.ViewModels
+@model IQueryable<ServiceRequest>
+
+<table id="upcomingHistoryTable">
+                        <thead>
+                            <tr>
+                                <th class="th1">Service ID</th>
+                                <th class="th2">Service date</th>
+                                <th class="th3">Customer details</th>
+                                <th class="th4">service provider</th>
+                                <th class="th5">Gross Amount</th>
+                                <th class="th6" >Net Amount</th>
+                                <th class="th7">Discount</th>
+                                <th class="th8">Status</th>
+                                <th class="th9">Payment Satus</th>
+                                <th class="th10">Actions</th>
+
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach(var Data in Model){
+                                 var ServiceStDate = @Data.ServiceStartDate;
+                                String serstartHour = ServiceStDate. ToString("HH:mm");
+                                string serviceOnlyStatHour = ServiceStDate.ToString("HH");
+                                int endHour = Int16.Parse(serviceOnlyStatHour);
+                                double sqlServiceHour = @Data.ServiceHours;
+                                int sqlserviceHoutInt =(int) @Data.ServiceHours;
+                                double finalDecimalMinut = (sqlServiceHour - sqlserviceHoutInt)*60;
+                                if (finalDecimalMinut >= 60)
+                                {
+                                    finalDecimalMinut -= 60;
+
+                                    endHour += 1;
+                                }
+                                
+                                string endMinTimestr = ServiceStDate.ToString("mm");
+                                int endmintime=Int16.Parse(endMinTimestr);
+                               
+                                int finalendHour = endHour + sqlserviceHoutInt;
+                                //string endTime=
+                                //int fooInt=Int16.Parse(foo);
+                               // int endHour = fooInt + 1; 
+
+                                var OnlySerStDate=ServiceStDate.ToShortDateString();
+                                //var ServiceTime=
+                                 <tr>
+                               <td>
+                                <div class="th1">
+                                    <span class="serviceID">@Data.ServiceRequestId</span> 
+                                </div>
+                               </td> 
+
+                               <td >
+                                <div class="th2">
+                                    <div>
+                                        <img src="~/images/calander.png" class="me-1"><span
+                                                class="service-detail-date">@Data.ServiceStartDate.Date.ToString("dd/MM/yyyy")</span>
+                                    </div>
+                                        
+                                     @if (finalendHour < 10)
+                                            {
+                                                 <div class="service-detail-time">
+                                                    <img src="~/images/clock.png" class="me-1"> <span><span>@serstartHour</span>-<span><span>0</span>@finalendHour:@finalDecimalMinut<span>@if (finalDecimalMinut < 10) {<Span>0</span>}</span></span></span>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                 <div class="service-detail-time">
+                                                <img src="~/images/clock.png" class="me-1"> <span><span>@serstartHour</span>-<span></span>@finalendHour:@finalDecimalMinut<span>@if (finalDecimalMinut < 10) {<Span>0</span>}</span></span>
+                                                </div>
+                                            }
+                                           
+                                            
+                                </div>
+                                
+                                </td>
+
+
+
+                              
+                               <td>
+                                <div class="th3">
+                                   <span>@Data.User.FirstName @Data.User.LastName</span> 
+                                   <div class="d-flex flex-wrap">
+                                       <img src="~/images/home-icon.png" width="22px" height="22px">
+                                    
+                                       <span class="ms-2">@Data.ServiceRequestAddress.ElementAt(0).AddressLine1</span><br />
+                                       <div>
+                                            <span class="ms-2">@Data.ServiceRequestAddress.ElementAt(0).AddressLine2</span><br />
+                                       </div>
+                                      
+                                        <span class="ms-2">@Data.ServiceRequestAddress.ElementAt(0).PostalCode</span><br />
+                                         
+                                   </div>
+                                </div>
+                               
+                               </td> 
+                               <td>
+                                    @if(Data.ServiceProviderId != null)
+                                    {
+                                       <div class="td-4">
+                                    <div class="d-flex align-items-center">
+                                        <div class="hate">
+                                            <img src=@Data.ServiceProvider.UserProfilePicture  width="48" height="48">
+
+                                        </div>
+                                        <div class="ms-2">
+                                            <span>@Data.ServiceProvider.FirstName @Data.ServiceProvider.LastName</span>
+                                            <div class="d-flex mt-1 align-items-center">
+                                                        @{
+                                                            decimal ratingAverage = 0;
+                                                            foreach(var rt in @Data.ServiceProvider.RatingRatingToNavigation)
+                                                            {
+                                                                ratingAverage += rt.Ratings;
+                                                            }
+                                                            if(@Data.ServiceProvider.RatingRatingToNavigation.Count() != 0)
+                                                            {
+                                                            ratingAverage=ratingAverage/@Data.ServiceProvider.RatingRatingToNavigation.Count();
+                                                            }
+                                                       <span></span>
+                                                       for(int i = 1; i < 6; i++)
+
+                                                          {
+
+                                                             if(i <= ratingAverage)
+                                                                {
+                                                                    <img src="~/images/star-filled.png" class="star-filled me-1">
+                                                                }
+                                                                else
+                                                                 {
+                                                                     <img src="~/images/star-unfilled.png" class="star-unfilled me-1">
+                                                                 }
+                        
+                    
+                                                            }    
+                                                     }
+                                           <span id="average-rating-text">@ratingAverage</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> 
+                                    }
+                                    
+                               
+                               </td> 
+                               <td>
+                                   <span>@Data.SubTotal</span>
+                               </td>
+                                <td>
+                                   <span>@Data.TotalCost</span>
+                               </td>
+                               <td>
+                                   <span>@Data.Discount</span>
+                               </td>
+                               <td>
+                                <div class="td-5">
+                                    @if(Data.Status==ValuesData.SERVICE_PENDING){
+                                     <button type="button" class="new-button">New</button>
+                                     }
+                                    else if (Data.Status==ValuesData.SERVICE_ACCEPTED)
+                                     {
+                                    <span class="StatusSpan" id="AcceptedID">Pending</span>
+                                     }
+                                     else if(Data.Status==ValuesData.SERVICE_CANCELLED){
+                                         <span class="StatusSpan" id="CancledID">Cancled</span>
+                                     }
+                                     else if(Data.Status==ValuesData.SERVICE_COMPLETED){
+                                         <span class="StatusSpan" id="CompletedId">Completed</span>
+
+                                     }
+                                     else{
+                                        <span class="StatusSpan" id="Refunded">Refunded</span>
+                                     }
+
+                                </div>
+                               
+                               </td> 
+                               <td>
+                                   <span>null</span>
+                               </td>
+
+
+                               <td>
+                                    
+                                 
+                                    <div href="" id="navbardropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" class="d-flex justify-content-center align-items-center navbardropdownClass" onclick="onclickevent('#navbardropdown')">
+                                        <div>
+                                             <i class="fa fa-ellipsis-v"></i>
+                                        </div>
+
+                                       
+                                    </div>
+                                   
+                                   
+                                    <ul class="dropdown-menu" aria-labelledby="navbardropdown">
+                                        @if(Data.Status==ValuesData.SERVICE_PENDING || Data.Status==ValuesData.SERVICE_ACCEPTED){
+                                            <li><a class="dropdown-item" onclick="onEditLinkClick('@Data.ServiceRequestId')">Edit & Reschedule</a></li>
+                                        }
+                                        <li><a class="dropdown-item" href="#">Refund</a></li>
+                                        @if(Data.Status==ValuesData.SERVICE_PENDING || Data.Status==ValuesData.SERVICE_ACCEPTED){
+                                            <li><a href="#" class="dropdown-item">Cancel SR By Cust</a></li>
+                                        }
+                                        <li><a href="#" class="dropdown-item">Escalate</a></li>
+                                        <li><a href="#" class="dropdown-item">History Log</a></li>
+                                        <li><a href="#" class="dropdown-item">Download Invoice</a></li>
+
+                                    </ul>
+                               
+                               </td>
+                              
+                               
+                            </tr>
+                            }
+                           
+                            
+                            
+                            
+                           
+                        </tbody>
+        
+                    </table>
+
+
+                    <script>
+                        $(document).ready(function () {
+        $('#upcomingHistoryTable').DataTable({
+            "dom": '<"top"i>rt<"bottom"flp><"clear">',
+            "columnDefs": [
+                { "orderable": false, "targets": 4 }
+            ],
+            'responsive': true,
+
+            "bFilter": false, //hide Search bar
+            "pagingType": "full_numbers",
+            paging: true,
+            "pagingType": "full_numbers",
+            // bFilter: false,
+            ordering: true,
+            searching: false,
+            info: true,
+
+            language: {
+                paginate: {
+                    first: "<img src='/images/firstPage.png' alt='first' />",
+                    previous: "<img src='/images/previous.png' alt='previous' />",
+                    next: '<img src="/images/previous.png" alt="next" style="transform: rotate(180deg)" />',
+                    last: "<img src='/images/firstPage.png' alt='first' style='transform: rotate(180deg)' />",
+                },
+            },
+            "buttons": ["excel"],
+            "columnDefs": [{ orderable: false, targets: 4 }],
+            "columnDefs": [
+                { "orderable": false, "targets": 4 }
+            ],
+            "oLanguage": {
+                "sInfo": "Total Records: _TOTAL_"
+            },
+            "dom": '<"top">rt<"bottom"lip><"clear">',
+            responsive: true,
+            "order": []
+        });
+
+       
+    });
+
+                    </script>

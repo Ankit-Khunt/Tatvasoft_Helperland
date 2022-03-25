@@ -1,0 +1,72 @@
+﻿@{
+    ViewData["Title"] = "MyAccount";
+    Layout = "~/Views/Shared/SPLayout.cshtml";
+}
+
+@section Link{
+    <link rel="stylesheet" href="~/css/ServiceProviderAccount/SPAccount.css"  asp-append-version="true"/>
+     <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+}
+<main>
+
+    <div class="modal fade" tab-index="-1" id="customerModal" role="dialog"></div> 
+     
+       
+       
+     
+        <div class=" container-fluid d-felx justify-content-center mt-4">
+          
+              <div class="" style="float:left">
+                  <partial name="~/Views/CustomerService/VerticalBar.cshtml" />
+              </div>
+            
+               <div style="height:1000px">
+                   <div class="progressbar" >
+                              <div class="setup-service active-tab  ps-4 " id="MyDetailTab"
+                                onclick='MyAccountPrograssbar("#MyDetailTab","#myDatailTextId")'>
+    
+                                <span class="service-text-active" id="myDatailTextId">My Detail</span>
+    
+                              </div>
+                              
+                              <div class="setup-service tab  ps-4 " id="changePpassTab"
+                                onclick="MyAccountPrograssbar('#changePpassTab','#changePassTextId');">
+    
+                                <span class="service-text" id="changePassTextId">Change Password</span>
+                              </div>
+
+                             
+    
+                            </div>
+                            <div class="d-flex">
+                                <div id="myDetailContent" class="active-content content" style="width:100%">
+                                    @*<partial name="SPDetail.cshtml" />*@
+                            </div>
+                           
+                            <div id="changePassContent" class="content" style="width:100%">
+                              <partial name="SPChangePassword.cshtml" />
+                            </div>
+                            </div>
+                             
+               </div>
+                    
+                      
+               
+           </div>
+            
+           
+              
+            
+     
+
+       
+            
+
+       
+</main>
+
+
+@section script{
+   
+<script src="~/js/ServiceProviderAccount/SPAccount.js" asp-append-version="true"></script>
+}

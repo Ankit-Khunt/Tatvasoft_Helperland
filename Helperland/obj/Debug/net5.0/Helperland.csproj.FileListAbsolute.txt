@@ -473,3 +473,14 @@ D:\New version Heplerland\Helperland\obj\Debug\net5.0\Razor\Views\ServiceProvide
 D:\New version Heplerland\Helperland\obj\Debug\net5.0\Razor\Views\ServiceProvider\SPMyRating.cshtml.g.cs
 D:\New version Heplerland\Helperland\obj\Debug\net5.0\Razor\Views\ServiceProvider\MyRatingTablePar.cshtml.g.cs
 D:\New version Heplerland\Helperland\obj\Debug\net5.0\Razor\Views\ServiceProvider\BlockCustomer.cshtml.g.cs
+D:\New version Heplerland\Helperland\obj\Debug\net5.0\Razor\Views\ServiceProvider\SPAccount.cshtml.g.cs
+D:\New version Heplerland\Helperland\obj\Debug\net5.0\Razor\Views\ServiceProvider\SPChangePassword.cshtml.g.cs
+D:\New version Heplerland\Helperland\obj\Debug\net5.0\Razor\Views\ServiceProvider\SPDetail.cshtml.g.cs
+D:\New version Heplerland\Helperland\obj\Debug\net5.0\Razor\Views\Admin\AdminServiceRequest.cshtml.g.cs
+D:\New version Heplerland\Helperland\obj\Debug\net5.0\Razor\Views\Admin\AdminUserManagement.cshtml.g.cs
+D:\New version Heplerland\Helperland\obj\Debug\net5.0\Razor\Views\Shared\AdminLayout.cshtml.g.cs
+D:\New version Heplerland\Helperland\obj\Debug\net5.0\Razor\Views\Admin\VerticalNavbarAdmin.cshtml.g.cs
+D:\New version Heplerland\Helperland\obj\Debug\net5.0\Razor\Views\Admin\SRTableAdmin.cshtml.g.cs
+D:\New version Heplerland\Helperland\obj\Debug\net5.0\Razor\Views\Shared\SPLayout.cshtml.g.cs
+D:\New version Heplerland\Helperland\obj\Debug\net5.0\Razor\Views\Admin\EditServiceRequest.cshtml.g.cs
+D:\New version Heplerland\Helperland\obj\Debug\net5.0\Razor\Views\Admin\ServiceDetails.cshtml.g.cs

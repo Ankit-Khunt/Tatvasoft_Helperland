@@ -51,8 +51,14 @@ namespace Helperland
             //});
             //services.AddScoped<IAuthorizationHandler, PolicyAuthorizationHandler>();
             //services.AddScoped<IAuthorizationHandler, RolesAuthorizationHandler>();
-            services.AddControllersWithViews() ;
-            
+
+            //for Authorization role
+           
+
+            services.AddScoped<IAuthorizationHandler, RolesAuthorizationHandler>();
+
+            services.AddControllersWithViews();
+
             services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(20); // set the session expired time.

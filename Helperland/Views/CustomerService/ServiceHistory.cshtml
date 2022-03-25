@@ -18,7 +18,7 @@
      
      <div class="serviceUserHeader container-fluid justify-align-center d-flex justify-content-center">
               <h1 class=" Welcome-user d-flex align-items-center justify-content-center flex-wrap text-break ">Welcome,
-            <span class="headerUserName">@Html.Raw(ViewBag.UserName)</span> </h1>
+            <span class="headerUserName">@User.Identity.Name.Split(" ").ElementAt(0) !</span> </h1>
      </div>   
        
      
@@ -123,12 +123,36 @@
                                          {
                                              <div class="d-flex flex-wrap align-items-center">
                                                 <img id="profileImg" src="@Data.ServiceProvider.UserProfilePicture" alt="not" />
-                                                <div class="d-flex flex-column users-rating">
+                                                <div class="d-flex flex-column users-rating ms-3">
                                                     <span>@Data.ServiceProvider.FirstName @Data.ServiceProvider.LastName</span>
-                                                    <div class="d-flex align-items-center">
+                                                    <div class="d-flex align-items-center " >
+                                                             @{
+                                                                      decimal ratingAverage = 0;
+                                                                    foreach(var rt in @Data.ServiceProvider.RatingRatingToNavigation)
+                                                                    {
+                                                                        ratingAverage += rt.Ratings;
+                                                                    }
+                                                                    ratingAverage=ratingAverage/@Data.ServiceProvider.RatingRatingToNavigation.Count();
+                                                                    <span></span>
+                                                                    for(int i = 1; i < 6; i++)
 
-                                                       
+                                                                      {
+
+                                                                    if(i <= ratingAverage)
+                                                                    {
+                                                                            <img src="~/images/star-filled.png" class="star-filled me-1">
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                            <img src="~/images/star-unfilled.png" class="star-unfilled me-1">
+                                                                    }
+                        
+                    
+                                                                    }    
+                                                              }
+                                                          <span id="average-rating-text">@Math.Round(ratingAverage,2)</span>
                                                     </div>
+                                                     
                                                 </div>
                                             </div>
                                          }       

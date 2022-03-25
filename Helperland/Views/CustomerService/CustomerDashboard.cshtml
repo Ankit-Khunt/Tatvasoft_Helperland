@@ -1,5 +1,5 @@
 ﻿@using Helperland.ViewModels;
-@model IEnumerable<CustomeDashbordViewModel>
+@model IEnumerable<ServiceRequest>
 @{
     ViewData["Title"] = "CustomerService";
   
@@ -18,7 +18,7 @@
      
      <div class="serviceUserHeader container-fluid justify-align-center d-flex justify-content-center">
               <h1 class=" Welcome-user d-flex align-items-center justify-content-center flex-wrap text-break ">Welcome,
-            <span class="headerUserName">@Html.Raw(ViewBag.UserName)</span> </h1>
+            <span class="headerUserName">@User.Identity.Name.Split(" ").ElementAt(0) !</span> </h1>
      </div>   
        
      
@@ -57,15 +57,15 @@
                         if(Model != null)
                         {
 
-                            foreach(CustomeDashbordViewModel Data in Model)
+                            foreach(var Data in Model)
                             {
                                 var ServiceStDate = @Data.ServiceStartDate;
                                 String serstartHour = ServiceStDate. ToString("HH:mm");
                                 string serviceOnlyStatHour = ServiceStDate.ToString("HH");
                                 int endHour = Int16.Parse(serviceOnlyStatHour);
-                                float sqlServiceHour = @Data.ServiceHours;
+                                double sqlServiceHour = @Data.ServiceHours;
                                 int sqlserviceHoutInt =(int) @Data.ServiceHours;
-                                float finalDecimalMinut = (sqlServiceHour - sqlserviceHoutInt)*60;
+                                double finalDecimalMinut = (sqlServiceHour - sqlserviceHoutInt)*60;
                                 if (finalDecimalMinut >= 60)
                                 {
                                     finalDecimalMinut -= 60;
@@ -116,22 +116,57 @@
                                 </td>
                                 
                                     <td>
-                                    <div class="justify-content-start align-items-center d-flex td-2">
-                                    <div>
-                                        <span class="service-provider-icon rounded-circle"><img src="~/images/forma-1-copy-19.png " alt=""></span>
-                                    </div>
-                                    <div class="d-flex service-provider-name">
-                                        <span >@Data.UserTypeId</span>
-                                        <div>
-                                            <img src="~/images/star-filled.png">
-                                            <img src="~/images/star-filled.png">
-                                            <img src="~/images/star-filled.png">
-                                            <img src="~/images/star-unfilled.png">
-                                            <img src="~/images/star-unfilled.png">
-                                        </div>
-                                    </div>
-
-                                     </div>
+                                     @if (Data.ServiceProvider!=null) 
+                                         {
+                                             <div class="d-flex flex-wrap align-items-center">
+                                                <img id="profileImg" src="@Data.ServiceProvider.UserProfilePicture" alt="not" width="46px" height="46px" />
+                                                <div class="d-flex flex-column users-rating ms-3">
+                                                    <span>@Data.ServiceProvider.FirstName @Data.ServiceProvider.LastName</span>
+                                                    <div class="d-flex flex-wrap align-items-center">
+                                                       <div class="rateit-average">
+                                                            @{
+                                                                 decimal ratingAverage = 0;
+                                                                int count = 1;
+                                                                if (@Data.ServiceProvider.RatingRatingToNavigation== null)
+                                                                {
+                                                                    for(int i = 1; i < 6; i++)
+                                                                    {
+                                                                        <img src="~/images/star-unfilled.png" class="star-unfilled me-1">
+                                                                    }
+                                                                }
+                                                                else
+                                                                {
+                                                                   
+                                                                    foreach(var rt in @Data.ServiceProvider.RatingRatingToNavigation)
+                                                                    {
+                                                                        ratingAverage += rt.Ratings;
+                                                                    }
+                                                                    ratingAverage=ratingAverage/@Data.ServiceProvider.RatingRatingToNavigation.Count();
+                                                                    <span></span>
+                                                                    for(int i=1; i < 6; i++)
+                                                                    {
+                                                                    if (i <= ratingAverage)
+                                                                    {
+                                                                            <img src="~/images/star-filled.png" class="star-filled me-1">
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                            <img src="~/images/star-unfilled.png" class="star-unfilled me-1">
+                                                                    }
+                        
+                    
+                                                                    }    
+                                                                }
+                                                               
+                    
+                                                        }
+                                                       </div>
+                                                       <span id="average-rating-text">@Math.Round(ratingAverage,2)</span>
+                                                   </div>      
+                                                </div>
+                                            </div>
+                                         }   
+                                    
                                  </td>
                              
                                  

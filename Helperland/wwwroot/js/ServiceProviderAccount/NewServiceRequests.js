@@ -39,8 +39,21 @@
 
     $("#NewServiceId").addClass("active");
 
+    $.ajax({
+        url: "/ServiceProvider/NewServiceRequestTable",
+        type: "GET",
+        
+        success: function (result) {
+            $(".tableDiv").html(result);
+            
+
+        },
+        error: function () {
+            alert("error");
+        },
+    });
+
     
-   
 
 
 });
@@ -61,7 +74,7 @@ function petBoxfun(cid) {
                 checkVal: check ,
             },
             success: function (result) {
-                $("#upcomingHistoryTable").html(result);
+                $(".tableDiv").html(result);
                 
             },
             error: function () {
@@ -69,11 +82,16 @@ function petBoxfun(cid) {
             },
         });
     
-    
+    clickEvents();
     
     
 }
 
+function clickEvents() {
+    $(".Accept-Btn").click(function () {
+        AcceptSerFun($(this).attr("data-id"));
+    });
+}
 
 function petHasNOT() {
     var check;
@@ -152,6 +170,9 @@ function popUpFun(result) {
             $("#serviceProviderModel").html(result);
             $("#serviceProviderModel").modal("show");
             /*location.reload();*/
+            $(".AcceptBtnClose").click(function () {
+                location.reload();
+            });
 
         },
         error: function () {

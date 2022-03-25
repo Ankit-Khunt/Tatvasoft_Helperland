@@ -14,9 +14,11 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Helperland.Controllers
-{
+{ 
+    [Authorize (Roles ="3")]
     public class CustomerServiceController : Controller
     {
         public HelperlandContext _helperlandContext;
@@ -44,8 +46,11 @@ namespace Helperland.Controllers
         public IActionResult CustomerDashboard()
         
         {
-            fatchCustomerServiceData();
-            return View(_customeDashbordViewModel);
+            int userId = Int16.Parse(User.Claims.FirstOrDefault(x => x.Type == "userId").Value);
+            IEnumerable<ServiceRequest> serviceRequests = _helperlandContext.ServiceRequest.Include(x => x.ServiceProvider).ThenInclude(x=>x.RatingRatingToNavigation).Where(x => (x.Status == ValuesData.SERVICE_ACCEPTED || x.Status == ValuesData.SERVICE_PENDING) && x.UserId == userId ).ToList();
+           
+            //fatchCustomerServiceData();
+            return View(serviceRequests);
         }
 
       
@@ -232,8 +237,10 @@ namespace Helperland.Controllers
 
         public IActionResult ServiceHistory()
         {
+           
+            int userId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "userId").Value);
             //return partialview with all the requests which are completed,cancelled or refunded.
-            IEnumerable<ServiceRequest> serviceRequests = _helperlandContext.ServiceRequest.Include(x => x.ServiceProvider).ThenInclude(x => x.RatingRatingToNavigation).Where(x => x.Status != ValuesData.SERVICE_PENDING && x.Status != ValuesData.SERVICE_ACCEPTED).ToList();
+            IEnumerable<ServiceRequest> serviceRequests = _helperlandContext.ServiceRequest.Include(x => x.ServiceProvider).ThenInclude(x => x.RatingRatingToNavigation).Where(x => x.Status != ValuesData.SERVICE_PENDING && x.Status != ValuesData.SERVICE_ACCEPTED && x.UserId== userId  ).ToList();
             return View(serviceRequests);
         }
 
@@ -242,37 +249,88 @@ namespace Helperland.Controllers
         {
             Rating rating=_helperlandContext.Rating.Include(x=>x.RatingToNavigation).FirstOrDefault(x=>x.ServiceRequestId == id);
             RatingViewModel model=new RatingViewModel();
-            var serviceProRate = _helperlandContext.Rating.Where(x => x.RatingTo == rating.RatingTo).ToList();
-            decimal avgRat=0;
-            foreach(var data in serviceProRate)
+            if (rating == null)
             {
-                avgRat += data.Ratings;
+                ServiceRequest serviceRequest =_helperlandContext.ServiceRequest.Include(x=>x.ServiceProvider).Where(x=>x.ServiceRequestId==id).FirstOrDefault();
+                var serviceProvider = _helperlandContext.Rating.Where(x => x.RatingTo == serviceRequest.ServiceProviderId).ToList();
+                decimal avgRat = 0;
+                int count=0;
+                foreach (var data in serviceProvider)
+                {
+                    avgRat += data.Ratings;
+                    count++;
+                }
+                avgRat=avgRat/count;
+                model.Ratings = avgRat;
+                model.ServiceRequestId = id;
+                model.FirstName = serviceRequest.ServiceProvider.FirstName;
+                model.LastName = serviceRequest.ServiceProvider.LastName;
+                model.UserProfilePicture = serviceRequest.ServiceProvider.UserProfilePicture;
+
+                return PartialView(model);
             }
-            decimal x = avgRat;
-            model.ServiceRequestId =id;
-            model.FirstName=rating.RatingToNavigation.FirstName;
-            model.LastName=rating.RatingToNavigation.LastName;
-            model.Ratings = avgRat; 
-            model.OnTimeArrival = rating.OnTimeArrival;
-            model.QualityOfService=rating.QualityOfService;
-            model.Friendly=rating.Friendly;
-            model.UserProfilePicture = rating.RatingToNavigation.UserProfilePicture;
-            //IEnumerable<Rating>  rating = _helperlandContext.Rating.Include(x => x.RatingToNavigation).Where(x => x.ServiceRequestId == id).ToList();
-           return PartialView(model);
+            else
+            {
+                var serviceProRate = _helperlandContext.Rating.Where(x => x.RatingTo == rating.RatingTo).ToList();
+                decimal avgRat = 0;
+                int count = 0;
+                foreach (var data in serviceProRate)
+                {
+                    avgRat += data.Ratings;
+                    count++;
+                }
+                avgRat= avgRat/count;
+                model.ServiceRequestId = id;
+                model.FirstName = rating.RatingToNavigation.FirstName;
+                model.LastName = rating.RatingToNavigation.LastName;
+                model.Ratings = rating.Ratings;
+                model.OnTimeArrival = rating.OnTimeArrival;
+                model.QualityOfService = rating.QualityOfService;
+                model.Friendly = rating.Friendly;
+                model.UserProfilePicture = rating.RatingToNavigation.UserProfilePicture;
+                //IEnumerable<Rating>  rating = _helperlandContext.Rating.Include(x => x.RatingToNavigation).Where(x => x.ServiceRequestId == id).ToList();
+                return PartialView(model);
+
+            }
+            
         }
         [HttpPost]
         public JsonResult EditRating( RatingViewModel model)
         {
+            
             Rating rating = _helperlandContext.Rating.FirstOrDefault(x => x.ServiceRequestId == model.ServiceRequestId);
-            rating.RatingDate = DateTime.Now;
-            rating.Ratings = model.Ratings;
-            rating.OnTimeArrival = model.OnTimeArrival;
-            rating.Friendly = model.Friendly;
-            rating.QualityOfService = model.QualityOfService;
-            rating.Comments = model.Comments;
-            _helperlandContext.Rating.Update(rating);
-            _helperlandContext.SaveChanges();
-            return Json(" ");
+            if (rating == null)
+            {
+                ServiceRequest serviceRequest = _helperlandContext.ServiceRequest.Include(x => x.ServiceProvider).Include(x=>x.User).Where(x => x.ServiceRequestId == model.ServiceRequestId).FirstOrDefault();
+
+                Rating rating1 =new Rating();
+
+                rating1.RatingFrom = serviceRequest.User.UserId;
+                rating1.RatingTo = serviceRequest.ServiceProvider.UserId;
+                rating1.RatingDate = DateTime.Now;
+                rating1.Ratings = model.Ratings;
+                rating1.ServiceRequestId = model.ServiceRequestId;
+                rating1.OnTimeArrival = model.OnTimeArrival;
+                rating1.Friendly = model.Friendly;
+                rating1.QualityOfService = model.QualityOfService;
+                rating1.Comments = model.Comments;
+                _helperlandContext.Rating.Add(rating1);
+                _helperlandContext.SaveChanges();
+                return Json(" ");
+            }
+            else
+            {
+                rating.RatingDate = DateTime.Now;
+                rating.Ratings = model.Ratings;
+                rating.OnTimeArrival = model.OnTimeArrival;
+                rating.Friendly = model.Friendly;
+                rating.QualityOfService = model.QualityOfService;
+                rating.Comments = model.Comments;
+                _helperlandContext.Rating.Update(rating);
+                _helperlandContext.SaveChanges();
+                return Json(" ");
+            }
+           
         }
 
         public IActionResult MyAccount()

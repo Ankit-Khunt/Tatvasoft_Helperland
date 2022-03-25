@@ -9,8 +9,8 @@
 
     $("select.StausOfTableClass").change(function () {
         var selectedOP = $(this).children("option:selected").val();
-        alert("You have selected the country - " + selectedOP);
-        callSPMyRatingTable(selectedOP);
+       
+        callSPMyRatingTable();
     });
     //if (status >= 0 && status != 10) {
 

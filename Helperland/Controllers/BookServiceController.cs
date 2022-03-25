@@ -16,7 +16,7 @@ using static Helperland.ViewModels.BookServiceViewModel;
 
 namespace Helperland.Controllers
 {
-    
+    [Authorize(Roles = "3")]
     public class BookServiceController : Controller
     {
         public HelperlandContext _helperlandContext;
@@ -229,6 +229,7 @@ namespace Helperland.Controllers
                 serviceRequest.TotalCost= model.TotalCost;
                 serviceRequest.ModifiedDate = DateTime.Now;
                 serviceRequest.Distance = distance;
+                serviceRequest.RecordVersion = Guid.NewGuid();
                 _helperlandContext.ServiceRequest.Add(serviceRequest);
                 _helperlandContext.SaveChanges();
                 return Ok("ServiceRquest Form Data received!");

@@ -71,7 +71,7 @@ function ServiceDetailFun( serviceId) {
 }
 
 $(".reshadual-btn").click(function () {
-
+   
     loadRescheduleDialog($(this).attr("id"));
 
 });
@@ -80,6 +80,7 @@ $(".CancleBtnTable").click(function () {
 });
 
 function loadRescheduleDialog(serviceId) {
+   
     $.ajax({
         url: "/CustomerService/RescheduleService",
         type: "GET",
@@ -89,10 +90,18 @@ function loadRescheduleDialog(serviceId) {
         success: function (result) {
             $("#customerModal").html(result);
             $("#customerModal").modal("show");
+          
+           
         },
         error: function () {
             alert("error");
         },
+    });
+}
+
+function closeReschedual() {
+    $("#reschedualCloseBtn").click(function () {
+        onRelod();
     });
 }
 
@@ -107,13 +116,13 @@ function loadCancleDilog(serviceId) {
             $("#customerModal").html(result);
             $("#customerModal").modal("show");
             $("#cancelRequestBtn").attr("disabled", true);
-            $("#cancelRequestBtn").css("background-color", "black");
+            $("#cancelRequestBtn").css("background-color", "#6DA9B5");
 
             $(".cancel-request textarea").on("keyup", function () {
                 var textarea_value = $(".cancel-request textarea").val();
                 if (textarea_value != "") {
                     $("#cancelRequestBtn").attr("disabled", false);
-                    $("#cancelRequestBtn").css("background-color", "green");
+                    $("#cancelRequestBtn").css("background-color", "#1D7A8C");
                 } else {
                     $("#cancelRequestBtn").attr("disabled", true);
                 }

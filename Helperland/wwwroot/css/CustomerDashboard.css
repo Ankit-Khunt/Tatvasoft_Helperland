@@ -216,6 +216,39 @@ td > span,
     font-weight: 700;
 }
 
+.reschedule,
+.cancel {
+    width: 70px;
+    height: 34px;
+    text-align: center;
+    background: #146371;
+    border-radius: 17px;
+    color: white;
+    border-color: transparent;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: none;
+    display: inline-flex;
+    align-items: center;
+}
+.reschedule {
+    width: auto !important;
+}
+
+.cancel {
+    width: auto;
+    background-color: indianred;
+}
+
+.reschedule:hover {
+    background-color: #146371;
+    border-color: transparent;
+}
+
+.cancel:hover {
+    background-color: indianred;
+    border-color: transparent;
+}
 
 /* .tdHead svg,
 .tdHead img,
@@ -433,9 +466,7 @@ div.dataTables_paginate {
     content: "Rate this Service Provider";
 }
 
-.cancel::before {
-    content: "Cancel this Service";
-}
+
 
 .dt-button::after,
 .rate::after,
@@ -453,13 +484,13 @@ div.dataTables_paginate {
 
 .dt-button:hover::before,
 .rate:hover::before,
-.cancel:hover::before {
+ {
     opacity: 1;
 }
 
 .dt-button:hover::after,
 .rate:hover::after,
-.cancel:hover::after {
+ {
     border-left: 6px solid #000;
 }
 

@@ -8,6 +8,7 @@
     <div class="modal-header">
       <h4 class="modal-title">Reschedule Service Request</h4>
       <button
+      id="reschedualCloseBtn"
         type="button"
         class="btn-close"
         data-bs-dismiss="modal"
@@ -15,7 +16,7 @@
       ></button>
     </div>
     <div class="modal-body reschedule-request">
-        <form id="rescheduleForm" data-ajax="true" data-ajax-url="/CustomerService/RescheduleService" data-ajax-method="post" data-ajax-update="#customerModal" data-ajax-success="onRelod()">
+        <form id="rescheduleForm" data-ajax="true" data-ajax-url="/CustomerService/RescheduleService" data-ajax-method="post" data-ajax-update="#customerModal" data-ajax-success="closeReschedual()" >
             <span>Select New Date & Time</span>
             <div class="row">
                 <div class="col-6">

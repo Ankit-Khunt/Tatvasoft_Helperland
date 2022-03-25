@@ -1,0 +1,104 @@
+﻿@using Helperland.Models
+@model IQueryable<ServiceRequest>
+@{
+    Layout= "~/Views/Shared/AdminLayout.cshtml";
+}
+
+@section Link{
+     <link rel="stylesheet" href="~/css/Admin/AdminServiceRequest.css" asp-append-version="true">
+     
+}
+ 
+
+    <main>
+        <div class="modal fade" tab-index="-1" id="adminModal" role="dialog"></div>
+        <div id="main" class="d-flex ">
+            <partial name="VerticalNavbarAdmin.cshtml" />
+
+            <div class="d-flex flex-column table-container mx-2" id="content">
+                <div class="d-flex align-items-center flex-wrap my-3">
+                    <h6>Service Requests</h6>
+                </div>
+                <div class="form">
+                    <div class="d-flex flex-wrap align-items-center pt-3">
+                        <div class="px-2 pb-2">
+                             <input type="text" id="selectFormId" class="form-control " placeholder="Select Id"/>
+                        </div>
+                        <div class="px-2 pb-2">
+                             <input type="text" id="PostalCodeFormID" class="form-control" placeholder="Postal code" />
+                        </div>
+                        <div class="px-2 pb-2">
+                             <input type="text" id="EmailFormId" class="form-control" placeholder="Email Address" />
+                        </div>
+                         <div class="px-2 pb-2" >
+                             <input type="text" id="selectCustomerFormId" class="form-control " placeholder="Select Customer" />
+                        </div>
+                         <div class="px-2 pb-2" >
+                             <input type="text" id="selectSPFormId" class="form-control " placeholder="Select Service Provier" />
+                        </div>
+                         
+                         <div class="px-2 pb-2">
+                            <select class="form-select" id="statusFormID">
+                                <option>Select Status</option>
+                                <option value="1">New</option>
+                                <option value="2">Pending</option>
+                                <option>Completed</option>
+                                <option>Canclled</option>
+                                <option>Refunded</option>
+                                <option>Expired</option>
+                                <option>Rescheduled</option>
+                            </select>
+                        </div>
+                       
+                        <div class="px-2 pb-2" >
+                             <input type="checkbox" id="HasPetFormId" class="form-check-input " />
+                             <label class="form-input-lable"> Has Pets</label>
+                        </div>
+                         <div class="px-2 pb-2">
+                            <input type="date" class="form-control" placeholder="From Date" id="fromDateFormId" />
+                        </div>
+                         <div class="px-2 pb-2">
+                            <input type="date" class="form-control" placeholder="To Date" id="toDateFormId"  />
+                        </div>
+                        <div class="px-2 pb-2">
+                            <button type="button" id="search" onclick="OnSearch()">Search</button>
+                        </div>
+                        <div class="px-2 pb-2">
+                            <button type="button" id="clear">Clear</button>
+                        </div>
+                    </div>
+                    
+                 </div>
+                <div class="SRTable">
+                  
+                    <p class="last">©2018 Helperland. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript"
+    src="https://cdn.datatables.net/v/dt/dt-1.11.3/r-2.2.9/rg-1.1.4/datatables.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.1.0/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.html5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    @section script{
+        <script src="~/js/Admin/AdminServiceRequest.js" asp-append-version="true"></script>
+         <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+    }
+
+
+
+
+
+  
+
+    
+
+
+ 

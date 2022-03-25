@@ -43,7 +43,7 @@
 
     $("select.StausOfTableClass").change(function () {
         var selectedCountry = $(this).children("option:selected").val();
-        alert("You have selected the country - " + selectedCountry);
+       
         callSPHistoryTable(selectedCountry);
     });
     //if (status >= 0 && status != 10) {
