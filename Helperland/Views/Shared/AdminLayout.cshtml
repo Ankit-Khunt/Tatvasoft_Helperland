@@ -40,7 +40,7 @@
                 <h1><a asp-action="Index" asp-controller="home">helperland</a></h1>
             </div>
             <div class="ms-auto me-4">
-                <a href="#" class="logo1"><i class="fa fa-user-circle-o"></i></a><span class="js mx-2">Jhon Smith</span><a href="#" class="logo1"><i class="fa fa-power-off"></i></a>
+                <a href="#" class="logo1"><i class="fa fa-user-circle-o"></i></a><span class="js mx-2">@User.Identity.Name</span><a asp-action="LogOut" asp-controller="Account" class="logo1"><i class="fa fa-power-off"></i></a>
             </div>
             </div>
     </header>

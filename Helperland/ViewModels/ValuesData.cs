@@ -5,9 +5,9 @@ namespace Helperland.ViewModels
 {
     public class ValuesData
     {
-        public const int CUSTOMER = 1;
+        public const int CUSTOMER = 3;
         public const int SERVICE_PROVIDER = 2;
-        public const int ADMIN = 3;
+        public const int ADMIN = 1;
 
         public const int SERVICE_PENDING = 1;
         public const int SERVICE_ACCEPTED = 2;

@@ -169,5 +169,122 @@ namespace Helperland.Controllers
             return PartialView(serviceRequest);
         }
 
+        public IActionResult UserManagement()
+        {
+            return View();
+        }
+        [HttpGet]
+        public PartialViewResult UserManagementTable()
+            {
+            var result = _helperlandContext.User.AsQueryable();
+
+            return PartialView(result);
+        }
+        public PartialViewResult UserFilter(string? UserName,string? PostalCodeForm,string? phoneNumber,string? EmailForm,int? UserRoleSelect,DateTime? fromDateForm,DateTime? toDateFormId)
+        {
+            var result = _helperlandContext.User.AsQueryable();
+            if (!string.IsNullOrEmpty(UserName))
+
+                result = result.Where(x =>( x.FirstName +" "+ x.LastName) == UserName || x.FirstName==UserName || x.LastName==UserName);
+            //if (!string.IsNullOrEmpty(PostalCodeForm))
+            //    result = result.Where(x => x.ServiceRequestAddress.Select(x => x.PostalCode == PostalCodeForm).FirstOrDefault());
+            if (!string.IsNullOrEmpty(EmailForm))
+                result = result.Where(x => x.Email == EmailForm);
+            if (!string.IsNullOrEmpty(phoneNumber))
+                result = result.Where(x => x.Mobile == phoneNumber);
+            if (!string.IsNullOrEmpty(PostalCodeForm))
+                result = result.Where(x => x.ZipCode == PostalCodeForm);
+            if (UserRoleSelect.HasValue)
+                result = result.Where(x => x.UserTypeId == UserRoleSelect);
+           
+
+            if (fromDateForm.HasValue && toDateFormId.HasValue)
+            {
+                result = result.Where(x =>x.CreatedDate.Date>=fromDateForm && x.CreatedDate.Date <= toDateFormId);
+            }
+            else
+            {
+                if (fromDateForm.HasValue)
+                    result = result.Where(x => x.CreatedDate.Date >= fromDateForm);
+                if (toDateFormId.HasValue)
+                    result = result.Where(x => x.CreatedDate.Date <= toDateFormId);
+            }
+
+            return PartialView("UserManagementTable",result);
+        }
+
+        public JsonResult ActiveUser(int Id)
+        {
+            User result = _helperlandContext.User.Where(x=>x.UserId==Id).FirstOrDefault();
+
+            result.IsActive = true;
+            result.IsApproved=true;
+            result.ModifiedDate = DateTime.Now;
+            result.ModifiedBy= Int16.Parse(User.Claims.FirstOrDefault(x => x.Type == "userId").Value);
+            _helperlandContext.User.Update(result);
+            _helperlandContext.SaveChanges();
+
+            return Json("OK");
+        }
+        public JsonResult InactiveUser(int Id)
+        {
+            User result = _helperlandContext.User.Where(x => x.UserId == Id).FirstOrDefault();
+
+            result.IsActive = false;
+            result.IsApproved = false;
+            result.ModifiedDate = DateTime.Now;
+            result.ModifiedBy = Int16.Parse(User.Claims.FirstOrDefault(x => x.Type == "userId").Value);
+            _helperlandContext.User.Update(result);
+            _helperlandContext.SaveChanges();
+
+            return Json("OK");
+        }
+
+        public JsonResult DeleteUsers(int Id)
+        {
+            User result = _helperlandContext.User.Where(x => x.UserId == Id).FirstOrDefault();
+
+            result.IsActive = false;
+            result.IsApproved = false;
+            result.IsDeleted = true;
+            result.ModifiedDate = DateTime.Now;
+            result.ModifiedBy = Int16.Parse(User.Claims.FirstOrDefault(x => x.Type == "userId").Value);
+            _helperlandContext.User.Update(result);
+            _helperlandContext.SaveChanges();
+
+            return Json("OK");
+        }
+
+        [HttpGet]
+        public PartialViewResult CancelServiceRequest()
+        {
+            return PartialView();
+        }
+
+        [HttpPost]
+        public PartialViewResult CancelServiceRequest(int id, string comment)
+        {
+            
+            ServiceRequest serviceRequest = _helperlandContext.ServiceRequest.Include(x => x.User).Include(x => x.ServiceProvider).FirstOrDefault(x => x.ServiceRequestId == id);
+            serviceRequest.Comments = comment;
+            serviceRequest.Status = ValuesData.SERVICE_CANCELLED;
+            serviceRequest.ModifiedDate = DateTime.Now;
+            _helperlandContext.ServiceRequest.Update(serviceRequest);
+            _helperlandContext.SaveChanges();
+            List<string> emailList = new List<string>();
+            emailList.Add(serviceRequest.User.Email);
+            //if request was accepted by any service provider then send email
+            if (serviceRequest.ServiceProvider != null)
+            {
+                emailList.Add(serviceRequest.ServiceProvider.Email);
+            }
+            string subject = "Request Cancelled By Admin!";
+            string body = "Service Request " + serviceRequest.ServiceRequestId + " has been cancelled by Admin.";
+            EmailManager.SendEmail(emailList, subject, body);
+            //return and show success message to customer
+            var message = "Request cancelled successfully..";
+            ViewBag.Alert = "<div class='alert alert-success alert-dismissible fade show' role='alert'>" + message + "<button type= 'button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+            return PartialView();
+        }
     }
 }

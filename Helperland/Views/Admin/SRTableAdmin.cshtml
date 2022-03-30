@@ -1,5 +1,6 @@
 ﻿@using Helperland.Models
 @using Helperland.ViewModels
+@using System.Globalization
 @model IQueryable<ServiceRequest>
 
 <table id="upcomingHistoryTable">
@@ -9,11 +10,11 @@
                                 <th class="th2">Service date</th>
                                 <th class="th3">Customer details</th>
                                 <th class="th4">service provider</th>
-                                <th class="th5">Gross Amount</th>
-                                <th class="th6" >Net Amount</th>
+                                <th class="th5 text-center">Gross Amount</th>
+                                <th class="th6 text-center" >Net Amount</th>
                                 <th class="th7">Discount</th>
                                 <th class="th8">Status</th>
-                                <th class="th9">Payment Satus</th>
+                                <th class="th9 text-center">Payment Satus</th>
                                 <th class="th10">Actions</th>
 
                                 
@@ -54,21 +55,21 @@
 
                                <td >
                                 <div class="th2">
-                                    <div>
-                                        <img src="~/images/calander.png" class="me-1"><span
-                                                class="service-detail-date">@Data.ServiceStartDate.Date.ToString("dd/MM/yyyy")</span>
+                                    <div class="d-flex">
+                                        <img src="~/images/calander.png" class="me-1" width="22px" height="22px"><span
+                                                class="service-detail-date">@Data.ServiceStartDate.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)</span>
                                     </div>
                                         
                                      @if (finalendHour < 10)
                                             {
-                                                 <div class="service-detail-time">
-                                                    <img src="~/images/clock.png" class="me-1"> <span><span>@serstartHour</span>-<span><span>0</span>@finalendHour:@finalDecimalMinut<span>@if (finalDecimalMinut < 10) {<Span>0</span>}</span></span></span>
+                                                 <div class="service-detail-time d-flex">
+                                                    <img src="~/images/clock.png" class="me-1" width="22px" height="22px"> <span class="tableSpan"><span>@serstartHour</span>-<span><span>0</span>@finalendHour:@finalDecimalMinut<span>@if (finalDecimalMinut < 10) {<Span>0</span>}</span></span></span>
                                                 </div>
                                             }
                                             else
                                             {
-                                                 <div class="service-detail-time">
-                                                <img src="~/images/clock.png" class="me-1"> <span><span>@serstartHour</span>-<span></span>@finalendHour:@finalDecimalMinut<span>@if (finalDecimalMinut < 10) {<Span>0</span>}</span></span>
+                                                 <div class="service-detail-time d-flex">
+                                                <img src="~/images/clock.png" class="me-1" width="22px" height="22px"> <span class="tableSpan"><span>@serstartHour</span>-<span></span>@finalendHour:@finalDecimalMinut<span>@if (finalDecimalMinut < 10) {<Span>0</span>}</span></span>
                                                 </div>
                                             }
                                            
@@ -82,16 +83,21 @@
                               
                                <td>
                                 <div class="th3">
-                                   <span>@Data.User.FirstName @Data.User.LastName</span> 
-                                   <div class="d-flex flex-wrap">
-                                       <img src="~/images/home-icon.png" width="22px" height="22px">
-                                    
-                                       <span class="ms-2">@Data.ServiceRequestAddress.ElementAt(0).AddressLine1</span><br />
+                                   
+                                   <div class="d-flex align-items-center">
                                        <div>
-                                            <span class="ms-2">@Data.ServiceRequestAddress.ElementAt(0).AddressLine2</span><br />
+                                           <img src="~/images/home-icon.png" width="22px" height="22px">
                                        </div>
-                                      
-                                        <span class="ms-2">@Data.ServiceRequestAddress.ElementAt(0).PostalCode</span><br />
+
+                                       
+                                        <div class="ms-2 tableSpan" >
+                                            <span class="tableSpan">@Data.User.FirstName @Data.User.LastName</span> <br/>
+                                            <span >@Data.ServiceRequestAddress.ElementAt(0).AddressLine1</span><br />
+                                            <span >@Data.ServiceRequestAddress.ElementAt(0).AddressLine2</span><br />
+                                            <span>@Data.ServiceRequestAddress.ElementAt(0).PostalCode</span><br />
+                                        </div>
+
+                                       
                                          
                                    </div>
                                 </div>
@@ -107,7 +113,7 @@
 
                                         </div>
                                         <div class="ms-2">
-                                            <span>@Data.ServiceProvider.FirstName @Data.ServiceProvider.LastName</span>
+                                            <span class="tableSpan">@Data.ServiceProvider.FirstName @Data.ServiceProvider.LastName</span>
                                             <div class="d-flex mt-1 align-items-center">
                                                         @{
                                                             decimal ratingAverage = 0;
@@ -146,13 +152,13 @@
                                
                                </td> 
                                <td>
-                                   <span>@Data.SubTotal</span>
+                                   <span class="tableSpan">@Data.SubTotal &euro;</span>
                                </td>
                                 <td>
-                                   <span>@Data.TotalCost</span>
+                                   <span  class="tableSpan">@Data.TotalCost &euro;</span>
                                </td>
                                <td>
-                                   <span>@Data.Discount</span>
+                                   <span  class="tableSpan"> @Data.Discount</span>
                                </td>
                                <td>
                                 <div class="td-5">
@@ -178,16 +184,16 @@
                                
                                </td> 
                                <td>
-                                   <span>null</span>
+                                   <span  class="tableSpan">null</span>
                                </td>
 
 
-                               <td>
+                               <td >
                                     
                                  
-                                    <div href="" id="navbardropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" class="d-flex justify-content-center align-items-center navbardropdownClass" onclick="onclickevent('#navbardropdown')">
+                                    <div   role="button" data-bs-toggle="dropdown" aria-expanded="false" class="d-flex justify-content-center align-items-center navbardropdownClass navbardropdown"  >
                                         <div>
-                                             <i class="fa fa-ellipsis-v"></i>
+                                             <i class="fa fa-ellipsis-v "></i>
                                         </div>
 
                                        
@@ -200,7 +206,7 @@
                                         }
                                         <li><a class="dropdown-item" href="#">Refund</a></li>
                                         @if(Data.Status==ValuesData.SERVICE_PENDING || Data.Status==ValuesData.SERVICE_ACCEPTED){
-                                            <li><a href="#" class="dropdown-item">Cancel SR By Cust</a></li>
+                                            <li><a href="#" class="dropdown-item" onclick="onCancelLinkClick('@Data.ServiceRequestId')">Cancel SR By Cust</a></li>
                                         }
                                         <li><a href="#" class="dropdown-item">Escalate</a></li>
                                         <li><a href="#" class="dropdown-item">History Log</a></li>

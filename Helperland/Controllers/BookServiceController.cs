@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using static Helperland.ViewModels.BookServiceViewModel;
 
 namespace Helperland.Controllers
@@ -42,8 +43,10 @@ namespace Helperland.Controllers
             {
                 _userAddresses.Clear();
             }
+            string currentUser = HttpContext.Session.GetString("CurrentUser");
+            User user = JsonConvert.DeserializeObject<User>(currentUser);
             var userid = HttpContext.Session.GetString("User_Id");
-            int userId = Int16.Parse(userid);
+            int userId = user.UserId;
             con.Open();
             com.Connection = con;
             com.CommandText = "select AddressLine1,AddressLine2,Mobile,City,PostalCode from UserAddress where UserId='" + userId+"'";
@@ -99,17 +102,26 @@ namespace Helperland.Controllers
         
         public IActionResult ZipCodeManager(BookServiceViewModel model)
         {
-            
-            Zipcode zipcodeValue = _helperlandContext.Zipcode.Where(x => x.ZipcodeValue == model.ZipcodeValue).FirstOrDefault();
-            if (zipcodeValue == null)
+            if (ModelState.IsValid)
             {
-                ViewBag.Message = false;
-                ViewBag.PostalError = "This field is required";
+                Zipcode zipcodeValue = _helperlandContext.Zipcode.Where(x => x.ZipcodeValue == model.ZipcodeValue).FirstOrDefault();
+                if (zipcodeValue == null)
+                {
+                    ViewBag.Message = false;
+                    ViewBag.PostalError = "We are not providing service in this area." +
+                        "We’ll notify you if any helper would start working near your area.";
+                    return View("~/Views/BookService/BookServicePage.cshtml");
+                }
+              
+                HttpContext.Session.SetString("_zipCode", zipcodeValue.ZipcodeValue);
+                ViewBag.Message = true;
                 return View("~/Views/BookService/BookServicePage.cshtml");
             }
-            HttpContext.Session.SetString("_zipCode", zipcodeValue.ZipcodeValue);
-            ViewBag.Message = true;
-            return View("~/Views/BookService/BookServicePage.cshtml");
+            else
+            {
+                return View("~/Views/BookService/BookServicePage.cshtml");
+            }
+            
         }
 
        public async Task<IActionResult> CheckCardDetail(BookServiceViewModel model)
@@ -142,9 +154,9 @@ namespace Helperland.Controllers
                 var userEmail = HttpContext.Session.GetString("User_Email");
                 int userId = Int16.Parse(userid);
                 //User user = _helperlandContext.User.Where(user.UserId==uu).FirstOrDefault();
-                User user = new User();
-               
-              
+               // User user = new User();
+                User user = _helperlandContext.User.Where(x => x.UserId == userId).FirstOrDefault();  
+                IEnumerable<UserAddress> userAddressFatch=_helperlandContext.UserAddress.Where(x=>x.UserId == userId).ToList();
 
                 UserAddress userAddress = new UserAddress();
 
@@ -155,9 +167,21 @@ namespace Helperland.Controllers
                 userAddress.PostalCode = model.PostalCodeAddresss;
                 userAddress.City = model.CityAddress;
                 userAddress.Mobile = model.MobileAddress;
-                userAddress.IsDefault = false;
+                if(userAddressFatch.Any(x=>x.IsDefault==true))
+                {
+                    userAddress.IsDefault = false;
+                   
+                }
+                else
+                {
+                    userAddress.IsDefault = true;
+                    user.ZipCode = model.PostalCodeAddresss;
+                    _helperlandContext.User.Update(user);
+                }
+                
                 userAddress.IsDeleted = false;
                 userAddress.Email = userEmail;
+                
                 _helperlandContext.UserAddress.Add(userAddress);
                 _helperlandContext.SaveChanges();
 
@@ -207,6 +231,7 @@ namespace Helperland.Controllers
                 bool paymetDone = true;
                 bool paymetDue = false;
                 var distance = 10;
+                int? spID = model.selectedFSPId;
                 var zipCode=HttpContext.Session.GetString("_zipCode");
                 ServiceRequest serviceRequest = new ServiceRequest();  
                 
@@ -215,7 +240,7 @@ namespace Helperland.Controllers
                 serviceRequest.UserId = userId;
                 serviceRequest.CreatedDate = DateTime.Now;
                 serviceRequest.Discount = model.Discount;
-                serviceRequest.Status = ValuesData.SERVICE_PENDING;
+                
                 serviceRequest.ExtraHours = model.ExtraHours;
                 serviceRequest.HasPets = model.HasPets;
                 serviceRequest.PaymentDone = paymetDone;
@@ -230,8 +255,32 @@ namespace Helperland.Controllers
                 serviceRequest.ModifiedDate = DateTime.Now;
                 serviceRequest.Distance = distance;
                 serviceRequest.RecordVersion = Guid.NewGuid();
-                _helperlandContext.ServiceRequest.Add(serviceRequest);
-                _helperlandContext.SaveChanges();
+                serviceRequest.ServiceRequestExtra = model.ServiceRequestExtra;
+                if(spID==null || spID == 0)
+                {
+                    serviceRequest.Status = ValuesData.SERVICE_PENDING;
+                    _helperlandContext.ServiceRequest.Add(serviceRequest);
+                    _helperlandContext.SaveChanges();
+                    int customerId = Int16.Parse(User.Claims.FirstOrDefault(x => x.Type == "userId").Value);
+                    List<int> blockedSPIds = _helperlandContext.FavoriteAndBlocked.Where(x => x.UserId == customerId && x.IsBlocked == true).Select(x => x.TargetUserId).Distinct().ToList();
+                    var emailList = _helperlandContext.User.Where(user => user.UserTypeId == 2 && user.ZipCode == zipCode && !blockedSPIds.Any(a => a == user.UserId)).Select(user => user.Email).ToList();
+                    string subject = "New Service Request arrived!!Hurry Up..";
+                    string body = "new service request arrived which is in your area and id of the service is " + serviceRequest.ServiceRequestId;
+                    EmailManager.SendEmail(emailList, subject, body);
+                }
+                else
+                {
+                    serviceRequest.Status = ValuesData.SERVICE_ACCEPTED;
+                    serviceRequest.ServiceProviderId = spID;
+                    _helperlandContext.ServiceRequest.Add(serviceRequest);
+                    var isError = _helperlandContext.SaveChanges();
+                    var emailList = _helperlandContext.User.Where(user => user.UserId == spID).Select(user => user.Email).ToList();
+                    string subject = "New Service Request arrived!!Hurry Up..";
+                    string body = "A service request " + serviceRequest.ServiceRequestId + " has been directly assigned to you.";
+                    EmailManager.SendEmail(emailList, subject, body);
+                }
+                
+               
                 return Ok("ServiceRquest Form Data received!");
 
 
@@ -332,6 +381,14 @@ namespace Helperland.Controllers
             }
             return BadRequest("Enter ServiceRequest required fields");
 
+        }
+
+        public PartialViewResult FavSPBook()
+        {
+             int customerId = Int16.Parse(User.Claims.FirstOrDefault(x => x.Type == "userId").Value);
+            IEnumerable<User> favoriteAndBlocked = _helperlandContext.FavoriteAndBlocked.Where(x => x.UserId == customerId && x.IsFavorite == true).Select(x=>x.TargetUser).ToList();
+            //IEnumerable<FavoriteAndBlocked>  favoriteAndBlocked =_helperlandContext.FavoriteAndBlocked.Where(x=>x.UserId == customerId && x.IsFavorite==true).Select(x => x.TargetUser).ToList();
+            return PartialView(favoriteAndBlocked);
         }
 
 

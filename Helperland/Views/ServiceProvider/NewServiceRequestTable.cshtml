@@ -98,13 +98,13 @@
                                  
 
                                 <td>
-                                 <span class="payment-amount">@Data.serviceRequestViewModel.SubTotal€</span>
+                                 <span class="payment-amount">@Data.serviceRequestViewModel.TotalCost</span>
                                 </td>
                                 <td>
                                 
                                 </td>
                                 <td>
-                                    <span><button type="button" class="Action-btn rounded-pill" onclick="AcceptSerFun(@Data.serviceRequestViewModel.ServiceRequestId)">Accept</button></span>
+                                    <span><button type="button" class="Action-btn rounded-pill" onclick="ServiceDetailFun(@Data.serviceRequestViewModel.ServiceRequestId);">Accept</button></span>
                                 </td>
 
                         </tr>

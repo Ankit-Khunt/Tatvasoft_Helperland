@@ -38,7 +38,7 @@
             <div class="serviceHistoryTableContainer">
                 <div class="justify-content-between align-items-center d-flex ">
                     <h2 class="tableHeader">Current Service Requests</h2>
-                    <button type="button" class="Add-new-ser-btn"> <a asp-action="BookServicePage" asp-controller="BookService">Export</a></button>
+                    <button type="button" class="Add-new-ser-btn"> <a id="export">Export</a></button>
                 </div>
                
                 <table id="upcomingHistoryTable" class="my-2">
@@ -202,7 +202,7 @@
 
 @section script{
      <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
-   <script src="~/lib/jquery.rateit/jquery.rateit.js"></script>
+  
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.3/r-2.2.9/rg-1.1.4/datatables.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.1.0/js/dataTables.buttons.min.js"></script>

@@ -15,7 +15,20 @@ var FinalDateAndTime;
 
 
 $(document).ready(function () {
+    
+    $("#zipSubBtn").attr("disabled", true);
+    $("#zipSubBtn").css("background-color", "#6DA9B5");
 
+    $("#ZipcodeValueId").on("keyup", function () {
+        var textarea_value = $("#ZipcodeValueId").val();
+        if (textarea_value != "") {
+            $("#zipSubBtn").attr("disabled", false);
+            $("#zipSubBtn").css("background-color", "#1D7A8C");
+        } else {
+            $("#zipSubBtn").attr("disabled", true);
+        }
+    });
+    
     CleaningTime = $("#cleaningTimeOption1").text();
     
     
@@ -55,8 +68,9 @@ $(document).ready(function () {
         $('#cleaningDate').datepicker({
             inline: true,
             firstDay: 1,
-            changeMonth: false,
+            changeMonth: true,
             changeYear: true,
+            minDate: 0,
             showOtherMonths: true,
             showMonthAfterYear: false,
             yearRange: "2015:2025",
@@ -91,6 +105,7 @@ $(document).ready(function () {
 
 
         /*});*/
+        findServiceScheduleElements();
     });
 
 
@@ -365,6 +380,31 @@ function setValue2(valueNo) {
 
 
 function SetupService() {
+    $("#zipSubBtn").attr("disabled", true);
+    $("#zipSubBtn").css("background-color", "#6DA9B5");
+
+   
+        var textarea_value = $("#ZipcodeValueId").val();
+        if (textarea_value != "") {
+            $("#zipSubBtn").attr("disabled", false);
+            $("#zipSubBtn").css("background-color", "#1D7A8C");
+        } else {
+            $("#zipSubBtn").attr("disabled", true);
+            $("#zipSubBtn").css("background-color", "#6DA9B5");
+        }
+    $("#ZipcodeValueId").on("keyup", function () {
+        var textarea_value = $("#ZipcodeValueId").val();
+        if (textarea_value != "") {
+            $("#zipSubBtn").attr("disabled", false);
+            $("#zipSubBtn").css("background-color", "#1D7A8C");
+        } else {
+            $("#zipSubBtn").attr("disabled", true);
+            $("#zipSubBtn").css("background-color", "#6DA9B5");
+        }
+    });
+
+
+
     $("#setup-content").addClass("form-step-active");
     $("#schedual-content").removeClass("form-step-active");
     $("#detail-content").removeClass("form-step-active");
@@ -494,7 +534,7 @@ function fatchUserAddress(){
                     }
                     
                 }
-
+                loadFavSPBook();
             },
             error: function (er) {
                 console.log(er);
@@ -716,6 +756,18 @@ function ServiceRequestSuccessful() {
     if ($("#hasPatID").is(":checked")) {
         checked = true;
     }
+    var id = 0;
+    var list = [];
+    $(".name-extra").each(function (i) {
+        id += 1;
+        if ($(this).text() !="") {
+            list.push({ ServiceExtraId: id });
+        }
+    });
+    var spId;
+    if ($("#selectedFSPId").val() != 0) {
+        spId = $("#selectedFSPId").val();
+    }
     
     var data = {
         
@@ -727,8 +779,9 @@ function ServiceRequestSuccessful() {
         TotalCost:effectivePrice,
         Comments:$("#commentsID").val(),
         HasPets: checked,
-        ServiceStartDate: FinalDateAndTime
-        
+        ServiceStartDate: FinalDateAndTime,
+        ServiceRequestExtra: list,
+        selectedFSPId: spId,
     }
     console.log(data);
     $.ajax({
@@ -741,7 +794,7 @@ function ServiceRequestSuccessful() {
                // alert('Successfully serviceRquest received Data ');
                 serviceAddressSend();
                 if (extraHoure > 0) {
-                    ExtraServiceSend();
+                   // ExtraServiceSend();
                 }
                 console.log(result);
 
@@ -846,4 +899,83 @@ function ExtraServiceSend() {
         }
     });
 
+}
+
+//function findServiceScheduleElements() {
+//    $(".extra-icon-border").click(function () {
+//        var service = $(this).parent().children().eq(1).text();
+//        var children;
+//        switch (service) {
+//            case "Inside cabinets":
+//                children = 0;
+//                break;
+//            case "Inside fridge":
+//                children = 1;
+//                break;
+//            case "Inside oven":
+//                children = 2;
+//                break;
+//            case "laundry wash & dry":
+//                children = 3;
+//                break;
+//            case "Interior windows":
+//                children = 4;
+//                break;
+//        }
+
+       
+//        if ($(".extra-icon-border").hasClass("active-service")) {
+//            $(".extra-icon-border").removeClass("active-service");
+            
+//            RemoveService(children);
+//        } else {
+//            $(".extra-icon-border").addClass("active-service");
+            
+//            AddService(service, children);
+//        }
+//    });
+//}
+
+//function AddService(service, children) {
+    
+//    $("#card-extra-services").children().eq(children);
+    
+//}
+
+//function RemoveService(children) {
+//    $("#card-extra-services").children().eq(children).empty();
+//    totalServieTime -= 0.5;
+//    totalPayment -= 10;
+//    $("#total-service-time").html(totalServieTime);
+//    $("#total-payment-count").html(totalPayment + ",00&euro;");
+//}
+
+function loadFavSPBook() {
+    $.ajax({
+        url: "/BookService/FavSPBook",
+        type: "GET",
+
+        success: function (result) {
+            $("#loadFavSPID").html(result);
+            $(".unselect-sp").hide();
+
+            $(".select-sp").click(function () {
+                $("#selectedFSPId").val($(this).attr("data-id"));
+                $(".select-sp").show();
+                $(".unselect-sp").hide();
+                $(this).parent().children().eq(1).show();
+                $(this).hide();
+            });
+
+            $(".unselect-sp").click(function () {
+                $("#selectedFSPId").val(0);
+                $(this).parent().children().eq(0).show();
+                $(this).hide();
+            });
+
+        },
+        error: function () {
+            alert("error");
+        },
+    });
 }

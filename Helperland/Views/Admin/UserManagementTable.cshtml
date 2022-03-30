@@ -1,5 +1,150 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@using Helperland.Models
+@using Helperland.ViewModels
+@using System.Globalization
+@model IQueryable<User>
+
+<table id="upcomingHistoryTable">
+                        <thead>
+                            <tr>
+                                <th class="th1">User Name</th>
+                                <th class="th3">Date of Registration</th>
+                                <th class="th4">User Type</th>
+                                <th class="th5">Phone</th>
+                                <th class="th6" >Postal Code</th>
+                                <th class="th8">Status</th>
+                                <th class="th10">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach(var Data in Model){
+                             <tr>
+                                 <td>
+                                     <span>@Data.FirstName @Data.LastName</span>
+                                 </td>
+                                 
+                                 <td>
+                                     <div class="d-flex align-items-center">
+                                         <div>
+                                             <span><img  src="~/images/calander.png"/></span>
+                                         </div>
+                                         <div class="ms-2">
+                                             <span>@Data.CreatedDate.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)</span>
+                                         </div>
+                                     </div>
+
+                                    
+                                 </td>
+                                 <td>
+                                      @if(Data.UserTypeId==ValuesData.CUSTOMER){
+                                        <span>
+                                            Customer
+                                        </span>
+                                     }
+                                     else if(Data.UserTypeId==ValuesData.SERVICE_PROVIDER){
+                                         <span>Service Provider</span>
+                                     }
+                                     else{
+                                         <span>Admin</span>
+                                     }
+                                 </td>
+                                 <td>
+                                     <span>@Data.Mobile</span>
+                                 </td>
+                                 <td>
+                                     <span>@Data.ZipCode</span>
+
+                                 </td>
+                                 <td>
+                                  @{
+                                    if(@Data.IsDeleted){
+                                        <span class="Deleted-User">Deleted</span>
+                                    }
+                                    else{
+                                        if(@Data.IsActive ){
+                                        <span class="Active-User">Active</span>
+                                    }
+                                    else if(!@Data.IsApproved){
+                                        <span class="Inactive-User">Inactive</span>
+                                    }
+                                    }
+                                 }
+                                    
+                                 </td>
+                                 <td>
+                                     <div   role="button" data-bs-toggle="dropdown" aria-expanded="false" class="d-flex justify-content-center align-items-center navbardropdownClass navbardropdown" >
+                                        <div>
+                                             <i class="fa fa-ellipsis-v"></i>
+                                        </div>
+
+                                       
+                                    </div>
+                                   
+                                   
+                                    <ul class="dropdown-menu" aria-labelledby="navbardropdown">
+                                       
+                                            <li><a class="dropdown-item" onclick="ActiveUser('@Data.UserId')">Active</a></li>
+                                      
+                                              <li><a class="dropdown-item" onclick="InactiveUser('@Data.UserId')">Inactive</a></li>
+                                       
+                                            <li><a class="dropdown-item" onclick="DeleteUsers('@Data.UserId')">Delete</a></li>
+                                        
+
+                                    </ul>
+                                 </td>
+                              
+                               
+                            </tr>
+                            }
+                           
+                            
+                            
+                            
+                           
+                        </tbody>
+        
+                    </table>
+
+
+        <script>
+         $(document).ready(function () {
+        $('#upcomingHistoryTable').DataTable({
+            "dom": '<"top"i>rt<"bottom"flp><"clear">',
+            "columnDefs": [
+                { "orderable": false, "targets": 4 }
+            ],
+            'responsive': true,
+
+            "bFilter": false, //hide Search bar
+            "pagingType": "full_numbers",
+            paging: true,
+            "pagingType": "full_numbers",
+            // bFilter: false,
+            ordering: true,
+            searching: false,
+            info: true,
+
+            language: {
+                paginate: {
+                    first: "<img src='/images/firstPage.png' alt='first' />",
+                    previous: "<img src='/images/previous.png' alt='previous' />",
+                    next: '<img src="/images/previous.png" alt="next" style="transform: rotate(180deg)" />',
+                    last: "<img src='/images/firstPage.png' alt='first' style='transform: rotate(180deg)' />",
+                },
+            },
+            "buttons": ["excel"],
+            "columnDefs": [{ orderable: false, targets: 4 }],
+            "columnDefs": [
+                { "orderable": false, "targets": 4 }
+            ],
+            "oLanguage": {
+                "sInfo": "Total Records: _TOTAL_"
+            },
+            "dom": '<"top">rt<"bottom"lip><"clear">',
+            responsive: true,
+            "order": []
+        });
+
+       
+    });
+
+                    </script>

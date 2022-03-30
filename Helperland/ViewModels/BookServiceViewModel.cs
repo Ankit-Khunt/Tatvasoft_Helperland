@@ -9,6 +9,9 @@ namespace Helperland.ViewModels
     {
         //zipcode
         public int PostalId { get; set; }
+        
+        [MaxLength(6, ErrorMessage = "Postal has 6 digit")]
+        [MinLength(6, ErrorMessage = "Postal has 6 digit")]
         public string ZipcodeValue { get; set; }
         public int CityId { get; set; }
         public string AddressLine1 { get; set; }
@@ -62,12 +65,14 @@ namespace Helperland.ViewModels
         public bool? HasIssue { get; set; }
         public bool? PaymentDone { get; set; }
         public Guid? RecordVersion { get; set; }
-
+        public int? selectedFSPId { get; set; }
         public User ServiceProvider { get; set; }
         public User User { get; set; }
         public ICollection<Rating> Rating { get; set; }
         public ICollection<ServiceRequestAddress> ServiceRequestAddress { get; set; }
         public ICollection<ServiceRequestExtra> ServiceRequestExtra { get; set; }
+
+        
 
 
     }

@@ -71,7 +71,7 @@ main {
     position:relative;
     top:0;
     z-index:1;
-    height:1000px;
+    min-height:1000px;
     
     
 }
@@ -343,7 +343,7 @@ table.dataTable thead .sorting {
 table.dataTable thead th,
 table.dataTable tbody td {
     border: none !important;
-    padding: 16px 18px !important;
+    padding: 16px 5px !important;
 }
 
 
@@ -492,22 +492,25 @@ div.dataTables_paginate {
 
 
 /* ---Extra css table */
-th{
-    
-    text-align:center !important;
-}
-.th1{
-    width:80px !important;
+/*.th1 {
+    text-align:center;
 }
 .th2 {
     width: 110px !important;
 }
-.th3{
-    width:150px;
+.th3 {
+    width: 150px;
+}*/
+/*th {
+    text-align: center !important;
+    color: #646464;
 }
+
+
+
 #th3 {
     width: 100px !important;
-}
+}*/
 /*th#th1.sorting{
     width:100px !important;
 }
@@ -636,7 +639,7 @@ input[type="date"] {
 #Refunded {
     background-color: #6DA9B5;
 }
-#navbardropdown {
+.navbardropdown {
     width: 40px;
     height: 40px;
     border-radius:50px;
@@ -729,4 +732,70 @@ input[type="date"] {
     width: 100%;
     height: 1px;
     color: #4f4f4f;
+}
+.active-status {
+    width: 40px;
+    height: 40px;
+    border-radius: 50px;
+    background-color: #F4F4F4 !important;
+}
+
+.serviceID, .tableSpan {
+    color: #646464;
+}
+.service-detail-date {
+    color: #646464;
+    font-weight: bold;
+}
+input[type="date"]:in-range::-webkit-datetime-edit-year-field, input[type="date"]:in-range::-webkit-datetime-edit-month-field, input[type="date"]:in-range::-webkit-datetime-edit-day-field, input[type="date"]:in-range::-webkit-datetime-edit-text {
+    display: none;
+}
+
+.fromdate input[type="date"]::before {
+    color: #999999;
+    content: attr(placeholder);
+    position: absolute;
+    padding-right: 20px;
+}
+
+.todate input[type="date"]::before {
+    color: #999999;
+    content: attr(placeholder);
+    position: absolute;
+    padding-right: 40px;
+}
+
+input[type="date"] {
+    color: #ffffff;
+}
+
+    input[type="date"]:focus,
+    input[type="date"]:valid {
+        color: #666666;
+    }
+
+        input[type="date"]:focus::before,
+        input[type="date"]:valid::before {
+            content: "" !important;
+        }
+
+cancel-request span {
+    font-weight: 500;
+    color: #4f4f4f;
+}
+
+.cancel-request #cancelRequestBtn {
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+    background: #1fb6ff;
+    color: white;
+    border-radius: 25px;
+    border: 0px;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.cancel-request textarea {
+    width: 100%;
 }

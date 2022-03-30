@@ -357,7 +357,7 @@ div.dataTables_paginate {
     border: none !important;
     outline: none !important;
     position: relative !important;
-    display: flex !important;
+    /*display: flex !important;*/
     align-items: center !important;
     justify-content: center !important;
 }

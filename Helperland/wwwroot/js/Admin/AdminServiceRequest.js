@@ -1,4 +1,5 @@
-﻿    $(document).ready(function () {
+﻿$(document).ready(function () {
+   
         $('#upcomingHistoryTable').DataTable({
             "dom": '<"top"i>rt<"bottom"flp><"clear">',
             "columnDefs": [
@@ -36,35 +37,40 @@
             "order": []
         });
 
-        $.ajax({
-            url: "/Admin/SRTableAdmin",
-            type: "GET",
+    loadTable();    
 
-            success: function (result) {
-                $(".SRTable").html(result);
-            },
-            error: function () {
-                alert("error");
-            },
-        });
+    $("#serviceReqID").css({ "color":"#646464","font-weight":"bold"});
+        
+        
+        
 
         
     });
 
-function onclickevent(id) {
-    if ($(id).hasClass("active-status")) {
-        $(id).removeClass("active-status");
-        $(id).css("background-color", "white");
 
-    }
-    else {
-        $(id).css("background-color", "#F4F4F4");
-        $(id).addClass("active-status");
-        $(id).addClass("active-status");
+function loadTable() {
+    $.ajax({
+        url: "/Admin/SRTableAdmin",
+        type: "GET",
 
-    }
-    
+        success: function (result) {
+            $(".SRTable").html(result);
+            $(".navbardropdown").click(function () {
+                if ($(this).hasClass("active-status")) {
 
+                    $(this).removeClass("active-status");
+
+
+                }
+                else {
+                    $(this).addClass("active-status");
+                }
+            });
+        },
+        error: function () {
+            alert("error");
+        },
+    });
 }
 
 
@@ -84,16 +90,21 @@ fullPageHidden.addEventListener("click", () => navMenu.classList.remove("open"))
 document.addEventListener("wheel", () => navMenu.classList.remove("open"));
 
 
-function OnSearch() {
+function OnSearch(clear) {
     var check;
-    $("#HasPetFormId").click(function () {
+    if (clear == "clear") {
+        $("input,#statusFormID").val("");
+
+    }
+
+    if (clear !="clear")
         if ($("#HasPetFormId").is(':checked')) {
             check = 1;
         }
         else {
             check = 0;
         }
-    }); 
+    
         
     
 
@@ -103,7 +114,7 @@ function OnSearch() {
         EmailForm: $("#EmailFormId").val(),
         selectCustomerForm: $("#selectCustomerFormId").val(),
         selectSPForm: $("#selectSPFormId").val(),
-        statusForm: $("#statusFormID").text(),
+        statusForm: $("#statusFormID").val(),
         HasPetForm: check,
         fromDateForm: $("#fromDateFormId").val(),
         toDateFormId: $("#toDateFormId").val(),
@@ -158,3 +169,57 @@ $(document).on("click", ".serviceID", function () {
         });
     
 });
+
+function onCancelLinkClick(id) {
+    $.ajax({
+        url: "/admin/cancelservicerequest",
+        type: "GET",
+        success: function (result) {
+            $("#adminModal").html(result);
+            $("#adminModal").modal("show");
+            $("#cancelRequestBtn").attr("disabled", true);
+            cancelDialogEvents();
+            $("#cancelRequestBtn").click(function () {
+                cancelRequestPost(id);
+            });
+        },
+        error: function () {
+            alert("error");
+        },
+    });
+}
+
+function cancelDialogEvents() {
+    $("#cancelRequestBtn").css("background-color", "#6DA9B5");
+    $(".cancel-request textarea").on("keyup", function () {
+        var textarea_value = $(".cancel-request textarea").val();
+        if (textarea_value != "") {
+            $("#cancelRequestBtn").attr("disabled", false);
+            $("#cancelRequestBtn").css("background-color", "#1D7A8C");
+        } else {
+            $("#cancelRequestBtn").attr("disabled", true);
+            $("#cancelRequestBtn").css("background-color", "#6DA9B5");
+        }
+    });
+}
+
+function cancelRequestPost(serviceId) {
+    $.ajax({
+        url: "/admin/cancelservicerequest",
+        type: "POST",
+        data: {
+            id: serviceId,
+            comment: $(".cancel-request textarea").val(),
+        },
+        success: function (result) {
+            $("#adminModal").html(result);
+            $("#adminModal").modal("show");
+            $("#adminCancleClose").click(function () {
+                loadTable();
+            });
+        },
+        error: function () {
+            alert("error");
+        },
+    });
+}

@@ -1,20 +1,18 @@
 ﻿$(document).ready(function () {
-    $('#upcomingHistoryTable').DataTable({
-        "dom": '<"top"i>rt<"bottom"flp><"clear">',
-        //"columnDefs": [
-        //    { "orderable": false, "targets": 4 }
-        //],
-        'responsive': true,
-
-        "bFilter": false, //hide Search bar
-        "pagingType": "full_numbers",
-        paging: true,
-        "pagingType": "full_numbers",
-        // bFilter: false,
-        ordering: true,
+    var table =$('#upcomingHistoryTable').DataTable({
         searching: false,
-        info: true,
-
+        info: false,
+        responsive: true,
+        buttons: ["excelHtml5"],
+        stripeClasses: [],
+        aLengthMenu: [
+            [5, 10, 15, -1],
+            [5, 10, 25, "All"],
+        ],
+        dom: '<"float-left"B><"float-right"f>rt<"row"<"col-sm-4"l><"col-sm-4"i><"col-sm-4"p>>',
+        pageLength: 10,
+        paging: "true",
+        pagingType: "full_numbers",
         language: {
             paginate: {
                 first: "<img src='/images/firstPage.png' alt='first' />",
@@ -23,46 +21,23 @@
                 last: "<img src='/images/firstPage.png' alt='first' style='transform: rotate(180deg)' />",
             },
         },
-        "buttons": ["excel"],
-        "columnDefs": [{ orderable: false, targets: 2 }],
-        //"columnDefs": [
-        //    { "orderable": false, "targets": 4 }
-        //],
-        "oLanguage": {
-            "sInfo": "Total Records: _TOTAL_"
-        },
-        "dom": '<"top">rt<"bottom"lip><"clear">',
-        responsive: true,
-        "order": []
     });
 
 
     $("#SPHistoryVarId").addClass("active");
-
+    $(".buttons-excel").hide();
+    var entries = table.page.info().recordsTotal;
+    $("#table_id_length label").append(" Total Record: " + entries);
     callSPHistoryTable(0);
 
     $("select.StausOfTableClass").change(function () {
-        var selectedCountry = $(this).children("option:selected").val();
+        var selectedValue = $(this).children("option:selected").val();
        
-        callSPHistoryTable(selectedCountry);
+        callSPHistoryTable(selectedValue);
     });
-    //if (status >= 0 && status != 10) {
-
-    //    $.ajax({
-    //        url: "/ServiceProvider/SPServiceHistoryStaus",
-    //        type: "GET",
-    //        data: {
-    //            statusData: status,
-    //        },
-    //        success: function (result) {
-    //            $("#upcomingHistoryTable").html(result);
-
-    //        },
-    //        error: function () {
-    //            alert("error");
-    //        },
-    //    });
-    //}
+    $("#export").on("click", function () {
+        $(".buttons-excel").trigger("click");
+    });
 
 });
 

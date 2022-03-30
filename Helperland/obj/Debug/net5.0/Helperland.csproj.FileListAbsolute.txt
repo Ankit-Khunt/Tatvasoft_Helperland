@@ -484,3 +484,15 @@ D:\New version Heplerland\Helperland\obj\Debug\net5.0\Razor\Views\Admin\SRTableA
 D:\New version Heplerland\Helperland\obj\Debug\net5.0\Razor\Views\Shared\SPLayout.cshtml.g.cs
 D:\New version Heplerland\Helperland\obj\Debug\net5.0\Razor\Views\Admin\EditServiceRequest.cshtml.g.cs
 D:\New version Heplerland\Helperland\obj\Debug\net5.0\Razor\Views\Admin\ServiceDetails.cshtml.g.cs
+D:\New version Heplerland\Helperland\obj\Debug\net5.0\Razor\Views\Admin\UserManagement.cshtml.g.cs
+D:\New version Heplerland\Helperland\obj\Debug\net5.0\Razor\Views\Admin\UserManagementTable.cshtml.g.cs
+D:\New version Heplerland\Helperland\obj\Debug\net5.0\Razor\Views\CustomerService\FavouriteProviders.cshtml.g.cs
+D:\New version Heplerland\Helperland\bin\Debug\net5.0\EPPlus.dll
+D:\New version Heplerland\Helperland\bin\Debug\net5.0\System.Xml.XPath.XmlDocument.dll
+D:\New version Heplerland\Helperland\obj\Debug\net5.0\Razor\Views\BookService\FavSPBook.cshtml.g.cs
+D:\New version Heplerland\Helperland\obj\Debug\net5.0\Razor\Views\ServiceProvider\ServiceSchedual.cshtml.g.cs
+D:\New version Heplerland\Helperland\bin\Debug\net5.0\Microsoft.AspNetCore.JsonPatch.dll
+D:\New version Heplerland\Helperland\bin\Debug\net5.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+D:\New version Heplerland\Helperland\bin\Debug\net5.0\Newtonsoft.Json.Bson.dll
+D:\New version Heplerland\Helperland\obj\Debug\net5.0\Razor\Views\Home\AccessDenied.cshtml.g.cs
+D:\New version Heplerland\Helperland\obj\Debug\net5.0\Razor\Views\Admin\CancelServiceRequest.cshtml.g.cs

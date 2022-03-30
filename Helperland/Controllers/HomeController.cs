@@ -38,6 +38,10 @@ namespace Helperland.Controllers
             ViewBag.UserName=userName; 
                 return View();
             }
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
         public IActionResult AccesManager(string ReturnUrl= "/")
         {
             LoginViewModel objLoginModel = new LoginViewModel();

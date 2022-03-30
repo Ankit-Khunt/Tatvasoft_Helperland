@@ -148,7 +148,10 @@ function cancelRequestPost(serviceId) {
         success: function (result) {
             $("#customerModal").html(result);
             $("#customerModal").modal("show");
-            onRelod();
+            $("#cancleClose").click(function () {
+                onRelod();
+            });
+            /*onRelod();*/
         },
         error: function () {
             alert("error");

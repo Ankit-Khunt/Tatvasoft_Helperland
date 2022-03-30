@@ -23,13 +23,13 @@
     {
         switch (extra.ServiceExtraId)
         {
-            case 1:extras += "Inside cabinets";
+            case 1:extras += "Inside cabinets,";
                 break;
-            case 2:extras += " Inside fridge";
+            case 2:extras += " Inside fridge,";
                 break;
-            case 3:extras += " Inside oven";
+            case 3:extras += " Inside oven,";
                 break;
-            case 4:extras += " Laundry wash & dry";
+            case 4:extras += " Laundry wash & dry,";
                 break;
             case 5:extras += " Interior windows";
                 break;
@@ -85,19 +85,24 @@
       <div class="d-flex justify-content-center my-2">
         <hr class="divider-line" />
       </div>
-            @if (Model.Status == ValuesData.SERVICE_PENDING)
-            {
-               <div class="d-flex"><a class="rounded-pill  Accept-Btn" onclick="AcceptSerFun('@Model.ServiceRequestId')" data-id=@Model.ServiceRequestId>Accept</a></div> 
-            }
-            @if(Model.Status==ValuesData.SERVICE_ACCEPTED && ViewBag.UPService == true)
-            {
-                <div class="d-flex">
-                    <button type="button" class="Cancle-btn rounded-pill" onclick="CancleClickFun('@Model.ServiceRequestId')">Cancle</button>
-                     <button type="button" class="rounded-pill Completed-btn" data-id=@Model.ServiceRequestId onclick="CompleteClickFun('@Model.ServiceRequestId')">Completed</button> 
-                </div>
-
-               
-            }
+                
+                       @if (Model.Status == ValuesData.SERVICE_PENDING)
+                         {
+                             <div class="d-flex"><a class="rounded-pill  Accept-Btn" onclick="AcceptSerFun('@Model.ServiceRequestId')" data-id=@Model.ServiceRequestId>Accept</a></div> 
+                         }
+                         @if(Model.Status==ValuesData.SERVICE_ACCEPTED && ViewBag.UPService == true)
+                          {
+                            <div class="d-flex">
+                             <button type="button" class="Cancle-btn rounded-pill" onclick="CancleClickFun('@Model.ServiceRequestId')">Cancle</button>
+                             @if ((DateTime.Compare(Model.ServiceStartDate.AddHours(Model.ServiceHours), DateTime.Now)) < 0)
+                                {
+                                     <button type="button" class="rounded-pill Completed-btn" data-id=@Model.ServiceRequestId onclick="CompleteClickFun('@Model.ServiceRequestId')">Completed</button> 
+                                }
+                       
+                            </div>
+                          }
+                   
+             
         </div>
 
              <iframe  height="auto" style="border: 0;width:45%;margin-left:20px" loading="lazy" allowfullscreen src="@addressString">

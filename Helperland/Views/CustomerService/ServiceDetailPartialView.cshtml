@@ -23,13 +23,13 @@
     {
         switch (extra.ServiceExtraId)
         {
-            case 1:extras += "Inside cabinets";
+            case 1:extras += "Inside cabinets,";
                 break;
-            case 2:extras += " Inside fridge";
+            case 2:extras += " Inside fridge,";
                 break;
-            case 3:extras += " Inside oven";
+            case 3:extras += " Inside oven,";
                 break;
-            case 4:extras += " Laundry wash & dry";
+            case 4:extras += " Laundry wash & dry,";
                 break;
             case 5:extras += " Interior windows";
                 break;
@@ -61,7 +61,7 @@
       </div>
 
       <span><b>Service Id: </b><span id="serviceId">@Model.ServiceRequestId</span></span><br />
-     @* <span><b>Extras: </b>@extras</span><br />*@
+      <span><b>Extras: </b>@extras</span><br />
       <div class="d-flex align-items-start"><span><b>Net Amount: </b></span> <span class="payment-text ms-5">@Model.TotalCost &euro;</span></div>
 
       <div class="d-flex justify-content-center my-2">

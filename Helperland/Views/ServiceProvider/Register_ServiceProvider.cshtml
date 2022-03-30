@@ -104,7 +104,7 @@
                 
                     
                 <form asp-action="Register_ServiceProvider" asp-controller="ServiceProvider" method="post">
-                    <div class=" row justify-content-center  ">
+                    <div class=" row justify-content-center formClass  ">
 
                         <h1 class="form-header text-center">Register Now!</h1>
                         <div class="m-1">
@@ -112,11 +112,11 @@
                         </div>
                        
                         <div class="form-content">
-                            <input type="text" placeholder="First name" asp-for="FirstName" class="form-item col-12">
+                            <input type="text" id="firstnameID" placeholder="First name" asp-for="FirstName" class="form-item col-12">
                             <span asp-validation-for="FirstName" class="text-danger"></span>
-                            <input type="text" placeholder="Last name" asp-for="LastName" class="form-item col-12">
+                            <input type="text" id="LastNameID" placeholder="Last name" asp-for="LastName" class="form-item col-12">
                             <span asp-validation-for="LastName" class="text-danger"></span>
-                            <input type="text" placeholder="Email Address" asp-for="Email"
+                            <input type="text" id="EmailID" placeholder="Email Address" asp-for="Email"
                                    class="form-item col-12">
                             <span asp-validation-for="Email" class="text-danger"></span>
                             @Html.ValidationMessage("EmailExists", new { @class = "text-danger" })
@@ -124,25 +124,25 @@
                                 <div class="mx-0  row">
                                     <input disabled type="text" class="form-group1 col-2 " id="countryCode"
                                            placeholder="+49" />
-                                    <input type="text" class="form-group2 col-10" placeholder="Mobile Number"
+                                    <input type="text" id="MobileID" class="form-group2 col-10" placeholder="Mobile Number"
                                            aria-label="Mobile Number" aria-describedby="basic-addon1" asp-for="Mobile" />
                                     <span asp-validation-for="Mobile" class="text-danger"></span>
                                 </div>
                             </div>
-                            <input type="password" placeholder="Password" asp-for="Password"
+                            <input type="password" id="PasswordID" placeholder="Password" asp-for="Password"
                                    class="form-item col-12">
                             <span asp-validation-for="Password" class="text-danger"></span>
-                            <input type="password" placeholder="Confirm Password" asp-for="ConfirmPassword"
+                            <input type="password" id="ConfirmPasswordID" placeholder="Confirm Password" asp-for="ConfirmPassword"
                                    class="form-item col-12">
                             <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                             <div class="form-checkbox">
-                                <div class="d-flex form-checkbox-1">
-                                    <input type="checkbox" id="" name="sen-me" value="yes">
+                                <div class="d-flex form-checkbox-1" >
+                                    <input type="checkbox" id="check1" name="sen-me" value="yes">
                                     <p>Send me newsletters from Helperland</p>
 
                                 </div>
                                 <div class="d-flex form-checkbox-2  ">
-                                    <input type="checkbox" id="" name="i-accept" value="yes">
+                                    <input type="checkbox" id="check2" name="i-accept" value="yes" >
                                     <p>I accept <span>terms and conditions</span> & <span>policy</span> </p>
                                 </div>
                             </div>
@@ -155,7 +155,7 @@
                                 </div>
                             </div>*@
                             <div class="text-center ">
-                                <button type="submit" class="form-button rounded-pill" >
+                                <button id="subNewSPBtn" type="submit" class="form-button rounded-pill" disabled="disabled" >
                                     Get
                                     Started <img src="~/images/arrow.png" class="ps-1">
                                 </button>

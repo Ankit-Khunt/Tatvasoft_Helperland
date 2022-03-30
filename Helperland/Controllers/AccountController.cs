@@ -91,71 +91,93 @@ namespace Helperland.Controllers
         [HttpPost]
         public async Task<IActionResult> User_Login(LoginViewModel model)
         {
-            //we can use var insted of User
-           User user = _helperlandContext.User.Where(x => x.Email == model.Email && x.Password == model.Password).FirstOrDefault();
-            var UserHasEmailReg = IsEmailExists(model.Email);
-            if (user == null)   
+            if (ModelState.IsValid)
             {
-                ViewBag.openLoginModel = true;
-                ViewBag.Alert = "<div class='alert alert-danger alert-dismissible fade show' role='alert'>Your EmailId and Password are not correct<button type= 'button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
-
-                return View("~/Views/Home/Index.cshtml");
-                
-            }
-            
-            else
-            {
-                var userClaims = new List<Claim>()
+                //we can use var insted of User
+                User user = _helperlandContext.User.Where(x => x.Email == model.Email && x.Password == model.Password).FirstOrDefault();
+                var UserHasEmailReg = IsEmailExists(model.Email);
+                if (user == null)
                 {
+                    ViewBag.openLoginModel = true;
+                    ViewBag.Alert = "<div class='alert alert-danger alert-dismissible fade show' role='alert'>Your EmailId and Password are not correct<button type= 'button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
 
-                    new Claim("userId",  user.UserId.ToString()),
-                    new Claim(ClaimTypes.Name, user.LastName),
-                    new Claim(ClaimTypes.Email, user.Email),
-                    new Claim(ClaimTypes.DateOfBirth, user.Password),
-                    new Claim(ClaimTypes.Role,user.UserTypeId.ToString()),
-                    new Claim(ClaimTypes.NameIdentifier,user.UserId.ToString()),
-                 };
+                    return View("~/Views/Home/Index.cshtml");
 
-                //var userIdentity = new ClaimsIdentity(userClaims, "User Identity");
-                var userIdentity = new ClaimsIdentity(userClaims, CookieAuthenticationDefaults.AuthenticationScheme);
-                HttpContext.Session.SetString("CurrentUser", JsonConvert.SerializeObject(user));
-                var userPrincipal = new ClaimsPrincipal( userIdentity );
-                //await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, userPrincipal, new AuthenticationProperties()
-                // {
-                //     IsPersistent = model.RememberLogin
-                // });
-                var authProperties = new AuthenticationProperties
-                {
-                    AllowRefresh = true,
-                    ExpiresUtc = DateTimeOffset.Now.AddDays(1),
-                    IsPersistent = model.RememberLogin,
-                };
-                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, userPrincipal, authProperties);
-                HttpContext.Session.SetString("User_Id", user.UserId.ToString());
-                HttpContext.Session.SetString("User_Email",user.Email);   //session value set
-                HttpContext.Session.SetString("User_Name", user.FirstName+" "+user.LastName)    ;
-                if (model.ReturnUrl == null)
-                {
-                    switch (user.UserTypeId){
-                        case 1:return RedirectToAction("AdminServiceRequest", "Admin");
-                            break;
-                        case 2:return RedirectToAction("NewServiceRequests", "ServiceProvider");
-                            break;
-                        case 3:return RedirectToAction("CustomerDashboard", "CustomerService");
-                            break;
-                        default:return RedirectToAction("Index","Home");
-                    }
-                   // return RedirectToAction("CustomerDashboard","CustomerService");
                 }
+
+
                 else
                 {
-                    return LocalRedirect(model.ReturnUrl);
+                    if (user.IsApproved == true && user.IsActive == true)
+                    {
+                        var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme, ClaimTypes.Name, ClaimTypes.Role);
+
+                        identity.AddClaim(new Claim("userId", user.UserId.ToString()));
+                        identity.AddClaim(new Claim(ClaimTypes.Email, user.Email));
+                        identity.AddClaim(new Claim(ClaimTypes.Name, user.FirstName + " " + user.LastName));
+                        identity.AddClaim(new Claim(ClaimTypes.Role, user.UserTypeId.ToString()));
+                        identity.AddClaim(new Claim("role", user.UserTypeId.ToString()));
+
+                        var principal = new ClaimsPrincipal(identity);
+
+                        var authProperties = new AuthenticationProperties
+                        {
+                            AllowRefresh = true,
+                            ExpiresUtc = DateTimeOffset.Now.AddMinutes(30),
+                            IsPersistent = model.RememberLogin,
+                        };
+
+                        HttpContext.Session.SetString("CurrentUser", JsonConvert.SerializeObject(user));
+
+
+                        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, authProperties);
+                       
+                        
+                        HttpContext.Session.SetString("User_Id", user.UserId.ToString());
+                        HttpContext.Session.SetString("User_Email", user.Email);   //session value set
+                        HttpContext.Session.SetString("User_Name", user.FirstName + " " + user.LastName);
+                        if (model.ReturnUrl == null)
+                        {
+                            switch (user.UserTypeId)
+                            {
+                                case 1:
+                                    return RedirectToAction("AdminServiceRequest", "Admin");
+                                    break;
+                                case 2:
+                                    return RedirectToAction("NewServiceRequests", "ServiceProvider");
+                                    break;
+                                case 3:
+                                    return RedirectToAction("CustomerDashboard", "CustomerService");
+                                    break;
+                                default: return RedirectToAction("Index", "Home");
+                            }
+                            // return RedirectToAction("CustomerDashboard","CustomerService");
+                        }
+                        else
+                        {
+                            return LocalRedirect(model.ReturnUrl);
+                        }
+                    }
+                    else
+                    {
+                        ViewBag.openLoginModel = true;
+                        ViewBag.Alert = "<div class='alert alert-danger alert-dismissible fade show' role='alert'>You are Approved Yet for Login<button type= 'button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+
+                        return View("~/Views/Home/Index.cshtml");
+                    }
+
+
                 }
-                 
             }
+            else
+            {
+                ViewBag.openLoginModel = true;
+                return RedirectToAction("Index", "Home");
+            }
+           
 
 
-            return RedirectToAction("Index", "Home");
+            
            
            
             
@@ -173,13 +195,7 @@ namespace Helperland.Controllers
             return View();
         }
 
-        public async Task<IActionResult> LogOut()
-        {
-            //SignOutAsync is Extension method for SignOut    
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            //Redirect to home page    
-            return RedirectToAction("Index", "Home");
-        }
+       
 
         public IActionResult ForgotPassword(ForgotPasswordViewModel model)
         {
@@ -256,6 +272,13 @@ namespace Helperland.Controllers
             {
                 return View(model);
             }
+        }
+        public async Task<IActionResult> LogOut()
+        {
+            //SignOutAsync is Extension method for SignOut    
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            //Redirect to home page    
+            return RedirectToAction("Index", "Home");
         }
 
 

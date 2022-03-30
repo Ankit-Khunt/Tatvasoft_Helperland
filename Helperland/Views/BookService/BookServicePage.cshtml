@@ -63,12 +63,14 @@
                                  <input type="text" placeholder="Postal Code" class="postal-input me-2 mt-2"
                                     id="ZipcodeValueId" onclick="hasValue('#ZipcodeValueId');"
                                     asp-for="ZipcodeValue" /><br />
-                                <span class="error">@ViewBag.PostalError</span>
+                                    <span asp-validation-for="ZipcodeValue" class="text-danger"> </span>
+                               
                             </div>
 
-                            <button type="submit" class=" btn-next postal-btn">Next</button>
+                            <button id="zipSubBtn" type="submit" class=" btn-next postal-btn" disabled="disabled">Next</button>
                             @*onclick="SchedualPlan();"*@
                         </div>
+                         <span class="error">@ViewBag.PostalError</span>
                     </form>
                 </div>
             </div>
@@ -238,6 +240,7 @@
     </div>
   
   <div id="AddressRadioBoxId">
+    
      @*<div class="AddressRadioBox d-flex">
    
       <input type="radio" id="radBtn1" name="radio">
@@ -265,7 +268,10 @@
     
    
     <div>
-        
+            @Html.HiddenFor(model=>model.selectedFSPId) 
+        <div id="loadFavSPID">
+
+    </div>
        
             
             <button style="float:right" type="button" class=" btn-next postal-btn mt-2 mb-2" onclick="MakePayment();">Continue</button>
@@ -354,17 +360,17 @@
                                 <span id="basicPay">0 hrs</span>
                             </div>
 
-                            <div>
+                            <div id="card-extra-services">
                                 <p class="mt-1 mb-0 justify-content-between d-flex "><span
-                                        id="cabinate-icon-mins"></span><span id="cabinate-icon-extra-mins"></span></p>
+                                        id="cabinate-icon-mins" class="name-extra"></span><span id="cabinate-icon-extra-mins"></span></p>
                                 <p class="mt-1 mb-0 justify-content-between d-flex"><span
-                                        id="frige-icon-mins"></span><span id="frige-icon-extra-mins"></span></p>
+                                        id="frige-icon-mins" class="name-extra"></span><span id="frige-icon-extra-mins"></span></p>
                                 <p class="mt-1 mb-0 justify-content-between d-flex"><span
-                                        id="oven-icon-mins"></span><span id="oven-icon-extra-mins"></span></p>
+                                        id="oven-icon-mins" class="name-extra"></span><span id="oven-icon-extra-mins"></span></p>
                                 <p class="mt-1 mb-0 justify-content-between d-flex"><span
-                                        id="laundry-icon-mins"></span><span id="laundry-icon-extra-mins"></span></p>
+                                        id="laundry-icon-mins" class="name-extra"></span><span id="laundry-icon-extra-mins"></span></p>
                                 <p class="mt-1 mb-0 justify-content-between d-flex "><span
-                                        id="interior-icon-mins"></span><span id="interior-icon-extra-mins"></span></p>
+                                        id="interior-icon-mins" class="name-extra"></span><span id="interior-icon-extra-mins"></span></p>
                             </div>
 
 

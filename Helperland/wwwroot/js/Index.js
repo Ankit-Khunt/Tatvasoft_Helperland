@@ -61,6 +61,16 @@ $("#okbtn > a").click(function () {
 
     //onclick we reach to top
     fbtn.addEventListener("click", backToTop);
+
+    const navMenu = document.querySelector(".fullPage");
+    const fullPageHidden = document.querySelector(".fullPageHidden");
+    const navbarHamburger = document.querySelector(".navSm .hamburger");
+
+
+    navbarHamburger.addEventListener("click", () => navMenu.classList.add("open"));
+    fullPageHidden.addEventListener("click", () => navMenu.classList.remove("open"));
+
+    document.addEventListener("wheel", () => navMenu.classList.remove("open"));
 });
 
 
@@ -69,15 +79,7 @@ function backToTop() {
     document.documentElement.scrollTop = 0;
 }
 
-const navMenu = document.querySelector(".fullPage");
-const fullPageHidden = document.querySelector(".fullPageHidden");
-const navbarHamburger = document.querySelector(".navSm .hamburger");
 
-
-navbarHamburger.addEventListener("click", () => navMenu.classList.add("open"));
-fullPageHidden.addEventListener("click", () => navMenu.classList.remove("open"));
-
-document.addEventListener("wheel", () => navMenu.classList.remove("open"));
 
 
 

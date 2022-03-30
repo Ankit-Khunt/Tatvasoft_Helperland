@@ -24,6 +24,8 @@ namespace Helperland.ViewModels.CustomerService
 
         [Required]
         [Display(Name = "Phone number")]
+        [MaxLength(10, ErrorMessage = "Max 10 digit for Mobile Number")]
+        [MinLength(10, ErrorMessage = "Need 10 digit for Mobile Number")]
         public string PhoneNumber { get; set; }
     }
 }

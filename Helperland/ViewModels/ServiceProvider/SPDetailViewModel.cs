@@ -13,11 +13,16 @@ namespace Helperland.ViewModels.ServiceProvider
         [Required]
         [Display(Name = "Last name")]
         public string LastName { get; set; }
-        [Required]
-        [Display(Name = "E-mail address")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Email ID is requierd")]
+        [DataType(DataType.EmailAddress)]
+        [RegularExpression(@"^([0-9a-zA-Z]([\+\-_\.][0-9a-zA-Z]+)*)+@(([0-9a-zA-Z][-\w]*[0-9a-zA-Z]*\.)+[a-zA-Z0-9]{2,3})$",
+         ErrorMessage = "Please provide valid email id")]
+
         public string Email { get; set; }
         [Required]
         [Display(Name = "Mobile number")]
+        [MaxLength(10, ErrorMessage = "Max 10 digit for Mobile Number")]
+        [MinLength(10, ErrorMessage = "Need 10 digit for Mobile Number")]
         public string Mobile { get; set; }
 
         public string BirthDay { get; set; }
@@ -42,6 +47,8 @@ namespace Helperland.ViewModels.ServiceProvider
 
         [Required]
         [Display(Name = "Postal code")]
+        [MaxLength(6, ErrorMessage = "Postal has 6 digit")]
+        [MinLength(6, ErrorMessage = "Postal has 6 digit")]
         public string PostalCode { get; set; }
 
         [Required]

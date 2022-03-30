@@ -15,6 +15,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Authorization;
+using System.IO;
+using OfficeOpenXml;
 
 namespace Helperland.Controllers
 { 
@@ -133,11 +135,12 @@ namespace Helperland.Controllers
         [HttpPost]
         public PartialViewResult RescheduleService(RescheduleServiceViewModel model)
         {
+            int Userid = Int16.Parse(User.Claims.FirstOrDefault(x => x.Type == "userId").Value);
             var isConflict = false;
             //fetch service details from the database with given service request id
             ServiceRequest serviceRequest = _helperlandContext.ServiceRequest.Include(x => x.ServiceProvider).FirstOrDefault(x => x.ServiceRequestId == model.ServiceRequestId);
             var day = model.ServiceDate.ToString("dd-MM-yyyy");
-            var time = model.ServiceTime.ToString("hh:mm:ss");
+            var time = model.ServiceTime.ToString("HH:mm:ss");
             var actual = day + " " + time;
             DateTime newStartDate = DateTime.Parse(actual);
 
@@ -158,8 +161,10 @@ namespace Helperland.Controllers
             {
                 var newStartTime = newStartDate;
                 var newEndTime = newStartTime.AddHours(serviceRequest.ServiceHours);
+                var conflictStartTime= newStartDate;
+                var conflictEndTime= newEndTime;
                 //fetch all the request from database which are not completed yet with same service provider id 
-                IEnumerable<ServiceRequest> serviceRequests = _helperlandContext.ServiceRequest.Where(x => x.ServiceProviderId == serviceRequest.ServiceProviderId && x.Status == ValuesData.SERVICE_ACCEPTED && x.ServiceRequestId != serviceRequest.ServiceRequestId).ToList();
+                IEnumerable<ServiceRequest> serviceRequests = _helperlandContext.ServiceRequest.Where(x => x.ServiceProviderId == serviceRequest.ServiceProviderId && x.Status == ValuesData.SERVICE_ACCEPTED && x.ServiceRequestId != serviceRequest.ServiceRequestId && x.UserId== Userid).ToList();
                 foreach (var request in serviceRequests)
                 {
                     var oldStartTime = request.ServiceStartDate;
@@ -168,6 +173,8 @@ namespace Helperland.Controllers
                     //check time conflicts
                     if ((request.ServiceStartDate == newStartDate) || (((newStartTime > oldStartTime) && (newStartTime < oldEndTime)) || ((newEndTime > oldStartTime) && (newEndTime < oldEndTime))))
                     {
+                        conflictStartTime=request.ServiceStartDate;
+                        conflictEndTime = oldEndTime;
                         isConflict = true;
                         break;
                     }
@@ -175,7 +182,7 @@ namespace Helperland.Controllers
                 //if time conflicts then show error message to customer othewise go ahead and reschedule request
                 if (isConflict)
                 {
-                    var message = "Another service request has been assigned to the service provider on " + newStartDate.Date.ToString() + " from " + newStartTime.TimeOfDay.ToString() + " to" + newEndTime.TimeOfDay.ToString() + ". Either choose another date or pick up a different time slot.";
+                    var message = "Another service request has been assigned to the service provider on " + conflictStartTime.Date.ToString("dd/mm/yyyy") + " from " + conflictStartTime.TimeOfDay.ToString() + " to" + conflictEndTime.TimeOfDay.ToString() + ". Either choose another date or pick up a different time slot.";
                     ViewBag.Alert = "<div class='alert alert-danger alert-dismissible fade show' role='alert'>" + message + "<button type= 'button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
                     return PartialView(model);
                 }
@@ -212,6 +219,22 @@ namespace Helperland.Controllers
         {
             //fetch specific service from database
             ServiceRequest serviceRequest = _helperlandContext.ServiceRequest.Include(x => x.ServiceProvider).FirstOrDefault(x => x.ServiceRequestId == id);
+            int spID = Int16.Parse(User.Claims.FirstOrDefault(x => x.Type == "userId").Value);
+            var day = serviceRequest.ServiceStartDate.ToString("dd-MM-yyyy");
+            var time = serviceRequest.ServiceStartDate.ToString("HH:mm:ss");
+            var actual = day + " " + time;
+            DateTime newStartDate = DateTime.Parse(actual);
+            var currentDate = DateTime.Today;
+            var newStartTime = newStartDate;
+            var newEndTime = newStartTime.AddHours(serviceRequest.ServiceHours);
+            var message="";
+            if ((((newStartTime < DateTime.Now) && (newEndTime > DateTime.Now))) && currentDate == DateTime.Today)
+            {
+                message = "Request cancelled is not canclled during service time";
+                ViewBag.Alert = "<div class='alert alert-danger alert-dismissible fade show' role='alert'>" + message + "<button type= 'button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+                return PartialView();
+            }
+           
             //set message for cancel request
             serviceRequest.Comments = comment;
             //set status to cancelled service=4
@@ -230,7 +253,7 @@ namespace Helperland.Controllers
                 EmailManager.SendEmail(emailList, subject, body);
             }
             //return and show success message to customer
-            var message = "Request cancelled successfully..";
+             message = "Request cancelled successfully..";
             ViewBag.Alert = "<div class='alert alert-success alert-dismissible fade show' role='alert'>" + message + "<button type= 'button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
             return PartialView();
         }
@@ -332,6 +355,80 @@ namespace Helperland.Controllers
             }
            
         }
+        public IActionResult FavouriteProviders()
+        {
+            int id = Int16.Parse(User.Claims.FirstOrDefault(x => x.Type == "userId").Value);
+            FavouriteProvidersViewModel model = new FavouriteProvidersViewModel();
+            model.ServiceProviders = _helperlandContext.ServiceRequest.Include(x => x.ServiceProvider).ThenInclude(x => x.RatingRatingToNavigation).Where(x => x.UserId == id && x.Status == ValuesData.SERVICE_COMPLETED).Select(x => x.ServiceProvider).AsEnumerable().Distinct();
+            //model.Rating=_helperlandContext.Rating.Include(x=>x.RatingToNavigation).Where(x => x.RatingFrom==id).AsEnumerable();
+            model.FavouriteSpIds = _helperlandContext.FavoriteAndBlocked.Where(x => x.UserId == id && x.IsFavorite == true).Select(x => x.TargetUserId).Distinct().ToList();
+            model.BlockedSpIds = _helperlandContext.FavoriteAndBlocked.Where(x => x.UserId == id && x.IsBlocked == true).Select(x => x.TargetUserId).Distinct().ToList();
+            return View(model);
+        }
+        public JsonResult MarkFavourite(int spId)
+        {
+            int customerId = Int16.Parse(User.Claims.FirstOrDefault(x => x.Type == "userId").Value);
+            FavoriteAndBlocked fSP = _helperlandContext.FavoriteAndBlocked.FirstOrDefault(x => x.UserId == customerId && x.TargetUserId == spId);
+            if (fSP == null)
+            {
+                fSP = new FavoriteAndBlocked();
+                fSP.UserId = customerId;
+                fSP.TargetUserId = spId;
+                fSP.IsFavorite = true;
+                _helperlandContext.FavoriteAndBlocked.Add(fSP);
+                _helperlandContext.SaveChanges();
+            }
+            else
+            {
+                fSP.IsFavorite = true;
+                _helperlandContext.FavoriteAndBlocked.Update(fSP);
+                _helperlandContext.SaveChanges();
+            }
+            return Json("ok");
+        }
+
+        public JsonResult MarkUnfavourite(int spId)
+        {
+            int customerId = Int16.Parse(User.Claims.FirstOrDefault(x => x.Type == "userId").Value);
+            FavoriteAndBlocked fSP = _helperlandContext.FavoriteAndBlocked.FirstOrDefault(x => x.UserId == customerId && x.TargetUserId == spId && x.IsFavorite == true);
+            fSP.IsFavorite = false;
+            _helperlandContext.FavoriteAndBlocked.Update(fSP);
+            _helperlandContext.SaveChanges();
+            return Json("ok");
+        }
+
+        public JsonResult MarkBlocked(int spId)
+        {
+            int customerId = Int16.Parse(User.Claims.FirstOrDefault(x => x.Type == "userId").Value);
+            FavoriteAndBlocked bSP = _helperlandContext.FavoriteAndBlocked.FirstOrDefault(x => x.UserId == customerId && x.TargetUserId == spId);
+            if (bSP == null)
+            {
+                bSP = new FavoriteAndBlocked();
+                bSP.UserId = customerId;
+                bSP.TargetUserId = spId;
+                bSP.IsBlocked = true;
+                _helperlandContext.FavoriteAndBlocked.Add(bSP);
+                _helperlandContext.SaveChanges();
+            }
+            else
+            {
+                bSP.IsBlocked = true;
+                _helperlandContext.FavoriteAndBlocked.Update(bSP);
+                _helperlandContext.SaveChanges();
+            }
+            return Json("ok");
+        }
+
+        public JsonResult MarkUnBlocked(int spId)
+        {
+            int customerId = Int16.Parse(User.Claims.FirstOrDefault(x => x.Type == "userId").Value);
+            FavoriteAndBlocked fSP = _helperlandContext.FavoriteAndBlocked.FirstOrDefault(x => x.UserId == customerId && x.TargetUserId == spId && x.IsBlocked == true);
+            fSP.IsBlocked = false;
+            _helperlandContext.FavoriteAndBlocked.Update(fSP);
+            _helperlandContext.SaveChanges();
+            return Json("ok");
+        }
+
 
         public IActionResult MyAccount()
         {
@@ -427,6 +524,10 @@ namespace Helperland.Controllers
             //check validations and update result in database or add new address into database 
             if (ModelState.IsValid)
             {
+                
+                int userId = Int16.Parse(User.Claims.FirstOrDefault(x => x.Type == "userId").Value);
+                User user = _helperlandContext.User.Where(x => x.UserId == userId).FirstOrDefault();
+                IEnumerable<UserAddress> userAddressFatch = _helperlandContext.UserAddress.Where(x => x.UserId == userId).ToList();
                 if (model.AddressId != null)
                 {
                     UserAddress userAddress = 
@@ -450,6 +551,17 @@ namespace Helperland.Controllers
                     userAddress.PostalCode = model.PostalCode;
                     userAddress.City = model.City;
                     userAddress.Mobile = model.PhoneNumber;
+                    if (userAddressFatch.Any(x => x.IsDefault == true))
+                    {
+                        userAddress.IsDefault = false;
+
+                    }
+                    else
+                    {
+                        userAddress.IsDefault = true;
+                        user.ZipCode = model.PostalCode;
+                        _helperlandContext.User.Update(user);
+                    }
                     _helperlandContext.UserAddress.Add(userAddress);
                     _helperlandContext.SaveChanges();
                     return PartialView();
@@ -504,6 +616,21 @@ namespace Helperland.Controllers
             }
         }
 
+        //public IActionResult Export()
+        //{
+        //    int userId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "userId").Value);
+        //    //return partialview with all the requests which are completed,cancelled or refunded.
+        //    IEnumerable<ServiceRequest> serviceRequests = _helperlandContext.ServiceRequest.Include(x => x.ServiceProvider).ThenInclude(x => x.RatingRatingToNavigation).Where(x => x.Status != ValuesData.SERVICE_PENDING && x.Status != ValuesData.SERVICE_ACCEPTED && x.UserId == userId).ToList();
+        //    var stream = new MemoryStream();
+        //    using (var package=new ExcelPackage(stream))
+        //    {
+        //        var worksheet = package.Workbook.Worksheets.Add("sheet1");
+        //        worksheet.Cells.LoadFromCollection(serviceRequests);
+        //    }
+        //    stream.Position = 0;
+        //    string excelname = $"CountryList--{DateTime.Now.ToString("yyyyMMddHHmmssfff")}.xlsx";
+        //    return File(stream,"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",excelname);
+        //}
 
 
 

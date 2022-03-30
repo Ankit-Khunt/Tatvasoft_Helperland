@@ -17,7 +17,22 @@
     }
 
     string extras="";
-    
+    foreach (var extra in Model.ServiceRequestExtra)
+    {
+        switch (extra.ServiceExtraId)
+        {
+            case 1:extras += "Inside cabinets,";
+                break;
+            case 2:extras += " Inside fridge,";
+                break;
+            case 3:extras += " Inside oven,";
+                break;
+            case 4:extras += " Laundry wash & dry,";
+                break;
+            case 5:extras += " Interior windows";
+                break;
+        }
+    }
 
     var startTime = Model.ServiceStartDate;
     var endTime = startTime.AddHours(Model.ServiceHours);

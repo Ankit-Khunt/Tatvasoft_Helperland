@@ -20,22 +20,26 @@ namespace Helperland.Controllers
     public class ServiceProviderController : Controller
     {
         public HelperlandContext _helperlandContext;
+       
         public ServiceProviderController(HelperlandContext helperlandContext)
         {
             _helperlandContext = helperlandContext;
         }
         // GET: /<controller>/
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult Register_ServiceProvider()
         {
             return View();
         }
+        [AllowAnonymous]
         //Email is alredy reg or not
         public bool IsEmailExists(string email)
         {
             var IsCheck = _helperlandContext.User.Where(e => e.Email == email).FirstOrDefault();
             return IsCheck != null;
         }
+        [AllowAnonymous]
         [HttpPost]
         public IActionResult Register_ServiceProvider(Register_ServiceProvider_ViewModel model)
         {
@@ -61,7 +65,9 @@ namespace Helperland.Controllers
                         CreatedDate = DateTime.Now,
                         ModifiedDate = DateTime.Now,
                         UserTypeId = 2,
-                        IsApproved = true
+                        IsApproved = false,
+                        IsActive =false,
+
                     };
 
 
@@ -79,6 +85,8 @@ namespace Helperland.Controllers
             }
             return View();
         }
+
+       
 
         [HttpGet]
 
@@ -113,7 +121,11 @@ namespace Helperland.Controllers
 
         public PartialViewResult NewServiceRequestTable(Boolean? checkVal)
         {
+            bool isBlocked = false;
+            int spId = Int16.Parse(User.Claims.FirstOrDefault(x => x.Type == "userId").Value);
 
+            IEnumerable<FavoriteAndBlocked> blockedCustomerList = _helperlandContext.FavoriteAndBlocked.Where(x => x.UserId == spId && x.IsBlocked == true).Distinct().ToList();
+            IEnumerable<int> blockedByCustomerList = _helperlandContext.FavoriteAndBlocked.Where(x => x.TargetUserId == spId && x.IsBlocked == true).Select(x => x.UserId).Distinct().ToList();
             List<User> userList = _helperlandContext.User.ToList();
             List<ServiceRequest> serviceRequestsList = _helperlandContext.ServiceRequest.ToList();
             List<ServiceRequestAddress> serviceRequestAddressesList = _helperlandContext.ServiceRequestAddress.ToList();
@@ -123,7 +135,7 @@ namespace Helperland.Controllers
                                            from sr in table1.ToList()
                                            join sa in serviceRequestAddressesList on sr.ServiceRequestId equals sa.ServiceRequestId into table2
                                            from sa in table2.ToList()
-                                           where sr.Status == ValuesData.SERVICE_PENDING 
+                                           where sr.Status == ValuesData.SERVICE_PENDING && !blockedCustomerList.Any(x => x.TargetUserId == u.UserId) && !blockedByCustomerList.Any(x=>x==u.UserId)
 
                                            select new NewServiceRequestViewModel { addressViewModel = sa, user = u, serviceRequestViewModel = sr };
             if (checkVal.HasValue)
@@ -143,13 +155,14 @@ namespace Helperland.Controllers
         }
 
 
-        public PartialViewResult ServiceRequestDetail(int Id, bool? UPService)
+        public PartialViewResult ServiceRequestDetail(int Id, bool? UPService )
         {
             ServiceRequest serviceRequests = _helperlandContext.ServiceRequest.Include(x => x.ServiceRequestAddress).Include(x => x.ServiceRequestExtra).Where(x => x.ServiceRequestId == Id).FirstOrDefault();
             if (UPService == true)
             {
                 ViewBag.UPService = true;
             }
+            
             HttpContext.Session.SetString("CurrentServiceRecordVersion",serviceRequests.RecordVersion.ToString());
             return PartialView(serviceRequests);
         }
@@ -172,8 +185,8 @@ namespace Helperland.Controllers
                 isConflict = false;
                 var newStartTime = newStartDate;
                 var newEndTime = newStartTime.AddHours(serviceRequest.ServiceHours);
-                var userId = Int32.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-
+               // var userId = Int32.Parse(User.FindFirstValue(ClaimTypes."userId"));
+                int userId = Int16.Parse(User.Claims.FirstOrDefault(x => x.Type == "userId").Value);
 
 
                 //fetch all the request from database which are not completed yet with same service provider id 
@@ -203,7 +216,7 @@ namespace Helperland.Controllers
                 if (isConflict)
                 {
 
-                    partialPopUP.Message = "Another service request" + conflictServiceId + "has already been assigned which has time overlap with this service request. You can’t pick this one!";
+                    partialPopUP.Message = "Another service request " + conflictServiceId + " has already been assigned which has time overlap with this service request. You can’t pick this one!";
                     partialPopUP.ImgSrc = "/images/big-error.jpg";
 
                     return Json(partialPopUP);
@@ -263,21 +276,23 @@ namespace Helperland.Controllers
 
         public IActionResult SPServiceHistory()
         {
-            IEnumerable<ServiceRequest> serviceRequests = _helperlandContext.ServiceRequest.Include(x => x.ServiceRequestAddress).Include(x => x.User).Where(x => x.Status == ValuesData.SERVICE_COMPLETED || x.Status == ValuesData.SERVICE_REFUNDED).ToList();
+            int id = Int16.Parse(User.Claims.FirstOrDefault(x => x.Type == "userId").Value);
+            IEnumerable<ServiceRequest> serviceRequests = _helperlandContext.ServiceRequest.Include(x => x.ServiceRequestAddress).Include(x => x.User).Where(x => (x.Status == ValuesData.SERVICE_COMPLETED || x.Status == ValuesData.SERVICE_REFUNDED) && x.ServiceProviderId == id).ToList();
             ViewBag.Hamburger = "serviceProvider";
             return View(serviceRequests);
         }
 
         public PartialViewResult SPServiceHistoryStaus(int Id)
         {
+            int id = Int16.Parse(User.Claims.FirstOrDefault(x => x.Type == "userId").Value);
             if (Id == 0) {
-                IEnumerable<ServiceRequest> serviceRequests = _helperlandContext.ServiceRequest.Include(x => x.ServiceRequestAddress).Include(x => x.User).Where(x => x.Status == ValuesData.SERVICE_COMPLETED || x.Status == ValuesData.SERVICE_REFUNDED).ToList();
+                IEnumerable<ServiceRequest> serviceRequests = _helperlandContext.ServiceRequest.Include(x => x.ServiceRequestAddress).Include(x => x.User).Where(x => (x.Status == ValuesData.SERVICE_COMPLETED || x.Status == ValuesData.SERVICE_REFUNDED) && x.ServiceProviderId == id).ToList();
                 ViewBag.Hamburger = "serviceProvider";
                 return PartialView(serviceRequests);
             }
             else
             {
-                IEnumerable<ServiceRequest> serviceRequests = _helperlandContext.ServiceRequest.Include(x => x.ServiceRequestAddress).Include(x => x.User).Where(x => x.Status == Id).ToList();
+                IEnumerable<ServiceRequest> serviceRequests = _helperlandContext.ServiceRequest.Include(x => x.ServiceRequestAddress).Include(x => x.User).Where(x => x.Status == Id && x.ServiceProviderId == id).ToList();
                 ViewBag.Hamburger = "serviceProvider";
                 return PartialView(serviceRequests);
             }
@@ -287,7 +302,8 @@ namespace Helperland.Controllers
 
         public IActionResult SPUpcomingService()
         {
-            IEnumerable<ServiceRequest> serviceRequests = _helperlandContext.ServiceRequest.Include(x => x.ServiceRequestAddress).Include(x => x.User).Where(x => x.Status == ValuesData.SERVICE_ACCEPTED).ToList();
+            int id = Int16.Parse(User.Claims.FirstOrDefault(x => x.Type == "userId").Value);
+            IEnumerable<ServiceRequest> serviceRequests = _helperlandContext.ServiceRequest.Include(x => x.ServiceRequestAddress).Include(x => x.User).Where(x => x.Status == ValuesData.SERVICE_ACCEPTED && x.ServiceProviderId==id).ToList();
             ViewBag.Hamburger = "serviceProvider";
             return View(serviceRequests);
 
@@ -295,7 +311,8 @@ namespace Helperland.Controllers
 
         public PartialViewResult SPUpcomingServiceTable()
         {
-            IEnumerable<ServiceRequest> serviceRequests = _helperlandContext.ServiceRequest.Include(x => x.ServiceRequestAddress).Include(x => x.User).Where(x => x.Status == ValuesData.SERVICE_ACCEPTED).ToList();
+            int id = Int16.Parse(User.Claims.FirstOrDefault(x => x.Type == "userId").Value);
+            IEnumerable<ServiceRequest> serviceRequests = _helperlandContext.ServiceRequest.Include(x => x.ServiceRequestAddress).Include(x => x.User).Where(x => x.Status == ValuesData.SERVICE_ACCEPTED && x.ServiceProviderId == id).ToList();
             ViewBag.Hamburger = "serviceProvider";
             return PartialView(serviceRequests);
 
@@ -307,7 +324,23 @@ namespace Helperland.Controllers
 
             //fetch service details from the database with given service request id
             ServiceRequest serviceRequest = _helperlandContext.ServiceRequest.Include(x => x.User).FirstOrDefault(x => x.ServiceRequestId == Id);
+            int spID = Int16.Parse(User.Claims.FirstOrDefault(x => x.Type == "userId").Value);
+            
 
+            var day = serviceRequest.ServiceStartDate.ToString("dd-MM-yyyy");
+            var time = serviceRequest.ServiceStartDate.ToString("HH:mm:ss");
+            var actual = day + " " + time;
+            DateTime newStartDate = DateTime.Parse(actual);
+            var currentDate = DateTime.Today;
+            var newStartTime = newStartDate;
+            var newEndTime = newStartTime.AddHours(serviceRequest.ServiceHours);
+
+            if ((((newStartTime < DateTime.Now) && (newEndTime > DateTime.Now))) && currentDate==DateTime.Today)
+            {
+                partialPopUP.Message = "Your Service Request is not Cancled";
+                partialPopUP.ImgSrc = "/images/big-error.jpg";
+                return Json(partialPopUP);
+            }
             string provider = HttpContext.Session.GetString("CurrentUser");
             User user = JsonConvert.DeserializeObject<User>(provider);
             //serviceRequest.ServiceStartDate = newStartDate;
@@ -315,7 +348,7 @@ namespace Helperland.Controllers
 
             serviceRequest.Status = ValuesData.SERVICE_PENDING;
             serviceRequest.ServiceProviderId = null;
-            serviceRequest.ModifiedBy = user.UserId;
+            serviceRequest.ModifiedBy = spID;
             _helperlandContext.ServiceRequest.Update(serviceRequest);
             _helperlandContext.SaveChanges();
             //return and show success message to customer
@@ -344,18 +377,17 @@ namespace Helperland.Controllers
 
         public JsonResult CompletedServiceSP(int Id)
         {
+            int id = Int16.Parse(User.Claims.FirstOrDefault(x => x.Type == "userId").Value);
             PartialPopUP partialPopUP = new PartialPopUP();
 
             //fetch service details from the database with given service request id
             ServiceRequest serviceRequest = _helperlandContext.ServiceRequest.Include(x => x.User).FirstOrDefault(x => x.ServiceRequestId == Id);
 
-            string provider = HttpContext.Session.GetString("CurrentUser");
-            User user = JsonConvert.DeserializeObject<User>(provider);
             //serviceRequest.ServiceStartDate = newStartDate;
             serviceRequest.ModifiedDate = DateTime.Now;
 
             serviceRequest.Status = ValuesData.SERVICE_COMPLETED;
-            serviceRequest.ModifiedBy = user.UserId;
+            serviceRequest.ModifiedBy = id;
             _helperlandContext.ServiceRequest.Update(serviceRequest);
             _helperlandContext.SaveChanges();
             //return and show success message to customer
@@ -379,14 +411,16 @@ namespace Helperland.Controllers
 
         public IActionResult SPMyRating()
         {
-            IEnumerable<Rating> rating = _helperlandContext.Rating.Include(x => x.ServiceRequest).Include(x => x.RatingFromNavigation).ToList();
+            int id = Int16.Parse(User.Claims.FirstOrDefault(x => x.Type == "userId").Value);
+            IEnumerable<Rating> rating = _helperlandContext.Rating.Include(x => x.ServiceRequest).Include(x => x.RatingFromNavigation).Where(x=>x.RatingTo==id).ToList();
             ViewBag.Hamburger = "serviceProvider";
             return View(rating);
         }
 
         public PartialViewResult SPMyRatingTable()
         {
-            IEnumerable<Rating> rating = _helperlandContext.Rating.Include(x => x.ServiceRequest).Include(x => x.RatingFromNavigation).ToList();
+            int id = Int16.Parse(User.Claims.FirstOrDefault(x => x.Type == "userId").Value);
+            IEnumerable<Rating> rating = _helperlandContext.Rating.Include(x => x.ServiceRequest).Include(x => x.RatingFromNavigation).Where(x => x.RatingTo == id).ToList();
             return PartialView("MyRatingTablePar", rating);
         }
 
@@ -489,6 +523,7 @@ namespace Helperland.Controllers
 
                 int id = Int16.Parse(User.Claims.FirstOrDefault(x => x.Type == "userId").Value);
                 User user = _helperlandContext.User.Include(x => x.UserAddress.Where(x => x.IsDefault == true)).FirstOrDefault(x => x.UserId == id);
+                IEnumerable<UserAddress> userAddressFatch = _helperlandContext.UserAddress.Where(x => x.UserId == id).ToList();
                 UserAddress userAddress = new UserAddress();
                 string DOB = model.BirthDay + "-" + model.BirthMonth + "-" + model.BirthYear;
                 user.DateOfBirth = DateTime.Parse(DOB);
@@ -518,7 +553,17 @@ namespace Helperland.Controllers
                     userAddress.IsDefault = true;
                     userAddress.UserId = id;
                     userAddress.IsDeleted = false;
+                    if (userAddressFatch.Any(x => x.IsDefault == true))
+                    {
+                        userAddress.IsDefault = false;
 
+                    }
+                    else
+                    {
+                        userAddress.IsDefault = true;
+                        user.ZipCode = model.PostalCode;
+                        _helperlandContext.User.Update(user);
+                    }
                     _helperlandContext.UserAddress.Add(userAddress);
 
                 }
@@ -570,6 +615,37 @@ namespace Helperland.Controllers
             {
                 return PartialView(model);
             }
+        }
+
+        public IActionResult ServiceSchedual()
+        {
+            ViewBag.Hamburger = "serviceProvider";
+            return View(); 
+            
+        }
+        public JsonResult ServiceSchedualCalander()
+        {
+
+            int id = Int16.Parse(User.Claims.FirstOrDefault(x => x.Type == "userId").Value);
+            var requestList = _helperlandContext.ServiceRequest.Where(x => x.ServiceProviderId == id && (x.Status == ValuesData.SERVICE_COMPLETED || x.Status == ValuesData.SERVICE_ACCEPTED)).ToList();
+            List<Object> objects = new List<Object>();
+            foreach (var request in requestList)
+            {
+                var color = "";
+                if (request.Status == ValuesData.SERVICE_ACCEPTED)
+                {
+                    color = "#1d7a8c";
+                }
+                else
+                {
+                    color = "#67b644";
+                }
+                var v = new { title = request.ServiceStartDate.ToString("HH:mm") + " - " + request.ServiceStartDate.AddHours(request.ServiceHours).ToString("HH:mm"), color = color, start = request.ServiceStartDate, id = request.ServiceRequestId };
+                objects.Add(v);
+            }
+            return Json(new { data = objects });
+
+
         }
 
 
