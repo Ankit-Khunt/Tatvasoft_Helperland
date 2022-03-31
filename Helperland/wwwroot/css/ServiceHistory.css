@@ -88,6 +88,8 @@ th#th6.sorting[style] {
 
 .service-detail-date {
     padding-left: 5px;
+    color: #646464;
+    font-weight: bold;
 }
 
 .service-detail-time {
@@ -310,17 +312,17 @@ td > span,
 
 
 table.dataTable thead th.sorting_asc {
-    background-image: url("../img/acendingSort.png") !important;
+    background-image: url("/images/acendingSort.png") !important;
 }
 
 table.dataTable thead th.sorting_desc {
-    background-image: url("../img/decendingSort.png") !important;
+    background-image: url("/images/decendingSort.png") !important;
 }
 
 table.dataTable thead .sorting {
-    background-image: url("../img/sort.png") !important;
+    background-image: url("/images/sort.png") !important;
     background-position: right 4px top 50% !important;
-    margin-left: 0px !important;
+    left: 0 !important;
 }
 
 table.dataTable thead th,

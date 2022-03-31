@@ -69,7 +69,7 @@ namespace Helperland.Controllers
                         IsActive =false,
 
                     };
-
+                    ViewBag.ClearForm = true;
 
                     _helperlandContext.User.Add(newServiceProvider);
                     ViewBag.Alert = "<div class='alert alert-success alert-dismissible fade show' role='alert'> Request Send Successfuly <button type= 'button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
@@ -417,10 +417,31 @@ namespace Helperland.Controllers
             return View(rating);
         }
 
-        public PartialViewResult SPMyRatingTable()
+        public PartialViewResult SPMyRatingTable(int? status)
         {
             int id = Int16.Parse(User.Claims.FirstOrDefault(x => x.Type == "userId").Value);
-            IEnumerable<Rating> rating = _helperlandContext.Rating.Include(x => x.ServiceRequest).Include(x => x.RatingFromNavigation).Where(x => x.RatingTo == id).ToList();
+            IQueryable<Rating> rating = _helperlandContext.Rating.Include(x => x.ServiceRequest).Include(x => x.RatingFromNavigation).Where(x => x.RatingTo == id);
+            if (status.HasValue)
+            {
+                if(status.Value == 1)
+                {
+                    rating = rating.Where(x => x.Ratings == 5);
+                }
+                else if(status.Value == 2)
+                {
+                    rating = rating.Where(x => x.Ratings == 4);
+                }else if(status.Value == 3)
+                {
+                    rating = rating.Where(x => x.Ratings == 3);
+                }else if(status.Value == 4)
+                {
+                    rating = rating.Where(x => x.Ratings == 2);
+                }else if(status.Value == 5)
+                {
+                    rating = rating.Where(x => x.Ratings == 1);
+                }
+                
+            }
             return PartialView("MyRatingTablePar", rating);
         }
 

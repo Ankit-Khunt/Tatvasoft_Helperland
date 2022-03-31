@@ -112,15 +112,21 @@
                         </div>
                        
                         <div class="form-content">
-                            <input type="text" id="firstnameID" placeholder="First name" asp-for="FirstName" class="form-item col-12">
+                            <div class="form-input-div">
+                                <input type="text" id="firstnameID" placeholder="First name" asp-for="FirstName" class="form-item col-12">
                             <span asp-validation-for="FirstName" class="text-danger"></span>
-                            <input type="text" id="LastNameID" placeholder="Last name" asp-for="LastName" class="form-item col-12">
+                            </div>
+                            <div class="form-input-div">
+                                <input type="text" id="LastNameID" placeholder="Last name" asp-for="LastName" class="form-item col-12">
                             <span asp-validation-for="LastName" class="text-danger"></span>
-                            <input type="text" id="EmailID" placeholder="Email Address" asp-for="Email"
-                                   class="form-item col-12">
-                            <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                            <div class="form-input-div">
+                                 <input type="text" id="EmailID" placeholder="Email Address" asp-for="Email"
+                                  class="form-item col-12">
+                                  <span asp-validation-for="Email" class="text-danger"></span>
                             @Html.ValidationMessage("EmailExists", new { @class = "text-danger" })
-                            <div class="col-12 form-mobile">
+                            </div>
+                             <div class="col-12 form-mobile form-input-div">
                                 <div class="mx-0  row">
                                     <input disabled type="text" class="form-group1 col-2 " id="countryCode"
                                            placeholder="+49" />
@@ -129,12 +135,16 @@
                                     <span asp-validation-for="Mobile" class="text-danger"></span>
                                 </div>
                             </div>
-                            <input type="password" id="PasswordID" placeholder="Password" asp-for="Password"
+                            <div class="form-input-div">
+                                <input type="password" id="PasswordID" placeholder="Password" asp-for="Password"
                                    class="form-item col-12">
-                            <span asp-validation-for="Password" class="text-danger"></span>
-                            <input type="password" id="ConfirmPasswordID" placeholder="Confirm Password" asp-for="ConfirmPassword"
+                                    <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+                            <div class="form-input-div">
+                                 <input type="password" id="ConfirmPasswordID" placeholder="Confirm Password" asp-for="ConfirmPassword"
                                    class="form-item col-12">
-                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                                 <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                            </div>
                             <div class="form-checkbox">
                                 <div class="d-flex form-checkbox-1" >
                                     <input type="checkbox" id="check1" name="sen-me" value="yes">
@@ -395,3 +405,16 @@
 <script src="~/js/Service_Provider.js" asp-append-version="true"></script>
 
 </html>
+
+@if(ViewBag.ClearForm==true)
+    {
+        <script>
+           $("#firstnameID").val('');
+           $("#LastNameID").val('');
+           $("#EmailID").val('');
+           $("#MobileID").val('');
+           $("#PasswordID").val('');
+           $("#ConfirmPasswordID").val('');
+           
+        </script>
+    }

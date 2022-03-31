@@ -593,3 +593,50 @@ footer {
         margin: 15px 0;
     }
 }
+
+.success-icon {
+    font-size: 80px;
+    position: relative;
+    padding-top: 30px;
+    justify-content: center;
+    display: flex;
+    height: 100px;
+}
+
+.serviceModalDivContent {
+}
+
+.alertServiceModelMessage {
+    text-align: center;
+    font-size: 28px;
+    color: #4F4F4F;
+    width: 400px;
+}
+
+.serviceAlertBtn {
+    width: 100px;
+    height: 50px;
+    border: none;
+    background-color: #1D7A8C;
+    border-radius: 50px;
+    color: white;
+}
+
+.serviceReqAlertIdSpan {
+    font-size: 18px;
+    color: #4F4F4F;
+}
+
+.modal-header {
+    border-bottom: none !important;
+}
+
+.pop-up-modal .modal-dialog {
+    background-color: none !important;
+}
+
+@media screen and (max-width:600px){
+    .modal-dialog {
+        margin: 1.75rem auto;
+    }
+}

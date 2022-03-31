@@ -496,3 +496,12 @@ D:\New version Heplerland\Helperland\bin\Debug\net5.0\Microsoft.AspNetCore.Mvc.N
 D:\New version Heplerland\Helperland\bin\Debug\net5.0\Newtonsoft.Json.Bson.dll
 D:\New version Heplerland\Helperland\obj\Debug\net5.0\Razor\Views\Home\AccessDenied.cshtml.g.cs
 D:\New version Heplerland\Helperland\obj\Debug\net5.0\Razor\Views\Admin\CancelServiceRequest.cshtml.g.cs
+D:\New version Heplerland\Helperland\obj\Debug\net5.0\Razor\Views\Home\LogOutModal.cshtml.g.cs
+D:\New version Heplerland\Helperland\bin\Debug\net5.0\BouncyCastle.Crypto.dll
+D:\New version Heplerland\Helperland\bin\Debug\net5.0\Google.Protobuf.dll
+D:\New version Heplerland\Helperland\bin\Debug\net5.0\K4os.Compression.LZ4.dll
+D:\New version Heplerland\Helperland\bin\Debug\net5.0\K4os.Compression.LZ4.Streams.dll
+D:\New version Heplerland\Helperland\bin\Debug\net5.0\K4os.Hash.xxHash.dll
+D:\New version Heplerland\Helperland\bin\Debug\net5.0\MySql.Data.dll
+D:\New version Heplerland\Helperland\bin\Debug\net5.0\Ubiety.Dns.Core.dll
+D:\New version Heplerland\Helperland\bin\Debug\net5.0\ZstdNet.dll

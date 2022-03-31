@@ -92,6 +92,8 @@ th#th5.sorting_disabled[style] {
 
 .service-detail-date {
     padding-left: 5px;
+    color: #646464;
+    font-weight: bold;
 }
 
 .service-detail-time {
@@ -264,7 +266,7 @@ table.dataTable thead th.sorting_desc {
 table.dataTable thead .sorting {
     background-image: url("/images/sort.png") !important;
     background-position: right 4px top 50% !important;
-    margin-left: 0px !important;
+    left: 0 !important;
 }
 
 table.dataTable thead th,

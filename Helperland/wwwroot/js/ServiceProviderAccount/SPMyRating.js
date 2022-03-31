@@ -10,7 +10,7 @@
     $("select.StausOfTableClass").change(function () {
         var selectedOP = $(this).children("option:selected").val();
        
-        callSPMyRatingTable();
+        callSPMyRatingTable(selectedOP);
     });
     //if (status >= 0 && status != 10) {
 
@@ -55,11 +55,14 @@ function ServiceDetailFun(id) {
 }
 
 
-function callSPMyRatingTable() {
+function callSPMyRatingTable(ratingStatus) {
     $.ajax({
         url: '/ServiceProvider/SPMyRatingTable',
         dataType: "html",
         method: "GET",
+        data: {
+            status: ratingStatus,
+        },
         
         success: function (result) {
             $(".tableDiv").html(result);

@@ -7,6 +7,7 @@
 }
 
 
+    <div class="modal fade" id="LogOutId" role="dialog"></div>
 
     <section class="banner">
     @if (User.Identity.IsAuthenticated)
@@ -291,21 +292,21 @@
                         <h6>Lorem ipsum dolor sit amet</h6>
                         <p class="date">January 28, 2019</p>
                         <p class="content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed fermentum metus pulvinar aliquet.</p>
-                        <a href="#">Read more <img src="~/images/shape-2.png" alt=""></a>
+                        <a href="#">Read more <img src="~/images/arrow-blacl.png" alt=""></a>
                     </div>
                     <div class="card mx-3 mt-66">
                         <img src="~/images/group-29.jpg" class="cardimg">
                         <h6>Lorem ipsum dolor sit amet</h6>
                         <p class="date">January 28, 2019</p>
                         <p class="content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed fermentum metus pulvinar aliquet.</p>
-                        <a href="#">Read more <img src="~/images/shape-2.png" alt=""></a>
+                        <a href="#">Read more <img src="~/images/arrow-blacl.png" alt=""></a>
                     </div>
                     <div class="card mx-3 mt-66">
                         <img src="~/images/group-30.jpg" class="cardimg">
                         <h6>Lorem ipsum dolor sit amet</h6>
                         <p class="date">January 28, 2019</p>
                         <p class="content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed fermentum metus pulvinar aliquet.</p>
-                        <a href="#">Read more <img src="~/images/shape-2.png" alt=""></a>
+                        <a href="#">Read more <img src="~/images/arrow-blacl.png" alt=""></a>
                     </div>
                 </div>
             </div>
@@ -327,7 +328,7 @@
                             <br><br>
                             Nullam et metus congue, auctor augue sit amet, consectetur tortor.
                         </p>
-                        <a>Read More <img src="~/images/shape-2.png" alt=""></a>
+                        <a>Read More <img src="~/images/arrow-blacl.png" alt=""></a>
                     </div>
                 </div>
                 <div class="card mx-3 mt-59 align-items-center">
@@ -343,7 +344,7 @@
                             <br><br>
                             Nullam et metus congue, auctor augue sit amet, consectetur tortor.
                         </p>
-                        <a>Read More <img src="~/images/shape-2.png" alt=""></a>
+                        <a>Read More <img src="~/images/arrow-blacl.png" alt=""></a>
                     </div>
                 </div>
                 <div class="card mx-3 mt-59 align-items-center">
@@ -359,7 +360,7 @@
                             <br><br>
                             Nullam et metus congue, auctor augue sit amet, consectetur tortor.
                         </p>
-                        <a>Read More <img src="~/images/shape-2.png" alt=""></a>
+                        <a>Read More <img src="~/images/arrow-blacl.png" alt=""></a>
                     </div>
                 </div>
             </div>
@@ -395,6 +396,32 @@
 </a>
 <partial name="_LoginModalLayout" />
 
+@if(ViewBag.openLogOutModel == true)
+{
+    <script>
+         $(window).on('load', function () {
+          $.ajax({
+            url: "/Home/LogOutModal",
+            type: "GET",
+       
+            success: function (result) {
+                $("#LogOutId").html(result);
+                $("#LogOutId").modal("show");
+
+            },
+            error: function () {
+                alert("error");
+            },
+         });
+
+         
+
+        });
+        
+    </script>
+
+   
+}
 @if(ViewBag.openLoginModel == true)
 {
      <script type="text/javascript" >
@@ -403,6 +430,10 @@
             });
      </script>
 }
+
+<script>
+     
+</script>
 
 
 

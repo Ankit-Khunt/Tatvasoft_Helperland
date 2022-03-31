@@ -53,7 +53,7 @@
                                 </div>
                                </td> 
 
-                               <td >
+                               <td data-order="@Data.ServiceStartDate.Date.ToString("MMddyyyyHHmmss")">
                                 <div class="th2">
                                     <div class="d-flex">
                                         <img src="~/images/calander.png" class="me-1" width="22px" height="22px"><span
@@ -234,7 +234,7 @@
         $('#upcomingHistoryTable').DataTable({
             "dom": '<"top"i>rt<"bottom"flp><"clear">',
             "columnDefs": [
-                { "orderable": false, "targets": 4 }
+                { "orderable": false, "targets": 9 }
             ],
             'responsive': true,
 
@@ -256,15 +256,9 @@
                 },
             },
             "buttons": ["excel"],
-            "columnDefs": [{ orderable: false, targets: 4 }],
-            "columnDefs": [
-                { "orderable": false, "targets": 4 }
-            ],
             "oLanguage": {
                 "sInfo": "Total Records: _TOTAL_"
             },
-            "dom": '<"top">rt<"bottom"lip><"clear">',
-            responsive: true,
             "order": []
         });
 

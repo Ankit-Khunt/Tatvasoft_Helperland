@@ -35,6 +35,13 @@ namespace Helperland.Controllers
         public IActionResult Index()
         {
             var userName=HttpContext.Session.GetString("User_Name");
+
+            var logout=HttpContext.Session.GetString("Logout");
+            if (logout == "true")
+            {
+                ViewBag.openLogOutModel = true;
+                HttpContext.Session.SetString("Logout","");
+            }
             ViewBag.UserName=userName; 
                 return View();
             }
@@ -141,6 +148,12 @@ namespace Helperland.Controllers
         {
             return View();
         }
-        
+
+        public PartialViewResult LogOutModal()
+        {
+            return PartialView();
+        }
+
+
     }
 }

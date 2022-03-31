@@ -22,16 +22,15 @@
                                      <span>@Data.FirstName @Data.LastName</span>
                                  </td>
                                  
-                                 <td>
+                                 <td data-order="@Data.CreatedDate.ToString("MMddyyyyHHmmss")">
                                      <div class="d-flex align-items-center">
                                          <div>
                                              <span><img  src="~/images/calander.png"/></span>
                                          </div>
                                          <div class="ms-2">
-                                             <span>@Data.CreatedDate.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)</span>
+                                             <span class="service-detail-date">@Data.CreatedDate.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)</span>
                                          </div>
                                      </div>
-
                                     
                                  </td>
                                  <td>
@@ -110,7 +109,7 @@
         $('#upcomingHistoryTable').DataTable({
             "dom": '<"top"i>rt<"bottom"flp><"clear">',
             "columnDefs": [
-                { "orderable": false, "targets": 4 }
+                { "orderable": false, "targets": 6 }
             ],
             'responsive': true,
 
@@ -132,15 +131,9 @@
                 },
             },
             "buttons": ["excel"],
-            "columnDefs": [{ orderable: false, targets: 4 }],
-            "columnDefs": [
-                { "orderable": false, "targets": 4 }
-            ],
             "oLanguage": {
                 "sInfo": "Total Records: _TOTAL_"
             },
-            "dom": '<"top">rt<"bottom"lip><"clear">',
-            responsive: true,
             "order": []
         });
 

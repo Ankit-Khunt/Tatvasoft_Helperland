@@ -20,50 +20,51 @@
         </div>
     </div>
     <div class="contactUsForm justify-content-center container ">
+        @Html.Raw(ViewBag.Alert);
         <form asp-action="User_Register" asp-controller="Account" method="post">
             <div class="row  ">
                
                 <div class="form-item col-12 col-sm-6">
                     <input type="text" class="form-control" asp-for="FirstName"
-                           placeholder="First Name" />
+                           placeholder="First Name" id="firstnameId" />
                      <span asp-validation-for="FirstName" class="text-danger"></span>
                 </div>
                 
                 <div class="form-item col-12 col-sm-6">
                     <input type="text" class="form-control" asp-for="LastName"
-                           placeholder="Last Name" />
+                           placeholder="Last Name" id="LastnameId" />
                     <span asp-validation-for="LastName" class="text-danger"></span>
                 </div>
                 
                 <div class="form-item col-12 col-sm-6">
                     <input type="email" class="form-control" asp-for="Email"
-                           placeholder="E-mail Address" />
+                           placeholder="E-mail Address" id="EmailId" />
                     <span asp-validation-for="Email" class="text-danger"></span>
                     @Html.ValidationMessage("EmailExists", new { @class = "text-danger" })
                 </div>
                 <div class="form-item col-12 col-sm-6">
                     <div class="input-group mx-0 row">
-                        <input type="text" class="input-group-text col-2 px-0" id="countryCode"
+                        <input type="text" disabled="disabled" class="input-group-text col-2 px-0" id="countryCode"
                                placeholder="+49" />
                         <input type="text" class="form-control col-10" asp-for="Mobile" placeholder="Mobile Number"
-                               aria-label="Mobile Number" aria-describedby="basic-addon1" />
+                               aria-label="Mobile Number" aria-describedby="basic-addon1" id="MobileID" />
                         <span asp-validation-for="Mobile" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-item col-12 col-sm-6">
                     <input type="password" class="form-control" asp-for="Password"
-                           placeholder="Password" />
+                           placeholder="Password" id="PasswordId" />
                     <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
                 <div class="form-item col-12 col-sm-6">
                     <input type="password" class="form-control" asp-for="ConfirmPassword"
-                           placeholder="Comfirm password" />
+                           placeholder="Comfirm password" id="ConformPasswordId" />
                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                 </div>
 
                 <div class="p-2 ">
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="check1" name="option1" value="something">
+                        <input type="checkbox" class="form-check-input" id="check1" name="option1" value="something"  >
                         <label class="form-check-label" for="check1">
                             Yes, I would like to subscribe to the newsletter of Helperland GmbH with vouchers,
                             trends, promotions and individualized offers.
@@ -71,20 +72,20 @@
                         </label>
                     </div>
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="check1" name="option1" value="something">
+                        <input type="checkbox" class="form-check-input" id="check2" name="option1" value="something">
                         <label class="form-check-label" for="check1">
                             I agree with the <span class="span-tg">terms and conditions</span> of Helperland GmbH.
                         </label>
                     </div>
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="check1" name="option1" value="something">
+                        <input type="checkbox" class="form-check-input" id="check3" name="option1" value="something">
                         <label class="form-check-label" for="check1">
                             I have read the <span class="span-tg">privacy policy</span>  .
                         </label>
                     </div>
                 </div>
 
-                <button class="submit rounded-pill border-0 outline-0">Register</button>
+                <button id="SubNewUserBtnId" type="submit" disabled="disabled" class="submit rounded-pill border-0 outline-0">Register</button>
             </div>
         </form>
        @* <div asp-validation-summary="All" class="text-danger"></div>*@
@@ -96,11 +97,26 @@
 
     </div>
 
-
-
+    
+     
 </section>
+
 @section script{
     <script src="~/Scripts/jquery-1.10.2.js"></script>
     <script src="~/Scripts/jquery.validate.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/js/User_register.js"></script>
 }
+
+@if(ViewBag.ClearForm==true)
+    {
+        <script>
+           $("#firstnameId").val('');
+           $("#LastnameId").val('');
+           $("#EmailId").val('');
+           $("#MobileID").val('');
+           $("#PasswordId").val('');
+           $("#ConformPasswordId").val('');
+           $("#ConformPasswordId").val('');
+        </script>
+    }

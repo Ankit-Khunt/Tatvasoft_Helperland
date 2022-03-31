@@ -13,7 +13,7 @@
       ></button>
     </div>
     <div class="modal-body edit-request-detail">
-        <form id="editRequestForm" data-ajax="true" data-ajax-url="/Admin/EditServiceRequest" data-ajax-method="post" data-ajax-update="#adminModal">
+        <form id="editRequestForm" data-ajax="true" data-ajax-url="/Admin/EditServiceRequest" data-ajax-method="post" data-ajax-update="#adminModal" data-ajax-success="OnSearch()">
             @Html.HiddenFor(model=>model.ServiceRequestId)
             <div class="row d-flex justify-content-between">
                 <div class="col-6 mb-3 pe-3">

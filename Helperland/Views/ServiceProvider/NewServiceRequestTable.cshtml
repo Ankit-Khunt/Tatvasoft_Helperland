@@ -1,4 +1,5 @@
 ﻿@using Helperland.ViewModels.ServiceProvider
+@using System.Globalization
 @model IEnumerable<NewServiceRequestViewModel> 
 
   
@@ -55,11 +56,11 @@
                                
                                 </td>
                            
-                                <td >
+                                <td data-order="@Data.serviceRequestViewModel.ServiceStartDate.Date.ToString("MMddyyyyHHmmss")">
                                 <div class="td-1">
-                                    <div>
+                                    <div class="d-flex">
                                         <img src="~/images/calander.png" class="me-1"><span
-                                                class="service-detail-date">@Data.serviceRequestViewModel.ServiceStartDate.Date.ToString("dd/MM/yyyy")</span>
+                                                class="service-detail-date">@Data.serviceRequestViewModel.ServiceStartDate.Date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)</span>
                                     </div>
                                             @if (finalendHour < 10)
                                             {
@@ -117,44 +118,36 @@
                  </table>
 
  <script>
-$(document).ready(function () {
+$(document).ready(function(){
     $('#upcomingHistoryTable').DataTable({
-        "dom": '<"top"i>rt<"bottom"flp><"clear">',
-        "columnDefs": [
-            { "orderable": false, "targets": 4 }
-        ],
-        'responsive': true,
+             "dom": '<"top">rt<"bottom"lip><"clear">',
+            'responsive': true,
+            "bFilter": false, //hide Search bar
+            pagingType: "full_numbers",
+            paging: true,
+            "pagingType": "full_numbers",
+            // bFilter: false,
+            ordering: true,
+            searching: false,
+            info: true,
 
-        "bFilter": false, //hide Search bar
-        "pagingType": "full_numbers",
-        paging: true,
-        "pagingType": "full_numbers",
-        // bFilter: false,
-        ordering: true,
-        searching: false,
-        info: true,
-
-        language: {
-            paginate: {
-                first: "<img src='/images/firstPage.png' alt='first' />",
-                previous: "<img src='/images/previous.png' alt='previous' />",
-                next: '<img src="/images/previous.png" alt="next" style="transform: rotate(180deg)" />',
-                last: "<img src='/images/firstPage.png' alt='first' style='transform: rotate(180deg)' />",
+            language: {
+                paginate: {
+                    first: "<img src='/images/firstPage.png' alt='first' />",
+                    previous: "<img src='/images/previous.png' alt='previous' />",
+                    next: '<img src="/images/previous.png" alt="next" style="transform: rotate(180deg)" />',
+                    last: "<img src='/images/firstPage.png' alt='first' style='transform: rotate(180deg)' />",
+                },
             },
-        },
-        "buttons": ["excel"],
-        "columnDefs": [{ orderable: false, targets: 4 }],
-        "columnDefs": [
-            { "orderable": false, "targets": 4 }
-        ],
-        "oLanguage": {
-            "sInfo": "Total Records: _TOTAL_"
-        },
-        "dom": '<"top">rt<"bottom"lip><"clear">',
-        responsive: true,
-        "order": []
-    });
-    });
+            "buttons": ["excel"],
+           
+            "oLanguage": {
+                "sInfo": "Total Records: _TOTAL_"
+            },
+            "order": []
+        });
+});
+
  </script>
    
 

@@ -1,17 +1,19 @@
 ﻿$(document).ready(function () {
-    var table =$('#upcomingHistoryTable').DataTable({
+
+
+
+    $("#SPHistoryVarId").addClass("active");
+
+    callSPHistoryTable(0);
+    $('#upcomingHistoryTable').DataTable({
         searching: false,
-        info: false,
+        info: true,
+        ordering: true,
         responsive: true,
         buttons: ["excelHtml5"],
-        stripeClasses: [],
-        aLengthMenu: [
-            [5, 10, 15, -1],
-            [5, 10, 25, "All"],
-        ],
-        dom: '<"float-left"B><"float-right"f>rt<"row"<"col-sm-4"l><"col-sm-4"i><"col-sm-4"p>>',
+        dom: '<"float-left"B><"top">rt<"bottom"lip><"clear">',
         pageLength: 10,
-        paging: "true",
+        paging: true,
         pagingType: "full_numbers",
         language: {
             paginate: {
@@ -21,18 +23,19 @@
                 last: "<img src='/images/firstPage.png' alt='first' style='transform: rotate(180deg)' />",
             },
         },
+        "oLanguage": {
+            "sInfo": "Total Records: _TOTAL_"
+        },
+        "order": [],
+        
     });
-
-
-    $("#SPHistoryVarId").addClass("active");
     $(".buttons-excel").hide();
-    var entries = table.page.info().recordsTotal;
-    $("#table_id_length label").append(" Total Record: " + entries);
-    callSPHistoryTable(0);
+    //var entries = table.page.info().recordsTotal;
+    //$("#table_id_length label").append(" Total Record: " + entries);
 
     $("select.StausOfTableClass").change(function () {
         var selectedValue = $(this).children("option:selected").val();
-       
+
         callSPHistoryTable(selectedValue);
     });
     $("#export").on("click", function () {
@@ -72,7 +75,7 @@ function callSPHistoryTable(id) {
             Id: id,
         },
         success: function (result) {
-            $("#upcomingHistoryTable").html(result);
+            /*$("#upcomingHistoryTable").html(result);*/
 
         },
         error: function () {

@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MySqlX.XDevAPI;
 using Newtonsoft.Json;
 
 namespace Helperland.Controllers
@@ -34,7 +35,7 @@ namespace Helperland.Controllers
             return View();
             
         }
-[HttpPost]
+        [HttpPost]
         public IActionResult User_Register(Register_User_ViewModel model)
         {
            if (ModelState.IsValid)
@@ -50,17 +51,20 @@ namespace Helperland.Controllers
                         Mobile = model.Mobile,
                         CreatedDate = DateTime.Now,
                         ModifiedDate = DateTime.Now,
-                        UserTypeId = 3,
+                        UserTypeId = ValuesData.CUSTOMER,
                         IsApproved=true,
                         IsActive=true
 
                     };
+                    var message = "You are Successfuly Register !";
+                    ViewBag.ClearForm = true;
+                    ViewBag.Alert = "<div class='alert alert-success alert-dismissible fade show' role='alert'>" + message + "<button type= 'button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
                     _helperlandContext.User.Add(newUser);
                     ViewBag.Message = "User" + model.FirstName + "Register successful";
                     _helperlandContext.SaveChanges();
                     
 
-                    return RedirectToAction("index","home");
+                    return View();
 
 
 
@@ -275,8 +279,11 @@ namespace Helperland.Controllers
         }
         public async Task<IActionResult> LogOut()
         {
+            HttpContext.Session.SetString("Logout", "true");
             //SignOutAsync is Extension method for SignOut    
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            HttpContext.Session.Clear();
+            
             //Redirect to home page    
             return RedirectToAction("Index", "Home");
         }

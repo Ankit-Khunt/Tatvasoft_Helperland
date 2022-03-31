@@ -83,6 +83,10 @@
               "target": "Package",
               "version": "[3.2.6, )"
             },
+            "MySql.Data": {
+              "target": "Package",
+              "version": "[8.0.28, )"
+            },
             "System.Data.SqlClient": {
               "target": "Package",
               "version": "[4.8.3, )"

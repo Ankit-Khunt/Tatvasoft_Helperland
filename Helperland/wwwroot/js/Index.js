@@ -1,4 +1,5 @@
 ﻿$(document).ready(function () {
+    
 $("#go-up").hide();
 $("#okbtn > a").click(function () {
     $("#okbtn").fadeOut(500);
@@ -111,3 +112,18 @@ function SendForgotPsddword() {
 
 
 
+function loadLogOutModal() {
+    $.ajax({
+        url: "/Home/LogOutModal",
+        type: "GET",
+       
+        success: function (result) {
+            $("#LogOutId").html(result);
+            $("#LogOutId").modal("show");
+
+        },
+        error: function () {
+            alert("error");
+        },
+    });
+}

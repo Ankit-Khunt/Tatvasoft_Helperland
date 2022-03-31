@@ -119,11 +119,14 @@ header .white-logo-transparent-background {
 }
 
 .form-item {
-    margin-bottom: 15px;
+   
     height: 46px;
     padding-left: 16px;
     /* border-width: 1px; */
     /*color: #C8C8C8;*/
+}
+.form-input-div{
+    margin-bottom:15px;
 }
 
 .form-checkbox-1, .form-checkbox-2 {

@@ -1,6 +1,14 @@
 ﻿$(document).ready(function () {
     
     $("#userManId").css({ "color": "#646464", "font-weight": "bold" });
+    $("#toDateFormId").change(function () {
+        if ($("#fromDateFormId").val() != null && $("#toDateFormId").val() != null) {
+            if ($("#fromDateFormId").val() > $("#toDateFormId").val()) {
+                alert("your To Date " + $("#toDateFormId").val() + " is Smaller then your From Date " + $("#fromDateFormId").val());
+                $("#toDateFormId").val('');
+            }
+        }
+    });
     loadTable();
 
 }); 
@@ -92,7 +100,7 @@ function ActiveUser(id) {
             Id:id,
         },
         success: function (result) {
-            loadTable();
+            OnSearch();
             console.log("Success");
         },
         error: function () {
@@ -110,7 +118,7 @@ function InactiveUser(id) {
             Id:id,
         },
         success: function (result) {
-            loadTable();
+            OnSearch();
             console.log("Success");
         },
         error: function () {
@@ -128,7 +136,7 @@ function DeleteUsers(id) {
             Id: id,
         },
         success: function (result) {
-            loadTable();
+            OnSearch();
             console.log("Success");
         },
         error: function () {

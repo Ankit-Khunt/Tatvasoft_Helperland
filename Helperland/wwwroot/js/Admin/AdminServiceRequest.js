@@ -1,46 +1,20 @@
 ﻿$(document).ready(function () {
    
-        $('#upcomingHistoryTable').DataTable({
-            "dom": '<"top"i>rt<"bottom"flp><"clear">',
-            "columnDefs": [
-                { "orderable": false, "targets": 4 }
-            ],
-            'responsive': true,
-
-            "bFilter": false, //hide Search bar
-            "pagingType": "full_numbers",
-            paging: true,
-            "pagingType": "full_numbers",
-            // bFilter: false,
-            ordering: true,
-            searching: false,
-            info: true,
-
-            language: {
-                paginate: {
-                    first: "<img src='/images/firstPage.png' alt='first' />",
-                    previous: "<img src='/images/previous.png' alt='previous' />",
-                    next: '<img src="/images/previous.png" alt="next" style="transform: rotate(180deg)" />',
-                    last: "<img src='/images/firstPage.png' alt='first' style='transform: rotate(180deg)' />",
-                },
-            },
-            "buttons": ["excel"],
-            "columnDefs": [{ orderable: false, targets: 4 }],
-            "columnDefs": [
-                { "orderable": false, "targets": 4 }
-            ],
-            "oLanguage": {
-                "sInfo": "Total Records: _TOTAL_"
-            },
-            "dom": '<"top">rt<"bottom"lip><"clear">',
-            responsive: true,
-            "order": []
-        });
+       
 
     loadTable();    
 
-    $("#serviceReqID").css({ "color":"#646464","font-weight":"bold"});
-        
+    $("#serviceReqID").css({ "color": "#646464", "font-weight": "bold" });
+
+    $("#toDateFormId").change(function () {
+        if ($("#fromDateFormId").val() != null && $("#toDateFormId").val() != null) {
+            if ($("#fromDateFormId").val() > $("#toDateFormId").val()) {
+                alert("your To Date " + $("#toDateFormId").val() + " is Smaller then your From Date " + $("#fromDateFormId").val());
+                $("#toDateFormId").val('');
+            }
+        }
+    });
+    
         
         
 
@@ -215,7 +189,7 @@ function cancelRequestPost(serviceId) {
             $("#adminModal").html(result);
             $("#adminModal").modal("show");
             $("#adminCancleClose").click(function () {
-                loadTable();
+                OnSearch();
             });
         },
         error: function () {

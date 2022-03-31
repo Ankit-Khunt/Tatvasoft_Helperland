@@ -21,15 +21,21 @@ namespace Helperland.ViewModels
         ErrorMessage = "Please provide valid email id")]
 
         public string Email { get; set; }
+
         [Required(AllowEmptyStrings = false, ErrorMessage = "Password is requierd")]
-        [MinLength(6, ErrorMessage = "Need min 6 character")]
+        //[MinLength(6, ErrorMessage = "Need min 6 character")]
         [DataType(DataType.Password)]
+        [StringLength(14, MinimumLength = 6, ErrorMessage = "Maximum 14 characters and Min 6 character required")]
+        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{6,14}$", ErrorMessage = "Password must be between 6 and 14 characters and contain one uppercase letter, one lowercase letter, one digit and one special character.")]
         public string Password { get; set; }
+
         [DataType(DataType.Password)]
-      
         [Compare("Password", ErrorMessage = "Pssword do not match")]
         public string ConfirmPassword { get; set; }
-        [Required]
+        
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Mobile Number is requierd")]
+        [MinLength(10, ErrorMessage = "Need min 10 character")]
+        [MaxLength(10, ErrorMessage = "Need min 10 character")]
         public string Mobile { get; set; }
        
     }

@@ -121,14 +121,45 @@
                 <div class="triangle-up"></div>
                 <ul class="header-dropdown-1">
                 <li class="header-man-welcome">Welcome</li>
-                <li>Ankit Khunt</li>
+                <li>@User.Identity.Name</li>
                  </ul>
                  <hr class="header-drop-hr" >
+                 @{
+                 int id = Int16.Parse(User.Claims.FirstOrDefault(x => x.Type == "role").Value);
+                if (id == 3)
+                {
                   <ul class="header-dropdown-2">
                   <li><a class="LogOutClassLink" asp-action="CustomerDashboard" asp-controller="CustomerService">My Dashboard</a></li>
                   <li><a class="LogOutClassLink" asp-action="MyAccount" asp-controller="CustomerService">My Setting</a></li>
                   <li><a class="LogOutClassLink" asp-action="LogOut" asp-controller="Account">LogOut</a></li>
                   </ul>
+                    
+                }
+                else if (id == 2)
+                {
+                   
+                  <ul class="header-dropdown-2">
+                  <li><a class="LogOutClassLink" asp-action="NewServiceRequests" asp-controller="ServiceProvider">My Dashboard</a></li>
+                  <li><a class="LogOutClassLink"  asp-action="SPAccount" asp-controller="ServiceProvider">My Setting</a></li>
+                  <li><a class="LogOutClassLink" class="LogOutClassLink" asp-action="LogOut" asp-controller="Account">LogOut</a></li>
+                  </ul>
+                    
+                }
+                else
+                {
+                   
+                  <ul class="header-dropdown-2">
+                  <li><a class="LogOutClassLink" asp-action="AdminServiceRequest" asp-controller="Admin">My Dashboard</a></li>
+                  <li><a class="LogOutClassLink" asp-action="LogOut" asp-controller="Account">LogOut</a></li>
+                  </ul>
+                  
+                }
+            }
+                 @* <ul class="header-dropdown-2">
+                  <li><a class="LogOutClassLink" asp-action="CustomerDashboard" asp-controller="CustomerService">My Dashboard</a></li>
+                  <li><a class="LogOutClassLink" asp-action="MyAccount" asp-controller="CustomerService">My Setting</a></li>
+                  <li><a class="LogOutClassLink" asp-action="LogOut" asp-controller="Account">LogOut</a></li>
+                  </ul>*@
             </div>
             <nav class="navSm d-flex d-md-none align-items-center justify-content-between">
                 <div class="logoDiv">
@@ -146,21 +177,21 @@
                     <div class="navSmMenu bg-white">
                         <div class="greetings">
                             Welcome,<br />
-                            <strong>Gaurang Patel</strong>
+                            <strong>@User.Identity.Name</strong>
                         </div>
                         <hr class="my-1" />
                         @if (ViewBag.Hamburger == "serviceProvider")
                         {
                             
                             <ul>
-                            <li class="navSmMenuItem">Dashboard</li>
-                            <li class="navSmMenuItem">New Service Request</li>
-                            <li class="navSmMenuItem ">Upcoming Services</li>
-                            <li class="navSmMenuItem">Service Schedule</li>
-                            <li class="navSmMenuItem">Service History</li>
-                            <li class="navSmMenuItem">My Ratings</li>
-                            <li class="navSmMenuItem">Block Customer</li>
-                            <li class="navSmMenuItem">My Settings</li>
+                            <li class="navSmMenuItem"><a class="vertical-a-color"  >Dashboard</a></li>
+                            <li class="navSmMenuItem"><a class="" asp-action="NewServiceRequests" asp-controller="ServiceProvider">New Service Request</a></li>
+                            <li class="navSmMenuItem "><a class="" asp-action="SPUpcomingService" asp-controller="ServiceProvider">Upcoming Service</a></li>
+                            <li class="navSmMenuItem"><a class="vertical-a-color" asp-action="ServiceSchedual" asp-controller="ServiceProvider">Service Schedual</a></li>
+                            <li class="navSmMenuItem"><a class="vertical-a-color" asp-action="SPServiceHistory" asp-controller="ServiceProvider">Service History</a></li>
+                            <li class="navSmMenuItem"><a class="vertical-a-color" asp-action="SPMyRating" asp-controller="ServiceProvider">My Rating</a></li>
+                            <li class="navSmMenuItem"><a class="vertical-a-color" asp-action="BlockCustomer" asp-controller="ServiceProvider">Block Customer</a></li>
+                            <li class="navSmMenuItem"><a class="LogOutClassLink" asp-action="MyAccount" asp-controller="CustomerService">My Setting</a></li>
                             <li class="navSmMenuItem"><a asp-action="LogOut" asp-controller="Account">Logout</a></li>
                             <hr class="my-1" />
                             <li class="navSmMenuItem"><a asp-action="BookServicePage" asp-controller="BookService">Book now</a></li>
@@ -176,12 +207,12 @@
                         else
                         {
                             <ul>
-                            <li class="navSmMenuItem">Dashboard</li>
-                            <li class="navSmMenuItem">Service History</li>
+                            <li class="navSmMenuItem"><a class="vertical-a-color" asp-action="CustomerDashboard" asp-controller="CustomerService">Dashboard</a></li>
+                            <li class="navSmMenuItem"><a class="vertical-a-color" asp-action="ServiceHistory" asp-controller="CustomerService">Service History</a></li>
                             <li class="navSmMenuItem">Service Scheduale</li>
                             <li class="navSmMenuItem">Invoices</li>
                             <li class="navSmMenuItem">Notifications</li>
-                            <li class="navSmMenuItem">Favourite Pros</li>
+                            <li class="navSmMenuItem"><a class="vertical-a-color" asp-action="FavouriteProviders" asp-controller="CustomerService">Favourite Pros</a></li>
                             <li class="navSmMenuItem"><a asp-action="LogOut" asp-controller="Account">Logout</a></li>
                             <hr class="my-1" />
                             <li class="navSmMenuItem"><a asp-action="BookServicePage" asp-controller="BookService">Book now</a></li>

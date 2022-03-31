@@ -1,4 +1,5 @@
 ﻿@using Helperland.Models
+@using System.Globalization
 @model IEnumerable<ServiceRequest> 
 
     <table id="upcomingHistoryTable" class="my-2" style="width:100%">
@@ -52,11 +53,11 @@
                                
                                     </td>
                            
-                                    <td >
+                                    <td data-order="@Data.ServiceStartDate.Date.ToString("MMddyyyyHHmmss")">
                                     <div class="td-1 mx-auto">
                                         <div>
                                             <img src="~/images/calander.png" class="me-1"><span
-                                                    class="service-detail-date">@Data.ServiceStartDate.Date.ToString("dd/MM/yyyy")</span>
+                                                    class="service-detail-date">@Data.ServiceStartDate.Date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture))</span>
                                         </div>
                                                 @if (finalendHour < 10)
                                                 {

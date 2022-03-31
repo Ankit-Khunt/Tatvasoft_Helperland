@@ -62,15 +62,16 @@ namespace Helperland.Controllers
 
             {
                 if (serviceReqId.HasValue)
-                    result = result.Where(x => x.ServiceRequestId == serviceReqId);
+
+                    result = result.Where(x => x.ServiceRequestId.ToString().Contains(serviceReqId.ToString()));
                 if (!string.IsNullOrEmpty(PostalCodeForm))
-                    result = result.Where( x => x.ServiceRequestAddress.Select(x=>x.PostalCode== PostalCodeForm).FirstOrDefault());
+                    result = result.Where( x => x.ServiceRequestAddress.Select(x=>x.PostalCode.Contains(PostalCodeForm)).FirstOrDefault());
                 if (!string.IsNullOrEmpty(EmailForm))
-                    result = result.Where(x => x.User.Email == EmailForm);
+                    result = result.Where(x => x.User.Email.Contains(EmailForm));
                 if (!string.IsNullOrEmpty(selectCustomerForm))
-                    result = result.Where(x => x.User.FirstName == selectCustomerForm);
+                    result = result.Where(x => (x.User.FirstName + " " + x.User.LastName).Contains(selectCustomerForm) || x.User.FirstName.Contains(selectCustomerForm) || x.User.LastName.Contains(selectCustomerForm));
                 if (!string.IsNullOrEmpty(selectSPForm))
-                    result = result.Where(x => x.ServiceProvider.FirstName == selectSPForm);
+                    result = result.Where(x => (x.ServiceProvider.FirstName + " " + x.ServiceProvider.LastName).Contains(selectSPForm) || x.ServiceProvider.FirstName.Contains(selectSPForm) || x.ServiceProvider.LastName.Contains(selectSPForm));
                 if (statusForm.HasValue) 
                     result=result.Where(x=>x.Status==statusForm);
                 if (HasPetForm.HasValue)
@@ -78,12 +79,13 @@ namespace Helperland.Controllers
                     if (HasPetForm == 1)
                     {
                         checkPets = true;
+                        result = result.Where(x => x.HasPets == checkPets);
                     }
                     else
                     {
-                        checkPets = false;
+                        //checkPets = false;
                     }
-                    result = result.Where(x => x.HasPets == checkPets);
+                    
 
                 }
                     
@@ -185,15 +187,15 @@ namespace Helperland.Controllers
             var result = _helperlandContext.User.AsQueryable();
             if (!string.IsNullOrEmpty(UserName))
 
-                result = result.Where(x =>( x.FirstName +" "+ x.LastName) == UserName || x.FirstName==UserName || x.LastName==UserName);
+                result = result.Where(x =>( x.FirstName +" "+ x.LastName).Contains(UserName) || x.FirstName.Contains(UserName) || x.LastName.Contains(UserName));
             //if (!string.IsNullOrEmpty(PostalCodeForm))
             //    result = result.Where(x => x.ServiceRequestAddress.Select(x => x.PostalCode == PostalCodeForm).FirstOrDefault());
             if (!string.IsNullOrEmpty(EmailForm))
-                result = result.Where(x => x.Email == EmailForm);
+                result = result.Where(x => x.Email.Contains(EmailForm) );
             if (!string.IsNullOrEmpty(phoneNumber))
-                result = result.Where(x => x.Mobile == phoneNumber);
+                result = result.Where(x => x.Mobile.Contains(phoneNumber));
             if (!string.IsNullOrEmpty(PostalCodeForm))
-                result = result.Where(x => x.ZipCode == PostalCodeForm);
+                result = result.Where(x => x.ZipCode.Contains(PostalCodeForm));
             if (UserRoleSelect.HasValue)
                 result = result.Where(x => x.UserTypeId == UserRoleSelect);
            
