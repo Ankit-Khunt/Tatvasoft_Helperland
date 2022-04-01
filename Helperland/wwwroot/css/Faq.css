@@ -36,3 +36,21 @@ a {
     background-image: url(img/faq-banner.png);
     background-size: cover !important;
 }
+
+.display-none{
+    display:none !important;
+}
+
+.customer-main {
+    background-color: #1d7a8c;
+    padding: .88rem;
+    width: 29.5rem;
+    border-bottom: 3px solid #1d7a8c;
+}
+
+.serviceProvider-main {
+    background-color: #1d7a8c;
+    padding: .88rem;
+    width: 29.5rem;
+    border-bottom: 3px solid #1d7a8c;
+}

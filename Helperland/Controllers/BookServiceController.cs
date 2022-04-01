@@ -79,8 +79,8 @@ namespace Helperland.Controllers
             con.Open();
             com.Connection = con;
            // com.CommandText = "SELECT ZipcodeValue,CityName,Mobile FROM Zipcode INNER JOIN City ON Zipcode.CityId = City.Id LEFT JOIN UserAddress ON Zipcode.ZipcodeValue = UserAddress.PostalCode where UserId = '"+ userId+"'";
-            com.CommandText = "SELECT ZipcodeValue,CityName,Mobile FROM (Zipcode INNER JOIN City ON Zipcode.CityId = City.Id),[User]  where  UserId='" + userId + "'";
-
+            com.CommandText = "SELECT ZipcodeValue,CityName,Mobile FROM (Zipcode INNER JOIN City ON Zipcode.CityId = City.Id),[User]  where ZipcodeValue='"+ userZip + "' AND UserId='" + userId + "'";
+           
             dr = com.ExecuteReader();
             while (dr.Read())
             {
@@ -93,6 +93,8 @@ namespace Helperland.Controllers
                 });
             }
             con.Close();
+           
+
             return _userAddresses;
         }
 
@@ -149,21 +151,24 @@ namespace Helperland.Controllers
         {
             if (ModelState.IsValid)
             {
-              
-                var userid = HttpContext.Session.GetString("User_Id");
+                int customerId = Int16.Parse(User.Claims.FirstOrDefault(x => x.Type == "userId").Value);
+               
                 var userEmail = HttpContext.Session.GetString("User_Email");
-                int userId = Int16.Parse(userid);
+
+               
                 //User user = _helperlandContext.User.Where(user.UserId==uu).FirstOrDefault();
                // User user = new User();
-                User user = _helperlandContext.User.Where(x => x.UserId == userId).FirstOrDefault();  
-                IEnumerable<UserAddress> userAddressFatch=_helperlandContext.UserAddress.Where(x=>x.UserId == userId).ToList();
+                User user = _helperlandContext.User.Where(x => x.UserId == customerId).FirstOrDefault();  
+                IEnumerable<UserAddress> userAddressFatch=_helperlandContext.UserAddress.Where(x=>x.UserId == customerId).ToList();
 
                 UserAddress userAddress = new UserAddress();
 
-
+                //IEnumerable<Zipcode>  zipcode = _helperlandContext.Zipcode.ToList();
+                //if(zipcode.Any(x=>x.City.CityName))
+               
                 userAddress.AddressLine1 = model.AddressLine1;
                 userAddress.AddressLine2 = model.AddressLine2;
-                userAddress.UserId = userId;
+                userAddress.UserId = customerId;
                 userAddress.PostalCode = model.PostalCodeAddresss;
                 userAddress.City = model.CityAddress;
                 userAddress.Mobile = model.MobileAddress;
@@ -175,8 +180,7 @@ namespace Helperland.Controllers
                 else
                 {
                     userAddress.IsDefault = true;
-                    user.ZipCode = model.PostalCodeAddresss;
-                    _helperlandContext.User.Update(user);
+                   
                 }
                 
                 userAddress.IsDeleted = false;
@@ -207,11 +211,17 @@ namespace Helperland.Controllers
 
         public IActionResult BookServicePage()
         {
-           if (HttpContext.Session.GetString("User_Id") != null)
-            {
-                ViewBag.UserId = HttpContext.Session.GetString("User_Id");
+            
+           
+                int customerId = Int16.Parse(User.Claims.FirstOrDefault(x => x.Type == "userId").Value);
+                User user = _helperlandContext.User.Where(x => x.UserId==customerId).FirstOrDefault();
+                HttpContext.Session.SetString("CurrentUser", JsonConvert.SerializeObject(user));
+                 HttpContext.Session.SetString("User_Id", user.UserId.ToString());
+                 HttpContext.Session.SetString("User_Email", user.Email);   //session value set
+                 HttpContext.Session.SetString("User_Name", user.FirstName + " " + user.LastName);
+                 ViewBag.UserId = HttpContext.Session.GetString("User_Id");
                 return View();
-            }
+            
 
             //if(user == null)
             //{
@@ -226,8 +236,8 @@ namespace Helperland.Controllers
 
             if (ModelState.IsValid)
             {
-                var userid = HttpContext.Session.GetString("User_Id");
-                int userId = Int16.Parse(userid);
+                int customerId = Int16.Parse(User.Claims.FirstOrDefault(x => x.Type == "userId").Value);
+                
                 bool paymetDone = true;
                 bool paymetDue = false;
                 var distance = 10;
@@ -237,7 +247,7 @@ namespace Helperland.Controllers
                 
 
                 serviceRequest.Comments = model.Comments;
-                serviceRequest.UserId = userId;
+                serviceRequest.UserId = customerId;
                 serviceRequest.CreatedDate = DateTime.Now;
                 serviceRequest.Discount = model.Discount;
                 
@@ -248,7 +258,7 @@ namespace Helperland.Controllers
                 serviceRequest.ServiceHourlyRate = model.ServiceHourlyRate;
                 serviceRequest.ServiceHours = model.ServiceHours;
                 serviceRequest.ServiceStartDate = model.ServiceStartDate;
-                serviceRequest.ServiceId = userId;
+                serviceRequest.ServiceId = customerId;
                 serviceRequest.ZipCode = zipCode;
                 serviceRequest.SubTotal = model.SubTotal;
                 serviceRequest.TotalCost= model.TotalCost;
@@ -261,7 +271,7 @@ namespace Helperland.Controllers
                     serviceRequest.Status = ValuesData.SERVICE_PENDING;
                     _helperlandContext.ServiceRequest.Add(serviceRequest);
                     _helperlandContext.SaveChanges();
-                    int customerId = Int16.Parse(User.Claims.FirstOrDefault(x => x.Type == "userId").Value);
+                    
                     List<int> blockedSPIds = _helperlandContext.FavoriteAndBlocked.Where(x => x.UserId == customerId && x.IsBlocked == true).Select(x => x.TargetUserId).Distinct().ToList();
                     var emailList = _helperlandContext.User.Where(user => user.UserTypeId == 2 && user.ZipCode == zipCode && !blockedSPIds.Any(a => a == user.UserId)).Select(user => user.Email).ToList();
                     string subject = "New Service Request arrived!!Hurry Up..";
@@ -389,6 +399,49 @@ namespace Helperland.Controllers
             IEnumerable<User> favoriteAndBlocked = _helperlandContext.FavoriteAndBlocked.Where(x => x.UserId == customerId && x.IsFavorite == true).Select(x=>x.TargetUser).ToList();
             //IEnumerable<FavoriteAndBlocked>  favoriteAndBlocked =_helperlandContext.FavoriteAndBlocked.Where(x=>x.UserId == customerId && x.IsFavorite==true).Select(x => x.TargetUser).ToList();
             return PartialView(favoriteAndBlocked);
+        }
+
+        public async Task<IActionResult> checkForConflictServiceDate(string serviceDate, double totalServiceTime,string AddressLine1, string AddressLine2, string CityName, string ZipcodeValue, string MobileNum)
+        {
+            var isConflict = false;
+            int customerId = Int16.Parse(User.Claims.FirstOrDefault(x => x.Type == "userId").Value);
+            //var serDate = serviceDate.ToString("dd-MM-yyyy");
+            IEnumerable<ServiceRequest> serviceRequests = _helperlandContext.ServiceRequest.Include(x=>x.ServiceRequestAddress).Where(x => x.UserId == customerId && (x.Status==ValuesData.SERVICE_PENDING || x.Status==ValuesData.SERVICE_ACCEPTED)).ToList();
+            //var day = serviceDate.ToString("dd-MM-yyyy");
+            //var time = serviceDate.ToString("HH:mm:ss");
+            //var actual = day + " " + time;
+            DateTime newStartDate = DateTime.Parse(serviceDate);
+
+
+
+            var newStartTime = newStartDate;
+            var newEndTime = newStartTime.AddHours(totalServiceTime);
+            var conflictStartTime = newStartDate;
+            var conflictEndTime = newEndTime;
+            //fetch all the request from database which are not completed yet with same service provider id 
+            //IEnumerable<ServiceRequest> serviceRequests = _helperlandContext.ServiceRequest.Where(x => x.ServiceProviderId == serviceRequest.ServiceProviderId && x.Status == ValuesData.SERVICE_ACCEPTED && x.ServiceRequestId != serviceRequest.ServiceRequestId && x.UserId == Userid).ToList();
+            foreach (var request in serviceRequests)
+            {
+                var oldStartTime = request.ServiceStartDate;
+                var oldEndTime = oldStartTime.AddHours(request.ServiceHours);
+                isConflict = false;
+                //check time conflicts
+                if ((request.ServiceStartDate == newStartDate) || (((newStartTime > oldStartTime && (newStartTime < oldEndTime)) || ((newEndTime > oldStartTime) && (newEndTime < oldEndTime)))))
+                {
+                    if(request.ServiceRequestAddress.ElementAt(0).AddressLine1==AddressLine1 && request.ServiceRequestAddress.ElementAt(0).AddressLine2 == AddressLine2 && request.ServiceRequestAddress.ElementAt(0).City == CityName && request.ServiceRequestAddress.ElementAt(0).PostalCode == ZipcodeValue && request.ServiceRequestAddress.ElementAt(0).Mobile == MobileNum)
+                    {
+                        conflictStartTime = request.ServiceStartDate;
+                        conflictEndTime = oldEndTime;
+                        isConflict = true;
+                        return BadRequest("conflict");
+                    }
+                   
+
+                }
+                
+            }
+            
+            return Json("ok no conflict");
         }
 
 

@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 namespace Helperland.Controllers
 {
     [Authorize(Roles = "1")]
+    [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
     public class AdminController : Controller
     {
         public HelperlandContext _helperlandContext;

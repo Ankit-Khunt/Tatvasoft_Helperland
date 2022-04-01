@@ -448,3 +448,6 @@ header {
             transition: all 0.3s;
         }
 }
+.verticalNavItems li:hover {
+    background-color: #6DA9B5;
+}

@@ -14,6 +14,8 @@
 
 }
 <main>
+    @*Main Image*@
+    <img id="header-image" src="~/images/book-service-banner.jpg" style="display:none;"/>
     <h1 class="about-us-header text-center">Set up your cleaning service </h1><br />
 
     <div class="about-us-border d-flex justify-content-center">
@@ -101,6 +103,7 @@
                 <div class="row ">
                     <div class=" col-md-6 mt-3">
                         <p class="fw-bold">When do you need the cleaner?</p>
+                        <span id="conflictDateSpan"></span>
                         <div class="date-time">
                             <div class="serviceDateDiv">
                                 <input type="text" id="cleaningDate"
@@ -114,9 +117,11 @@
                             <!--<input type="time" id="" class="timeForService clock-icon form-control">-->
                             <div class="sel-timeforser mb-4">
                                 <select class="form-select" id="cleanigTime">
-                                    <option value="1" id="cleaningTimeOption1">01:00 PM</option>
-                                    <option value="2">02:00 PM</option>
-                                    <option value="3">03:00 PM</option>
+                                    <option value="1" id="cleaningTimeOption1">01:00</option>
+                                    <option value="2">02:00</option>
+                                    <option value="3">03:00</option>
+                                    <option value="3">13:00</option>
+                                    <option value="3">14:00</option>
                                 </select>
                             </div>
                         </div>
@@ -237,6 +242,10 @@
     <p>Plaese Choose one Address from Belove </p>
   </div>*@
   <div class='alert alert-danger alert-dismissible fade show' role='alert'>Plaese Choose one Address from Belov<button type= 'button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>
+    </div>
+    <div class="conflictAlert mt-3" id="conflictAlertID">
+   <div class='alert alert-danger alert-dismissible fade show' role='alert'>You have already service request on this address<button type= 'button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>
+
     </div>
   
   <div id="AddressRadioBoxId">
@@ -424,19 +433,35 @@
                     <h3 class="question-header d-flex justify-content-center">Questions?</h3>
                 </div>
                 <div class="    ps-0">
-                    <div class="d-flex justify-content-center">
+                    <div class="d-flex ">
                         <a href="#demo2" class="c-header" data-bs-toggle="collapse">
                             <img onclick="rotate('#img2');" id="img2" class="rotate-up" src="~/images/faq_aa.png">
                         </a>
-                        <p class="question-content-question ps-1">
-                            Which Helperland professional will come to my place?
+                        <p class="question-content-question ps-1 pt-1">
+                            What's include in cleaning ?
                         </p>
                     </div>
                     <div id="demo2" class="collapse justify-content-center">
                         Content
+                    </div> 
+                    <hr class="bookservice-hr-options"  />
+                    <div class="    ps-0">
+                    <div class="d-flex ">
+                        <a href="#demo3" class="c-header" data-bs-toggle="collapse">
+                            <img onclick="rotate('#img3');" id="img3" class="rotate-up" src="~/images/faq_aa.png">
+                        </a>
+                        <p class="question-content-question ps-1 pt-1">
+                            Can I skip and rescheduling Booking ?
+                        </p>
+                    </div>
+                    <div id="demo3" class="collapse justify-content-center">
+                        Content
                     </div>
                 </div>
+                <hr class="bookservice-hr-options"  />
             </div>
+
+            <span class="for-mor-help">For more help</span>
 
         </div>
 

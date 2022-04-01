@@ -32,7 +32,8 @@ namespace Helperland
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-           
+            
+
             services.AddControllersWithViews();
             services.AddDbContext<HelperlandContext>(options => options.UseSqlServer(_config.GetConnectionString("ConnectionString")));
             services.AddSession();
@@ -91,6 +92,7 @@ namespace Helperland
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+            
             app.UseStaticFiles();
             app.UseRouting();
             app.UseAuthentication();

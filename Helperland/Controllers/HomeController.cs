@@ -106,6 +106,7 @@ namespace Helperland.Controllers
                 };
                 _helperlandContext.Add(newContat);
                 _helperlandContext.SaveChanges();
+                ViewBag.ContactClear = true;
                 SendEmailToUser(model.Email,model.Message,model.Subject,model.PhoneNumber,model.FirstName);
                 ViewBag.Alert = "<div class='alert alert-success alert-dismissible fade show' role='alert'>Thank you for Contact Us<button type= 'button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
                 return View();
@@ -117,7 +118,7 @@ namespace Helperland.Controllers
             //var GenarateUserVerificationLink = "/Register/UserVerification/" + activationCode;
             //var link = Request.Url.AbsoluteUri.Replace(Request.Url.PathAndQuery, GenarateUserVerificationLink);
             
-            var fromMail = new MailAddress("akrokes1923@gmail.com", "Ankit"); // your email    
+            var fromMail = new MailAddress("ankitkhunt2001@gmail.com", "Ankit"); // your email    
             var fromEmailpassword = "@nkitKhunt2000"; //  your password     
             var toEmail = new MailAddress(emailId);
 

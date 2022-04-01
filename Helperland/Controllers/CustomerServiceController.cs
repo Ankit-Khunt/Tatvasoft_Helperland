@@ -21,6 +21,7 @@ using OfficeOpenXml;
 namespace Helperland.Controllers
 { 
     [Authorize (Roles ="3")]
+    [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
     public class CustomerServiceController : Controller
     {
         public HelperlandContext _helperlandContext;
@@ -48,7 +49,14 @@ namespace Helperland.Controllers
         public IActionResult CustomerDashboard()
         
         {
+           
+
             int userId = Int16.Parse(User.Claims.FirstOrDefault(x => x.Type == "userId").Value);
+            User user = _helperlandContext.User.Where(x => x.UserId == userId).FirstOrDefault();
+            HttpContext.Session.SetString("CurrentUser", JsonConvert.SerializeObject(user));
+            HttpContext.Session.SetString("User_Id", user.UserId.ToString());
+            HttpContext.Session.SetString("User_Email", user.Email);   //session value set
+            HttpContext.Session.SetString("User_Name", user.FirstName + " " + user.LastName);
             IEnumerable<ServiceRequest> serviceRequests = _helperlandContext.ServiceRequest.Include(x => x.ServiceProvider).ThenInclude(x=>x.RatingRatingToNavigation).Where(x => (x.Status == ValuesData.SERVICE_ACCEPTED || x.Status == ValuesData.SERVICE_PENDING) && x.UserId == userId ).ToList();
            
             //fatchCustomerServiceData();

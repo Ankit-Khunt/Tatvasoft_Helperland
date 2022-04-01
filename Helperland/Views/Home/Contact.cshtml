@@ -10,7 +10,7 @@
 <main>
     <section class="contact-main-header">
         <div class=" contact-banner">
-
+            <img src="~/images/contactUsImage.png" class="img-fluid-lg " style="width: 100%;">
         </div>
 
     </section>
@@ -70,12 +70,12 @@
                 <div class="row  ">
                     <div class="form-item col-12 col-sm-6">
                         <input type="text" class="form-control" asp-for="FirstName" 
-                               placeholder="First Name" />
+                               placeholder="First Name" id="firstnameId" />
                                <span asp-validation-for="FirstName" class="text-danger"></span>
                     </div>
                     <div class="form-item col-12 col-sm-6">
                         <input type="text" class="form-control" asp-for="LastName"
-                               placeholder="Last Name" />
+                               placeholder="Last Name" id="LastnameId"/>
                                 <span asp-validation-for="LastName" class="text-danger"></span>
                     </div>
                     <div class="form-item col-12 col-sm-6">
@@ -83,17 +83,17 @@
                             <input disabled type="text" class="input-group-text col-2 px-0" id="countryCode"
                                    placeholder="+49" />
                             <input asp-for="PhoneNumber" class="form-control col-10" placeholder="Mobile Number"
-                                   aria-label="Mobile Number" aria-describedby="basic-addon1" />
+                                   aria-label="Mobile Number" aria-describedby="basic-addon1" id="MobileId" />
                                     <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="form-item col-12 col-sm-6">
                         <input  class="form-control" asp-for="Email"
-                               placeholder="Email Address" />
+                               placeholder="Email Address" id="EmailId"/>
                                 <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
                     <div class="form-item col-12">
-                        <select class="form-select" asp-for="Subject" aria-label="Subect">
+                        <select class="form-select" asp-for="Subject" aria-label="Subect" id="SubjectId">
                             <option selected>Subject</option>
                             <option value="1">One</option>
                             <option value="2">Two</option>
@@ -103,7 +103,7 @@
                     </div>
                     <div class="form-item col-12">
                         <textarea  class="form-control" asp-for="Message" cols="30" rows="10"
-                                  placeholder="Message"></textarea>
+                                  placeholder="Message" id="TextareaId"></textarea>
                                    <span asp-validation-for="Message" class="text-danger"></span>
                     </div>
                     <div class="row">
@@ -138,5 +138,17 @@
 </main>
 
 @section Script{
-    <script src="~/js/Contact.js"></script>
+    <script src="~/js/Contact.js" asp-append-version="true"></script>
+}
+
+@if(ViewBag.ContactClear==true){
+     <script>
+           $("#firstnameId").val('');
+           $("#LastnameId").val('');
+           $("#EmailId").val('');
+           $("#MobileId").val('');
+           $("#SubjectId").val('');
+           $("#TextareaId").val('');
+           
+        </script>
 }

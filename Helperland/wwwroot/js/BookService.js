@@ -483,7 +483,7 @@ function removeSchedualPlan() {
 }
 
 function YourDetail() {
-    
+   
     $("#schedual-content").removeClass("form-step-active");
     $("#detail-content").addClass("form-step-active");
 
@@ -497,8 +497,10 @@ function YourDetail() {
     $("#Your-detail-img-white").show();
     fatchUserAddress();
     
-    
+}
 
+function loadyoudetail() {
+   
 }
 
 function fatchUserAddress(){
@@ -570,30 +572,71 @@ function removeYourDetail() {
 
 
 function MakePayment() {
+    var conflictAddress = false;
     if ($("input[type='radio']:checked").val() == null) {
         $("#addressAlertId").css("display", "block");
       
     }
-    else {
-        $("#detail-content").removeClass("form-step-active");
-        $("#payment-content").addClass("form-step-active");
-        $("#Make-payment-tab").addClass("active-tab");
-
-        $("#Make-payment-text").addClass("service-text-active");
-
-
-        $("#Make-payment-img-white").show();
-        $("#Make-payment-img-black").hide();
-        $("#addressAlertId").css("display", "none");
-
+    else{
+        checkConflictAddress();
     }
-        
+}
 
- }
+function checkConflictAddress() {
+    var serviceDate = $("#cleaningDate").val();
+    FinalDateAndTime = selectedDate + " " + CleaningTime;
+    var serviceTime = $("#cleanigTime").text();
+    var forward = false;
+    var idVal, AddressLine1Final, AddressLine2Final, postalCodeFinal, cityFinal, PhonenumberFinal;
+    $("input[type='radio']:checked").each(function () {
+        idVal = $(this).attr("id"); //for getting id from this
+        AddressLine1Final = $("label[for='" + idVal + "'] #Addressline1GetSpan" + idVal + "").text();
+        AddressLine2Final = $("label[for='" + idVal + "'] #Addressline2GetSpan" + idVal + "").text();
+        postalCodeFinal = $("label[for='" + idVal + "'] #postalCodeGetSpan" + idVal + "").text();
+        cityFinal = $("label[for='" + idVal + "'] #cityGetSpan" + idVal + "").text();
+        PhonenumberFinal = $("label[for='" + idVal + "'] #PhonenumberGetSpan" + idVal + "").text();
+        /*alert(AddressLine2Final);*/
+    });
+    var data = {
+        AddressLine1: AddressLine1Final,
+        AddressLine2: AddressLine2Final,
+        CityName: cityFinal,
+        ZipcodeValue: postalCodeFinal,
+        MobileNum: PhonenumberFinal,
+        serviceDate: FinalDateAndTime,
+        totalServiceTime: totalServiceTime,
+    }
+    
+    $.ajax({
+        url: "/BookService/checkForConflictServiceDate",
+        type: "GET",
+        data:data,
+        success: function (result) {
+            forward = true;
+            //loadyoudetail();
+            
+            loadaymentPage();
+
+        },
+        error: function () {
+            $("#conflictAlertID").css("display", "block");
+            //$("#conflictDateSpan").html("Choose Another Date");
+        },
+    });
+}
+
+function loadaymentPage() {
+    $("#detail-content").removeClass("form-step-active");
+    $("#payment-content").addClass("form-step-active");
+    $("#Make-payment-tab").addClass("active-tab");
+
+    $("#Make-payment-text").addClass("service-text-active");
 
 
-
-
+    $("#Make-payment-img-white").show();
+    $("#Make-payment-img-black").hide();
+    $("#addressAlertId").css("display", "none");
+}
 
 //select
 

@@ -12,6 +12,9 @@ body {
 a {
     text-decoration: none;
 }
+#header-image {
+    width: 100%;
+}
 
 .all-services {
     min-height: 1000px;
@@ -200,6 +203,7 @@ a {
 /* --payment summery start */
 .payment-main {
     max-width: 360px;
+    margin-bottom: 50px;
 }
 
 .payment-summery {
@@ -326,7 +330,7 @@ a {
 
 
 /*---Address css ---*/
-.addressAlert{
+.addressAlert,.conflictAlert{
     display:none ;
 }
 .AddressBox {
@@ -664,4 +668,16 @@ input[type='radio'] {
     padding: 5px 20px;
     color: #4f4f4f;
     font-weight: 500;
+}
+
+.bookservice-hr-options {
+    margin-bottom: 10px;
+    margin-top: 0px;
+    padding: 0px;
+}
+.for-mor-help {
+    font-size: 18px;
+    color: #1D7A8C;
+    font-weight:bold;
+   
 }

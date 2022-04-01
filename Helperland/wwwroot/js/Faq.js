@@ -71,4 +71,34 @@ function rotateimg9() {
       rotation = 0;
   }
       document.querySelector("#img9").style.transform = `rotate(${rotation}deg)`;
+}function rotateimg10() {
+    rotation += 90; // add 90 degrees, you can change this as you want
+    if (rotation === 180) {
+      rotation = 0;
+  }
+      document.querySelector("#img10").style.transform = `rotate(${rotation}deg)`;
+}function rotateimg11() {
+    rotation += 90; // add 90 degrees, you can change this as you want
+    if (rotation === 180) {
+      rotation = 0;
+  }
+      document.querySelector("#img11").style.transform = `rotate(${rotation}deg)`;
+}
+
+
+function displayServiceProvider() {
+    $(".customer-content-main-div").addClass("display-none");
+    $(".serviceprovider-div").removeClass("display-none");
+    $("#forcusID").css("color", "#525252");
+    $("#forserId").css("color", "#ffff");
+    $("#customerIdFaq").removeClass("customer-main");
+    $("#serProviIdfaq").addClass("serviceProvider-main");
+}
+function displayCustomer() {
+    $(".customer-content-main-div").removeClass("display-none");
+    $("#forcusID").css("color", "#ffff");
+    $("#forserId").css("color", "#525252");
+    $(".serviceprovider-div").addClass("display-none");
+    $("#customerIdFaq").addClass("customer-main");
+    $("#serProviIdfaq").removeClass("serviceProvider-main");
 }

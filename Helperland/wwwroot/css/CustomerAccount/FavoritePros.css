@@ -516,3 +516,7 @@ div.dataTables_paginate {
         display: none !important;
     }
 }
+
+/*.verticalNavItems li:hover {
+    background-color: #6DA9B5 ;
+}*/

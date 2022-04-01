@@ -37,7 +37,7 @@
     });
 
 
-    $("#BlockCustomerVarId").addClass("active");
+    $("#favCustomerVerId").addClass("active");
 
 
 

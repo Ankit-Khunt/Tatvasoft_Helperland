@@ -17,6 +17,7 @@ using Newtonsoft.Json;
 namespace Helperland.Controllers
 {
     [Authorize(Roles = "2")]
+    [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
     public class ServiceProviderController : Controller
     {
         public HelperlandContext _helperlandContext;
@@ -112,6 +113,12 @@ namespace Helperland.Controllers
 
 
 
+            int customerId = Int16.Parse(User.Claims.FirstOrDefault(x => x.Type == "userId").Value);
+            User user = _helperlandContext.User.Where(x => x.UserId == customerId).FirstOrDefault();
+            HttpContext.Session.SetString("CurrentUser", JsonConvert.SerializeObject(user));
+            HttpContext.Session.SetString("User_Id", user.UserId.ToString());
+            HttpContext.Session.SetString("User_Email", user.Email);   //session value set
+            HttpContext.Session.SetString("User_Name", user.FirstName + " " + user.LastName);
 
             ViewBag.Hamburger = "serviceProvider";
             return View();
